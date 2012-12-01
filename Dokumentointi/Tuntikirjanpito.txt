@@ -1,0 +1,17 @@
+30. Perjantai
+-------------
+
+60 min: Tutustuttu harjoitustyön vaatimuksiin,
+        rakennettu pohja aihemäärittelylle ja aloitettu tuntikirjanpito.
+        
+31. Lauantai
+------------
+
+3h: Asennettu tarvittavat ohjelmistot Git:n käyttöön ja tutustuttu GitHubiin.
+
+15 min: Luokkakaavion eka versio valmis
+
+60 min: Id-tyyppisen LExpression JUnit-testit laadittu, sekä koodia kirjoitettu
+        sen verran, että ID-testit läpäisty. Application-tyyppisen LExpression
+        JUnit-testit laadittu, sekä koodia kirjoitettu sen verran, että
+        ID-testit läpäisty.
