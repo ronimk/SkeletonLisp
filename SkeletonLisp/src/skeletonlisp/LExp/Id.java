@@ -1,5 +1,5 @@
 
-package LExp;
+package skeletonlisp.LExp;
 
 public class Id extends LExp {
     public Id(String _body) {

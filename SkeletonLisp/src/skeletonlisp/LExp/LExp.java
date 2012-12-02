@@ -1,4 +1,5 @@
-package LExp;
+
+package skeletonlisp.LExp;
 
 public abstract class LExp {
     private String type;

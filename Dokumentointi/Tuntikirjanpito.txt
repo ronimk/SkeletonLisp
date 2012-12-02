@@ -22,3 +22,9 @@
 ~1h: toString-metodien lisäys hoidettu, L-lauseiden arvon helppoa tulostusta
      varten REPL:in print()-metodissa. Lambda-tyyppisten lauseiden JUnit-testit
      ja koodi hoidettu: testit läpäisty.
+
+~2h: Lisätty Pair-LExp, JUnit-testattu, aloitettu Parserin rakentaminen, ja
+     ekat parser-testit läpäisty. Lisää LExp-testejä on tarkoitus tuottaa stten
+     vaiheessa kun toimiva read()/parse on valmis ja tähänastiset lauseet on
+     testattu 'in vivo'.
+     
