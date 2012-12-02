@@ -8,7 +8,7 @@ public class Application extends LExp {
     private ArrayList<LExp> vals;
     
     public Application(String _body, LExp _procedure, ArrayList<LExp> _vals) {
-        super("*apply*", _body);
+        super("*application*", _body);
         procedure = _procedure;
         vals = _vals;
     }

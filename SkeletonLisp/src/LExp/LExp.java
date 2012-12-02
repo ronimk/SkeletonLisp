@@ -16,4 +16,9 @@ public abstract class LExp {
     public String getBody() {
         return body;
     }
+    
+    @Override
+    public String toString() {
+        return type;
+    }
 }
