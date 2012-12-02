@@ -1,10 +1,10 @@
-30. Perjantai
+30.11 Perjantai
 -------------
 
 60 min: Tutustuttu harjoitustyön vaatimuksiin,
         rakennettu pohja aihemäärittelylle ja aloitettu tuntikirjanpito.
         
-31. Lauantai
+1.12 Lauantai
 ------------
 
 3h: Asennettu tarvittavat ohjelmistot Git:n käyttöön ja tutustuttu GitHubiin.
@@ -15,3 +15,10 @@
         sen verran, että ID-testit läpäisty. Application-tyyppisen LExpression
         JUnit-testit laadittu, sekä koodia kirjoitettu sen verran, että
         ID-testit läpäisty.
+
+2.12 Sunnuntai
+--------------
+
+~1h: toString-metodien lisäys hoidettu, L-lauseiden arvon helppoa tulostusta
+     varten REPL:in print()-metodissa. Lambda-tyyppisten lauseiden JUnit-testit
+     ja koodi hoidettu: testit läpäisty.
