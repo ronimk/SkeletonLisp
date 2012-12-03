@@ -28,4 +28,16 @@ public class Parser {
     public static boolean hasLessRightParentheses(String s) {
         return numberOfRightParentheses(s) < numberOfLeftParentheses(s);
     }
+    
+    public static boolean hasLessLeftParentheses(String s) {
+        return numberOfLeftParentheses(s) < numberOfRightParentheses(s);
+    }
+    
+    public static String addSpaceIfNecessary(String line) {
+        if (line.charAt(0) != ')') {
+            return " ";
+        } else {
+            return "";
+        }
+    }
 }

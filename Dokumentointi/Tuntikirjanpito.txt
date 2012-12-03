@@ -27,4 +27,10 @@
      ekat parser-testit läpäisty. Lisää LExp-testejä on tarkoitus tuottaa stten
      vaiheessa kun toimiva read()/parse on valmis ja tähänastiset lauseet on
      testattu 'in vivo'.
-     
+
+3.12 Maanantai
+--------------
+
+~1h: Luotu testiohjelma, joka testaa tällä hetkellä Parseria. REPL siis
+     sisältää yksinkertaisen read()-vaiheen, ja Parser sisältää tällä hetkellä
+     käyttäjän syötteet karkeasti LExp-muotoon parsaavan toiminnallisuuden.

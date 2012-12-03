@@ -103,5 +103,51 @@ public class ParserTest {
                 + "                  (exp (* base 2) (/ xpt 2))) "
                 + "                 (else (* base (exp base (- xpt 1)))))))"));
     }
+    
+    @Test
+    public void hasLessLeftParenthesesToimiiOikeinKunVähemmän() {
+        assertTrue(Parser.hasLessLeftParentheses(
+                  "      (define exp"
+                + "         (lambda (base xpt) "
+                + "           (cond ((= xpt 0) 1) "
+                + "                 (= xpt 1) base) "
+                + "                 ((even? xpt) "
+                + "                  (exp (* base 2) (/ xpt 2))) "
+                + "                 else (* base (exp base (- xpt 1)))))))"));
+    }
+    
+    @Test
+    public void hasLessLeftParenthesesToimiiOikeinKunSamanVerran() {
+        assertFalse(Parser.hasLessLeftParentheses(
+                  "      (define exp"
+                + "         (lambda (base xpt) "
+                + "           (cond ((= xpt 0) 1) "
+                + "                 ((= xpt 1) base) "
+                + "                 ((even? xpt) "
+                + "                  (exp (* base 2) (/ xpt 2))) "
+                + "                 (else (* base (exp base (- xpt 1)))))))"));
+    }
+    
+    @Test
+    public void hasLessLeftParenthesesToimiiOikeinKunEnemman() {
+        assertFalse(Parser.hasLessLeftParentheses(
+                  "      (define exp"
+                + "         (lambda (base xpt) "
+                + "           (cond ((= xpt 0) 1) "
+                + "                 ((= xpt 1) base) "
+                + "                 ((even? xpt) "
+                + "                  (exp (* base 2 (/ xpt 2)) "
+                + "                 (else (* base (exp base (- xpt 1)))))))"));
+    }
+    
+    @Test
+    public void addSpaceOnlyIfNecessaryToimiiKunEiLisata() {
+        assertEquals("", Parser.addSpaceIfNecessary(")) (else"));
+    }
+    
+    @Test
+    public void addSpaceOnlyIfNecessaryToimiiKunLisataan() {
+        assertEquals(" ", Parser.addSpaceIfNecessary("(else"));
+    }
 
 }
