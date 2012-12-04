@@ -291,4 +291,29 @@ public class LExpTest {
         
         assertEquals("(a . b)", uusiPair.toString());
     }
+    
+    @Test
+    public void errorinTyyppiOnOikea() {
+        LExp virhe = new LError("virhe");
+        assertEquals("*error*", virhe.getType());
+    }
+    
+        
+    @Test
+    public void errorinBodyOnOikea() {
+        LExp virhe = new LError("virhe");
+        assertEquals("virhe", virhe.getBody());
+    }
+    
+    @Test
+    public void errorinViestiOnOikea() {
+        LExp virhe = new LError("virhe");
+        assertEquals("virhe", ((LError)virhe).getMessage());
+    }
+    
+    @Test
+    public void errorintoStringToimii() {
+        LExp virhe = new LError("virhe");
+        assertEquals("virhe", ((LError)virhe).toString());
+    }
 }

@@ -18,6 +18,10 @@ public abstract class LExp {
         return body;
     }
     
+    public String getValue() {
+        return body;
+    }
+    
     @Override
     public String toString() {
         return type;

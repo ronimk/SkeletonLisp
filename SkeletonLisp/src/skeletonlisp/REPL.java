@@ -4,7 +4,14 @@ import java.util.Scanner;
 import skeletonlisp.LExp.*;
 
 public class REPL {
-    private Scanner reader = new Scanner(System.in); 
+    private Scanner reader = new Scanner(System.in);
+    boolean exit=false;
+    
+    public void run() {
+        while (!exit) {
+            print(eval(read()));
+        }
+    }
     
     public LExp read() {
         System.out.print(">> ");
@@ -18,12 +25,22 @@ public class REPL {
         }
         
         if (Parser.hasLessLeftParentheses(lines)) {
-            System.out.println("An illegal expression: " + lines);
-            read();
+            return new LError("An illegal expression: " + lines);
         }
         
         // just for testing, thus far:
-        System.out.println(lines);
-        return new NIL();
+        return new LError(lines);
+    }
+    
+    public LExp eval(LExp exp) {
+        if (exp.getBody().equals(("(exit)"))) {
+            exit = true;
+        }
+        
+        return exp;
+    }
+    
+    public void print(LExp exp) {
+        System.out.println(exp.getValue());
     }
 }

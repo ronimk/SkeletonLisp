@@ -34,3 +34,14 @@
 ~1h: Luotu testiohjelma, joka testaa tällä hetkellä Parseria. REPL siis
      sisältää yksinkertaisen read()-vaiheen, ja Parser sisältää tällä hetkellä
      käyttäjän syötteet karkeasti LExp-muotoon parsaavan toiminnallisuuden.
+     
+4.12 Tiistai
+------------
+
+~30 min: ensimmäinen testiREPL valmis, Luotu uusi L-lausetyyppi - error.
+         Luokkakaaviota ei tältä osin vielä päivitetty...
+         
+         
+ TODO
+ ----
+ päivitä luokkakaavio vastaamaan nykytilannetta (4.12)
