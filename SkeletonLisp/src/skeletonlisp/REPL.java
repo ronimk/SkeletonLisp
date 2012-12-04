@@ -25,15 +25,14 @@ public class REPL {
         }
         
         if (Parser.hasLessLeftParentheses(lines)) {
-            return new LError("An illegal expression: " + lines);
+            return new LError("Interpreter error: an illegal expression - " + lines);
         }
         
-        // just for testing, thus far:
-        return new LError(lines);
+        return Parser.parseExpression(lines);
     }
     
     public LExp eval(LExp exp) {
-        if (exp.getBody().equals(("(exit)"))) {
+        if (exp.getType().equals("*error*")) {
             exit = true;
         }
         
@@ -41,6 +40,6 @@ public class REPL {
     }
     
     public void print(LExp exp) {
-        System.out.println(exp.getValue());
+        System.out.println(exp);
     }
 }

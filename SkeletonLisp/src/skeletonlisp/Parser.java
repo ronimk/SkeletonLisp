@@ -5,6 +5,10 @@ import skeletonlisp.LExp.*;
 
 public class Parser {
     
+    public static LExp parseExpression(String exp) {
+        return new LError(exp);
+    }
+    
     public static int numberOfCharactersC(String s, char c) {
         int n = 0;
         

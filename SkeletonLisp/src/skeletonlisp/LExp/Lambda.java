@@ -23,6 +23,6 @@ public class Lambda extends LExp {
     
     @Override
     public String toString() {
-        return "anonymous procedure";
+        return "procedure";
     }
 }

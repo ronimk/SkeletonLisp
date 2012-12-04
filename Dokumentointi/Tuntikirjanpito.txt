@@ -40,8 +40,10 @@
 
 ~30 min: ensimmäinen testiREPL valmis, Luotu uusi L-lausetyyppi - error.
          Luokkakaaviota ei tältä osin vielä päivitetty...
+~10 min: refaktoroitu testiREPLIä.
          
          
  TODO
  ----
  päivitä luokkakaavio vastaamaan nykytilannetta (4.12)
+ Luo Environmentille luuranko
