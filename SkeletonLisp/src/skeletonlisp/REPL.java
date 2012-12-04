@@ -39,9 +39,7 @@ public class REPL {
         return exp;
     }
     
-    public void print(LExp exp) {
-        if (exp.getType().equals("*error*")) {
-            System.out.println(exp);
-        }
+    public void print(LExp exp) {  
+        System.out.println(exp);
     }
 }
