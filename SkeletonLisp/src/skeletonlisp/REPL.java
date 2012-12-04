@@ -32,7 +32,7 @@ public class REPL {
     }
     
     public LExp eval(LExp exp) {
-        if (exp.getType().equals("*error*")) {
+        if (exp.getBody().equals("(exit)")) {
             exit = true;
         }
         
@@ -40,6 +40,8 @@ public class REPL {
     }
     
     public void print(LExp exp) {
-        System.out.println(exp);
+        if (exp.getType().equals("*error*")) {
+            System.out.println(exp);
+        }
     }
 }
