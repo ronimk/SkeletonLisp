@@ -1,8 +1,8 @@
 
 package skeletonlisp.LExp;
 
-public class Id extends LExp {
-    public Id(String _body) {
+public class LId extends LExp {
+    public LId(String _body) {
         super("*id*", _body);
     }
     

@@ -41,9 +41,26 @@
 ~30 min: ensimmäinen testiREPL valmis, Luotu uusi L-lausetyyppi - error.
          Luokkakaaviota ei tältä osin vielä päivitetty...
 ~10 min: refaktoroitu testiREPLIä.
+
+7.12 Perjantai:
+-------------
+
+~40 min: reader() ja Parser ovat nyt selkeästi erotettu toisistaan, ja niillä
+         on selkeästi omat tehtävät. Ainoa overlap näiden välillä on siinä,
+         koska reader() tietää, että syötteen luku tulee lopettaa... Tätä
+         varten readerin täytyy tehdä pikkuriikkisen parserointia itse. Muuten
+         kaiken syötteiden parseroinnin hoitaa Parser-luokka.
+         Muutama uusi ParserTesti toteutettu ja läpäisty.
          
+~1h:     lisätty uusia "arvotyyppisiä" L-lauseita, rakennettu parseria. Parseri
+		 on tosin vielä hyvin kaoottisesti organisoitu, mutta nyt se kuitenkin
+		 osaa jo erotella joitakin käyttäjän syöttämiä L-lauseita ja niiden
+		 perusteella luoda sopivia arvoja evaluoitavaksi.
+		 Evaluaattori on vieläkin käytännössä olematon.
          
  TODO
  ----
  päivitä luokkakaavio vastaamaan nykytilannetta (4.12)
- Luo Environmentille luuranko
+ Luo Environmentille luuranko (4.12)
+ Mieti tarvitaanko erikseen Bool-tyyppiä, mikäli kuitenkin kaikki mahdolliset
+ "nil":stä tai "#f":stä poikkeavat arvot ovat automaattisesti "True"...

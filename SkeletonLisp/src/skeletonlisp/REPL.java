@@ -16,16 +16,9 @@ public class REPL {
     public LExp read() {
         System.out.print(">> ");
         String lines = reader.nextLine();
-        lines = lines.trim();
         
         while(Parser.hasLessRightParentheses(lines)) {
-            String newLine = reader.nextLine();
-            newLine = newLine.trim();
-            lines += Parser.addSpaceIfNecessary(newLine) + newLine;
-        }
-        
-        if (Parser.hasLessLeftParentheses(lines)) {
-            return new LError("Interpreter error: an illegal expression - " + lines);
+            lines += " " + reader.nextLine();
         }
         
         return Parser.parseExpression(lines);

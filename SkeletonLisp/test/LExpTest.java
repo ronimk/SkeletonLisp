@@ -54,35 +54,35 @@ public class LExpTest {
     
     @Test
     public void uudenIDnTyyppiOnOikea() {
-        LExp id = new Id("x");
+        LExp id = new LId("x");
         assertEquals("*id*", id.getType());
     }
     
     @Test
     public void uudenIDnBodyOnOikea() {
-        LExp id = new Id("x");
+        LExp id = new LId("x");
         assertEquals("x", id.getBody());
     }
     
     @Test
     public void uudenIDnSisaltoOnOikea() {
-        LExp id = new Id("x");
-        assertEquals("x", ((Id) id).getId());
+        LExp id = new LId("x");
+        assertEquals("x", ((LId) id).getId());
     }
     
     @Test
     public void iDnToStringMetodiToimii() {
-        LExp id = new Id("x");
-        assertEquals("x", ((Id)id).toString());
+        LExp id = new LId("x");
+        assertEquals("x", ((LId)id).toString());
     }
     
     @Test
     public void uudenApplicationinTyyppiOikea() {
         ArrayList<LExp> vals = new ArrayList<LExp>();
         
-        vals.add(new Id("x"));
-        vals.add(new Id("y"));
-        LExp app = new Application("(+ x y)", new Id("+"), vals);
+        vals.add(new LId("x"));
+        vals.add(new LId("y"));
+        LExp app = new LApplication("(+ x y)", new LId("+"), vals);
         
         assertEquals("*application*", app.getType());
     }
@@ -91,9 +91,9 @@ public class LExpTest {
     public void uudenApplicationinBodyOikea() {
         ArrayList<LExp> vals = new ArrayList<LExp>();
         
-        vals.add(new Id("x"));
-        vals.add(new Id("y"));
-        LExp app = new Application("(+ x y)", new Id("+"), vals);
+        vals.add(new LId("x"));
+        vals.add(new LId("y"));
+        LExp app = new LApplication("(+ x y)", new LId("+"), vals);
         
         assertEquals("(+ x y)", app.getBody());
     }
@@ -102,22 +102,22 @@ public class LExpTest {
     public void uudenApplicationinProseduuriOikea() {
         ArrayList<LExp> vals = new ArrayList<LExp>();
         
-        vals.add(new Id("x"));
-        vals.add(new Id("y"));
-        LExp app = new Application("(+ x y)", new Id("+"), vals);
+        vals.add(new LId("x"));
+        vals.add(new LId("y"));
+        LExp app = new LApplication("(+ x y)", new LId("+"), vals);
         
-        assertEquals("+", ((Application) app).getProcedure().getBody());
+        assertEquals("+", ((LApplication) app).getProcedure().getBody());
     }
     
     @Test
     public void uudenApplicationinarvotOikeita() {
         ArrayList<LExp> vals = new ArrayList<LExp>();
         
-        vals.add(new Id("x"));
-        vals.add(new Id("y"));
-        LExp app = new Application("(+ x y)", new Id("+"), vals);
+        vals.add(new LId("x"));
+        vals.add(new LId("y"));
+        LExp app = new LApplication("(+ x y)", new LId("+"), vals);
         
-        ArrayList<LExp> appVals = ((Application) app).getVals(); 
+        ArrayList<LExp> appVals = ((LApplication) app).getVals(); 
         assertEquals("x", appVals.get(0).getBody());
         assertEquals("y", appVals.get(1).getBody());
     }
@@ -126,20 +126,20 @@ public class LExpTest {
     public void applicationinToStringMetodiToimii() {
         ArrayList<LExp> vals = new ArrayList<LExp>();
         
-        vals.add(new Id("x"));
-        vals.add(new Id("y"));
-        LExp app = new Application("(+ x y)", new Id("+"), vals);
+        vals.add(new LId("x"));
+        vals.add(new LId("y"));
+        LExp app = new LApplication("(+ x y)", new LId("+"), vals);
         
-        ArrayList<LExp> appVals = ((Application) app).getVals();
-        assertEquals("*application*", ((Application) app).toString());
+        ArrayList<LExp> appVals = ((LApplication) app).getVals();
+        assertEquals("*application*", ((LApplication) app).toString());
     }
     
     @Test
     public void uudenLambdanTyyppiOikein() {
-        LExp f = new Id("f");
-        LExp x = new Id("x");
-        LExp y = new Id("y");
-        LExp z = new Id("z");
+        LExp f = new LId("f");
+        LExp x = new LId("x");
+        LExp y = new LId("y");
+        LExp z = new LId("z");
         
         ArrayList<LExp> vars = new ArrayList<LExp>();
         vars.add(f);
@@ -156,10 +156,10 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanBodyOikein() {
-        LExp f = new Id("f");
-        LExp x = new Id("x");
-        LExp y = new Id("y");
-        LExp z = new Id("z");
+        LExp f = new LId("f");
+        LExp x = new LId("x");
+        LExp y = new LId("y");
+        LExp z = new LId("z");
         
         ArrayList<LExp> vars = new ArrayList<LExp>();
         vars.add(f);
@@ -176,10 +176,10 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanMuuttujatOikein() {
-        LExp f = new Id("f");
-        LExp x = new Id("x");
-        LExp y = new Id("y");
-        LExp z = new Id("z");
+        LExp f = new LId("f");
+        LExp x = new LId("x");
+        LExp y = new LId("y");
+        LExp z = new LId("z");
         
         ArrayList<LExp> vars = new ArrayList<LExp>();
         vars.add(f);
@@ -202,10 +202,10 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanlambdaBodyOikein() {
-        LExp f = new Id("f");
-        LExp x = new Id("x");
-        LExp y = new Id("y");
-        LExp z = new Id("z");
+        LExp f = new LId("f");
+        LExp x = new LId("x");
+        LExp y = new LId("y");
+        LExp z = new LId("z");
         
         ArrayList<LExp> vars = new ArrayList<LExp>();
         vars.add(f);
@@ -222,10 +222,10 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanToStringOikein() {
-        LExp f = new Id("f");
-        LExp x = new Id("x");
-        LExp y = new Id("y");
-        LExp z = new Id("z");
+        LExp f = new LId("f");
+        LExp x = new LId("x");
+        LExp y = new LId("y");
+        LExp z = new LId("z");
         
         ArrayList<LExp> vars = new ArrayList<LExp>();
         vars.add(f);
@@ -238,56 +238,56 @@ public class LExpTest {
         LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody);
         
         
-        assertEquals("anonymous procedure", ((Lambda)uusiLambda).toString());
+        assertEquals("procedure", ((Lambda)uusiLambda).toString());
     }
     
     @Test
     public void uudenParinTyyppiOikea() {
-        LExp uusiCar = new Id("a");
-        LExp uusiCdr = new Id("b");
-        LExp uusiPair = new Pair("(a . b)", uusiCar, uusiCdr);
+        LExp uusiCar = new LId("a");
+        LExp uusiCdr = new LId("b");
+        LExp uusiPair = new LPair("(a . b)", uusiCar, uusiCdr);
         
         assertEquals("*pair*", uusiPair.getType());
     }
     
     @Test
     public void uudenParinBodyOikea() {
-        LExp uusiCar = new Id("a");
-        LExp uusiCdr = new Id("b");
-        LExp uusiPair = new Pair("(a . b)", uusiCar, uusiCdr);
+        LExp uusiCar = new LId("a");
+        LExp uusiCdr = new LId("b");
+        LExp uusiPair = new LPair("(a . b)", uusiCar, uusiCdr);
         
         assertEquals("(a . b)", uusiPair.getBody());
     }
     
     @Test
     public void uudenParinCarOnOikea() {
-        LExp uusiCar = new Id("a");
-        LExp uusiCdr = new Id("b");
-        LExp uusiPair = new Pair("(a . b)", uusiCar, uusiCdr);
+        LExp uusiCar = new LId("a");
+        LExp uusiCdr = new LId("b");
+        LExp uusiPair = new LPair("(a . b)", uusiCar, uusiCdr);
         
-        String carArvo = ((Pair)uusiPair).getCar().getType() + " : " +
-                         ((Pair)uusiPair).getCar().toString();
+        String carArvo = ((LPair)uusiPair).getCar().getType() + " : " +
+                         ((LPair)uusiPair).getCar().toString();
         
         assertEquals("*id* : a", carArvo);
     }
     
     @Test
     public void uudenParinCdrOnOikea() {
-        LExp uusiCar = new Id("a");
-        LExp uusiCdr = new Id("b");
-        LExp uusiPair = new Pair("(a . b)", uusiCar, uusiCdr);
+        LExp uusiCar = new LId("a");
+        LExp uusiCdr = new LId("b");
+        LExp uusiPair = new LPair("(a . b)", uusiCar, uusiCdr);
         
-        String cdrArvo = ((Pair)uusiPair).getCdr().getType() + " : " +
-                         ((Pair)uusiPair).getCdr().toString();
+        String cdrArvo = ((LPair)uusiPair).getCdr().getType() + " : " +
+                         ((LPair)uusiPair).getCdr().toString();
         
         assertEquals("*id* : b", cdrArvo);
     }
     
     @Test
     public void uudenParinToStringMetodiToimii() {
-        LExp uusiCar = new Id("a");
-        LExp uusiCdr = new Id("b");
-        LExp uusiPair = new Pair("(a . b)", uusiCar, uusiCdr);
+        LExp uusiCar = new LId("a");
+        LExp uusiCdr = new LId("b");
+        LExp uusiPair = new LPair("(a . b)", uusiCar, uusiCdr);
         
         assertEquals("(a . b)", uusiPair.toString());
     }
@@ -312,8 +312,27 @@ public class LExpTest {
     }
     
     @Test
-    public void errorintoStringToimii() {
+    public void errorinToStringToimii() {
         LExp virhe = new LError("virhe");
         assertEquals("virhe", ((LError)virhe).toString());
+    }
+    
+        
+    @Test
+    public void uudenLIntinTyyppiOnOikea() {
+        LExp integ = new LInt("-678");
+        assertEquals("*int*", integ.getType());
+    }
+    
+    @Test
+    public void uudenLIntinBodyOnOikea() {
+        LExp integ = new LInt("-678");
+        assertEquals("-678", integ.getBody());
+    }
+    
+    @Test
+    public void uudenLIntinArvoOnOikea() {
+        LExp integ = new LInt("-678");
+        assertEquals(-678, ((LInt)integ).getValue());
     }
 }
