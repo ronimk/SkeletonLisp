@@ -4,16 +4,18 @@ package skeletonlisp.LExp;
 import java.util.ArrayList;
 
 public class Lambda extends LExp {
-    private ArrayList<LExp> vars;
+    private ArrayList<LId> vars;
+    private boolean isAListVariable;
     private String lambdaBody;
     
-    public Lambda(String _body, ArrayList<LExp> _vars, String _lambdaBody) {
+    public Lambda(String _body, ArrayList<LId> _vars, String _lambdaBody, boolean _isAListVariable) {
         super("*lambda*", _body);
+        isAListVariable = _isAListVariable;
         vars = _vars;
         lambdaBody = _lambdaBody;
     }
     
-    public ArrayList<LExp> getVars() {
+    public ArrayList<LId> getVars() {
         return vars;
     }
     

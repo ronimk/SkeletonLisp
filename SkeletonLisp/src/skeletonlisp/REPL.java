@@ -2,6 +2,7 @@
 package skeletonlisp;
 import java.util.Scanner;
 import skeletonlisp.LExp.*;
+import skeletonlisp.ParserPckg.*;
 
 public class REPL {
     private Scanner reader = new Scanner(System.in);
@@ -17,7 +18,7 @@ public class REPL {
         System.out.print(">> ");
         String lines = reader.nextLine();
         
-        while(Parser.hasLessRightParentheses(lines)) {
+        while(CharacterParser.hasLessRightParentheses(lines)) {
             lines += " " + reader.nextLine();
         }
         

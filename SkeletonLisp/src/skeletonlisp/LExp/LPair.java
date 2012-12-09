@@ -19,8 +19,19 @@ public class LPair extends LExp {
         return cdr;
     }
     
+    public String toStringWithoutParentheses() {
+        String tail = "";
+        
+        if (cdr.getType().equals("*pair*")) {
+            tail = " " + ((LPair) cdr).toStringWithoutParentheses();
+        } else if (!cdr.getType().equals("*nil*")) {
+            tail = " . " + cdr.toString();
+        }
+            return car.toString() + tail;
+    }
+    
     @Override
     public String toString() {
-        return getBody();
+        return "(" + toStringWithoutParentheses() + ")";
     }
 }

@@ -57,10 +57,31 @@
 		 osaa jo erotella joitakin käyttäjän syöttämiä L-lauseita ja niiden
 		 perusteella luoda sopivia arvoja evaluoitavaksi.
 		 Evaluaattori on vieläkin käytännössä olematon.
+		 
+		 
+8.12 Lauantai:
+--------------
+~6h:     Reippaalla kädellä refaktoroitu Parseria, Muutettu muutamien
+		 LExp-toimitaa.
+         
+9.12 Sunnuntai:
+---------------
+~5h:     Lisää refaktorointia ja Parserin rakennusta. Parseri jaettu useampaan
+         pienempään osaan.
+         Myös mm. Pair-tyyppien toString() metodi toimii tässä versiossa
+         siten kuten listoja ja pareja tulisi Scheme-tulkilla näyttää.
+         Luokkakaaviot menevät melko lailla uusiksi ensi viikon aikana,
+         ja todennäköisesti myös parseria joutuu vielä melko lailla hiomaan.
+         Se on vain tällä hetkellä täynnä kaikenlaista turhaa ja kömpelöä.
+         Olisi pitänyt rakentaa heti aluksi tuo WordParser-koodi, koska se
+         helpottaa huomattavasti LISP/Sheme-lauseiden manipuloimista...
+         Parseri osaa tällä hetkellä parseroida atomilauseita, sekä
+         lambda-lauseita.
          
  TODO
  ----
- päivitä luokkakaavio vastaamaan nykytilannetta (4.12)
- Luo Environmentille luuranko (4.12)
+ päivitä luokkakaavio vastaamaan nykytilannetta
+ Luo Environmentille luuranko
  Mieti tarvitaanko erikseen Bool-tyyppiä, mikäli kuitenkin kaikki mahdolliset
  "nil":stä tai "#f":stä poikkeavat arvot ovat automaattisesti "True"...
+ Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...

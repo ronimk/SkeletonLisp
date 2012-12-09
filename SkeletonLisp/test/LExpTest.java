@@ -1,14 +1,13 @@
 
 
-import skeletonlisp.LExp.*;
 import java.util.ArrayList;
-
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import skeletonlisp.LExp.*;
 
 public class LExpTest {
     
@@ -136,12 +135,12 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanTyyppiOikein() {
-        LExp f = new LId("f");
-        LExp x = new LId("x");
-        LExp y = new LId("y");
-        LExp z = new LId("z");
+        LId f = new LId("f");
+        LId x = new LId("x");
+        LId y = new LId("y");
+        LId z = new LId("z");
         
-        ArrayList<LExp> vars = new ArrayList<LExp>();
+        ArrayList<LId> vars = new ArrayList<LId>();
         vars.add(f);
         vars.add(x);
         vars.add(y);
@@ -149,19 +148,19 @@ public class LExpTest {
         
         String lambdaBody = "(f (f x y) z)";
         
-        LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody);
+        LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody, false);
         
         assertEquals("*lambda*", ((Lambda)uusiLambda).getType());
     }
     
     @Test
     public void uudenLambdanBodyOikein() {
-        LExp f = new LId("f");
-        LExp x = new LId("x");
-        LExp y = new LId("y");
-        LExp z = new LId("z");
+        LId f = new LId("f");
+        LId x = new LId("x");
+        LId y = new LId("y");
+        LId z = new LId("z");
         
-        ArrayList<LExp> vars = new ArrayList<LExp>();
+        ArrayList<LId> vars = new ArrayList<LId>();
         vars.add(f);
         vars.add(x);
         vars.add(y);
@@ -169,19 +168,19 @@ public class LExpTest {
         
         String lambdaBody = "(f (f x y) z)";
         
-        LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody);
+        LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody, false);
         
         assertEquals("(lambda (f x y z) (f (f x y) z)", ((Lambda)uusiLambda).getBody());
     }
     
     @Test
     public void uudenLambdanMuuttujatOikein() {
-        LExp f = new LId("f");
-        LExp x = new LId("x");
-        LExp y = new LId("y");
-        LExp z = new LId("z");
+        LId f = new LId("f");
+        LId x = new LId("x");
+        LId y = new LId("y");
+        LId z = new LId("z");
         
-        ArrayList<LExp> vars = new ArrayList<LExp>();
+        ArrayList<LId> vars = new ArrayList<LId>();
         vars.add(f);
         vars.add(x);
         vars.add(y);
@@ -189,7 +188,7 @@ public class LExpTest {
         
         String lambdaBody = "(f (f x y) z)";
         
-        LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody);
+        LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody, false);
         
         String muuttujaString = "";
         
@@ -202,12 +201,12 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanlambdaBodyOikein() {
-        LExp f = new LId("f");
-        LExp x = new LId("x");
-        LExp y = new LId("y");
-        LExp z = new LId("z");
+        LId f = new LId("f");
+        LId x = new LId("x");
+        LId y = new LId("y");
+        LId z = new LId("z");
         
-        ArrayList<LExp> vars = new ArrayList<LExp>();
+        ArrayList<LId> vars = new ArrayList<LId>();
         vars.add(f);
         vars.add(x);
         vars.add(y);
@@ -215,19 +214,19 @@ public class LExpTest {
         
         String lambdaBody = "(f (f x y) z)";
         
-        LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody);
+        LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody, false);
                 
         assertEquals("(f (f x y) z)", ((Lambda)uusiLambda).getLambdaBody());
     }
     
     @Test
     public void uudenLambdanToStringOikein() {
-        LExp f = new LId("f");
-        LExp x = new LId("x");
-        LExp y = new LId("y");
-        LExp z = new LId("z");
+        LId f = new LId("f");
+        LId x = new LId("x");
+        LId y = new LId("y");
+        LId z = new LId("z");
         
-        ArrayList<LExp> vars = new ArrayList<LExp>();
+        ArrayList<LId> vars = new ArrayList<LId>();
         vars.add(f);
         vars.add(x);
         vars.add(y);
@@ -235,7 +234,7 @@ public class LExpTest {
         
         String lambdaBody = "(f (f x y) z)";
         
-        LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody);
+        LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody, false);
         
         
         assertEquals("procedure", ((Lambda)uusiLambda).toString());
@@ -260,7 +259,7 @@ public class LExpTest {
     }
     
     @Test
-    public void uudenParinCarOnOikea() {
+    public void uudenParinCarOnOikeaKunAtomi() {
         LExp uusiCar = new LId("a");
         LExp uusiCdr = new LId("b");
         LExp uusiPair = new LPair("(a . b)", uusiCar, uusiCdr);
@@ -272,7 +271,7 @@ public class LExpTest {
     }
     
     @Test
-    public void uudenParinCdrOnOikea() {
+    public void uudenParinCdrOnOikeaKunAtomi() {
         LExp uusiCar = new LId("a");
         LExp uusiCdr = new LId("b");
         LExp uusiPair = new LPair("(a . b)", uusiCar, uusiCdr);
@@ -284,12 +283,23 @@ public class LExpTest {
     }
     
     @Test
-    public void uudenParinToStringMetodiToimii() {
+    public void uudenParinToStringMetodiToimiiKunPelkkiaAtomeja() {
         LExp uusiCar = new LId("a");
         LExp uusiCdr = new LId("b");
         LExp uusiPair = new LPair("(a . b)", uusiCar, uusiCdr);
         
         assertEquals("(a . b)", uusiPair.toString());
+    }
+    
+    @Test
+    public void uudenParinToStringMetodiToimiiKunListoja() {
+        LExp uusiIdA = new LId("a");
+        LExp uusiIdB = new LId("b");
+        LExp uusiCar = new LPair("(a . b)", uusiIdA, uusiIdB);
+        LExp uusiCdr = new LPair("(a b)", uusiIdA, new LPair("(b)", uusiIdB, new NIL()));
+        LExp uusiPair = new LPair("((a . b) a b)", uusiCar, uusiCdr);
+        
+        assertEquals("((a . b) a b)", uusiPair.toString());
     }
     
     @Test
