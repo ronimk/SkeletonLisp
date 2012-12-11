@@ -78,9 +78,17 @@
          Parseri osaa tällä hetkellä parseroida atomilauseita, sekä
          lambda-lauseita.
          
+11.12 Tiistai
+-------------
+~4h:	 Parserin viimeistely käynnistynyt, vaatii vielä testausta niin yksikkö-
+		 testauksen, kuin integraatiotestauksenkin muodossa lisää. Bugeja parse-
+		 rista karsittu pois. Käytännössä kuitenkin parserin toiminnallisuus
+		 valmis. Ja nyt näyttää jo huomattavasti siistimmältäkin.
+         
  TODO
  ----
  päivitä luokkakaavio vastaamaan nykytilannetta
+ muutenkin päivitä dokumentointia
  Luo Environmentille luuranko
  Mieti tarvitaanko erikseen Bool-tyyppiä, mikäli kuitenkin kaikki mahdolliset
  "nil":stä tai "#f":stä poikkeavat arvot ovat automaattisesti "True"...

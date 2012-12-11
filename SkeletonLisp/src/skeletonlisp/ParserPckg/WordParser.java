@@ -1,13 +1,46 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package skeletonlisp.ParserPckg;
 
-/**
- *
- * @author root
+/*
+ * WordParser parses individual words of an L-Expression.
+ * It can be used to:
+ * 
+ * -unwrap parentheses of compound words
+ *  (a compound word is an L-Expression inside
+ *   one left parenthese and one right parenthese)
+ * 
+ * -get the first, second or third word
+ *  of an expression in a String form immediately
+ * 
+ * -get the rest of the words of an expression except the
+ *  first, in a String form
+ *  
+ * - All these can be combined to get any word we want
+ *   in an expression.
+ * 
+ * The class can also be used:
+ * 
+ * - to separate a quote from the body of a quoted (compound)word
+ * 
+ * - to add a word at the beginning of a compound word:
+ *   since SkeletonLisp does not provide macros, the
+ *    quoted-list structure is transformed during parsing
+ *   cycle to avoid having to deal with quotes - which are
+ *   in essence syntactic sugar for IDs and lists -
+ *   in evaluation process. So
+ *          '(a b c)
+ *   is equivalent to
+ *          (list a b c)
+ *   and    'a
+ *   is equivalent to
+ *          new LId("a");
+ * 
+ *  And last, the class can be used to check whether an
+ *  L-exressions is an atomic word. Basically all IDs (atoms)
+ *  and numbers, #t and #f are atomic words.
+ * 
  */
+
 public class WordParser {
     
     public static String firstWord(String exp) {
@@ -65,6 +98,18 @@ public class WordParser {
         }
     }
     
+    public static String withoutBeginningQuote(String word) {
+        if (word.startsWith("\'")) {
+            return word.substring(1);
+        } else {
+            return word;
+        }
+    }
+    
+    public static String addToTheBeginningOfParenthesizedWord(String toAdd, String parWord) {
+        return "(" + toAdd + " " + parWord.substring(1);
+    }
+    
     public static boolean isParenthesizedWord(String exp) {       
         if (!exp.startsWith("(")) {
             return false;
@@ -89,6 +134,7 @@ public class WordParser {
     }
     
     public static boolean isAtomicWord(String exp) {
-        return !exp.contains(" ");
+        return !ParserConstants.reservedStartingLetters.contains(exp.substring(0,1)) &&
+               !exp.contains(" ");
     }
 }

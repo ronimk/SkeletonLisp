@@ -22,6 +22,6 @@ public class LError extends LExp {
     
     @Override
     public String toString() {
-        return message;
+        return "<error>: " + message;
     }
 }
