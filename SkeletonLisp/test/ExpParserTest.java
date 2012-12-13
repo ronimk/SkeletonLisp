@@ -47,54 +47,59 @@ public class ExpParserTest {
     public void isIntegerPalauttaaTrueJosOnInteger() {
         assertTrue(ExpParser.isInteger("04687"));
     }
+ 
+    @Test
+    public void isDoublePalauttaaFalseKunLukuPaattyyPisteeseen() {
+        assertFalse(ExpParser.isDouble("0123."));
+    }
     
     @Test
-    public void isDoubleToimiikunEiDouble() {
+    public void isDoublePalauttaaFalseKunEiDouble() {
         assertFalse(ExpParser.isDouble("0123.8t7"));
     }
     
     @Test
-    public void isDoubleToimiikunOnDouble() {
+    public void isDoublePalauttaaTrueKunOnDouble() {
         assertTrue(ExpParser.isDouble("0123.87"));
     }
     
     @Test
-    public void isIdToimiiKunAtomiEiId() {
+    public void isIdPalauttaaFalseKunAtomiEiId() {
         assertFalse(ExpParser.isId("34ft"));
     }
     
     @Test
-    public void isIdToimiiKunMoniSanainenEiId() {
+    public void isIdPalauttaaFalseKunMoniSanainenEikaId() {
         assertFalse(ExpParser.isId("sdfft sahfg"));
     }
     
     @Test
-    public void isIdToimiiKunQuoteEiKaId() {
+    public void isIdPalauttaaFalseKunQuoteEiKaId() {
         assertFalse(ExpParser.isId("'sahfg"));
     }
     
     @Test
-    public void isIdToimiiKunApplicationEiKaId() {
+    public void isIdPalauttaaFalseKunApplicationEiKaId() {
         assertFalse(ExpParser.isId("(sahfg)"));
     }
     
     @Test
-    public void isIdToimiiKunOnId() {
+    public void isIdPalauttaaTrueKunOnId() {
         assertTrue(ExpParser.isId("AtOm1cSequence"));
     }
     
     @Test
-    public void equalsNILToimiiKunEiNil() {
+    public void equalsNILPalauttaaFalseKunEiNil() {
         assertFalse(ExpParser.equalsNIL("not-nil"));
     }
     
     @Test
-    public void equalsNILtoimiiKunOnNIL() {
+    public void equalsNILPalauttaaTrueKunOnNIL() {
         assertTrue(ExpParser.equalsNIL("nil"));
     }
    
     @Test
-    public void equalsNILtoimiiKunOnNiL() {
+    public void equalsNILPalauttaaTrueKunOnNiL() {
         assertTrue(ExpParser.equalsNIL("NiL"));
     }
 }

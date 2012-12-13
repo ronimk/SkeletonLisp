@@ -6,7 +6,7 @@ public class LPair extends LExp {
     LExp cdr;
     
     public LPair(String _body, LExp _car, LExp _cdr) {
-        super("*pair*", _body);
+        super(LExpConstants.LPairType, _body);
         car = _car;
         cdr = _cdr;
     }
@@ -22,9 +22,9 @@ public class LPair extends LExp {
     public String toStringWithoutParentheses() {
         String tail = "";
         
-        if (cdr.getType().equals("*pair*")) {
+        if (cdr.getType().equals(LExpConstants.LPairType)) {
             tail = " " + ((LPair) cdr).toStringWithoutParentheses();
-        } else if (!cdr.getType().equals("*nil*")) {
+        } else if (!cdr.getType().equals(LExpConstants.NILType)) {
             tail = " . " + cdr.toString();
         }
             return car.toString() + tail;

@@ -29,62 +29,57 @@ public class WordParserTest {
     }
  
     @Test
-    public void firstWordToimiiKunEiSyotetta() {
+    public void firstWordPalauttaaTyhjanKunEiSyotetta() {
         assertEquals("", WordParser.firstWord(""));
     }
     
     @Test
-    public void firstWordToimiiKunSyoteOnYksittainenSana() {
+    public void firstWordPalauttaaEkanSananKunSyoteOnYksittainenSana() {
         assertEquals("infinity", WordParser.firstWord("infinity"));
     }
     
     @Test
-    public void firstWordToimiiKunSyoteOnUseampiSanaa() {
+    public void firstWordPalauttaaEkanSananKunSyoteOnYksittainenSanaJonkaSisallaSulkeita() {
+        assertEquals("inf(ini)ty", WordParser.firstWord("inf(ini)ty"));
+    }
+    
+    @Test
+    public void firstWordPalauttaaEkanSananKunSyoteOnUseampiSanaa() {
         assertEquals("infinity", WordParser.firstWord("infinity now"));
     }
     
     @Test
-    public void firstWordToimiiKunSyoteOnTyhjaLista() {
+    public void firstWordPalauttaaTyhjanListanKunSyoteOnTyhjaLista() {
         assertEquals("()", WordParser.firstWord("()"));
     }
     
     @Test
-    public void firstWordToimiiKunSyoteOnYhdenSananLista() {
+    public void firstWordPalauttaaListanKunSyoteOnYhdenSananLista() {
         assertEquals("(infinity)", WordParser.firstWord("(infinity)"));
     }
     
     @Test
-    public void firstWordToimiiKunSyoteOnUseammanSananLista() {
+    public void firstWordPalauttaaListanKunSyoteOnUseammanSananLista() {
         assertEquals("((infinity) (now (please)))", WordParser.firstWord("((infinity) (now (please)))"));
     }
     
     @Test
-    public void firstWordToimiiKunSyoteOnYksiSana() {
-        assertEquals("infinity", WordParser.firstWord("infinity"));
-    }
-    
-    @Test
-    public void firstWordToimiiKunSyoteOnUseampiSana() {
-        assertEquals("(lambda x x)", WordParser.firstWord("(lambda x x) g h (+ 2 4) z)"));
-    }
-    
-    @Test
-    public void allButFirstWordToimiiKunEiYhtaanSanaa() {
+    public void allButFirstWordPalauttaaTyhjanMJononKunEiYhtaanSanaa() {
         assertEquals("", WordParser.allButFirstWord(""));
     }
     
     @Test
-    public void allButFirstWordToimiiKunYksiAtominenSana() {
+    public void allButFirstWordPalauttaaTyhjanMJononKunYksiAtominenSana() {
         assertEquals("", WordParser.allButFirstWord("infinity"));
     }
     
     @Test
-    public void allButFirstWordToimiiKunYksiListainenSana() {
+    public void allButFirstWordPalauttaaKyseisenListanKunYksiListainenSana() {
         assertEquals("", WordParser.allButFirstWord("(infinity (now) please)"));
     }
     
     @Test
-    public void allButFirstToimiiKunMonisanainenSana() {
+    public void allButFirstPalauttaaKaikkiPaitsiEkanSananKunMonisanainenSana() {
         assertEquals("g h (+ 2 4) z)", WordParser.allButFirstWord("(lambda x x) g h (+ 2 4) z)"));
     }
     
@@ -99,52 +94,52 @@ public class WordParserTest {
     }
 
     @Test
-    public void secondWordToimiiKunSanojaEiYhtaan() {
+    public void secondWordPalauttaaTyhjanMJononKunSanojaEiYhtaan() {
         assertEquals("", WordParser.secondWord(""));
     }
     
     @Test
-    public void secondWordToimiiKunSanojaYksi() {
+    public void secondWordPalauttaaTyhjanMJononKunSanojaYksi() {
         assertEquals("", WordParser.secondWord("test"));
     }
     
     @Test
-    public void secondWordToimiiKunSanojaKaksi() {
+    public void secondWordPalauttaaToisenSananKunSanojaKaksi() {
         assertEquals("my", WordParser.secondWord("test my"));
     }
     
     @Test
-    public void secondWordToimiiKunSanojaUseampia() {
+    public void secondWordPalauttaaToisenSananKunSanojaUseampia() {
         assertEquals("my", WordParser.secondWord("test my parser, please"));
     }
     
     @Test
-    public void thirdWordToimiiKunSanojaEiYhtaan() {
+    public void thirdWordPalauttaaTyhjanMJononKunSanojaEiYhtaan() {
         assertEquals("", WordParser.thirdWord(""));
     }
         
     @Test
-    public void thirdWordToimiiKunSanojaYksi() {
+    public void thirdWordPalauttaaTyhjanMJononKunSanojaYksi() {
         assertEquals("", WordParser.secondWord("test"));
     }
     
     @Test
-    public void thirdWordToimiiKunSanojaKaksi() {
+    public void thirdWordPalauttaaTyhjanMJononKunSanojaKaksi() {
         assertEquals("", WordParser.thirdWord("test my"));
     }
         
     @Test
-    public void thirdWordToimiiKunSanojaKolme() {
+    public void thirdWordPalauttaaKolmannenSananKunSanojaKolme() {
         assertEquals("parser", WordParser.thirdWord("test my parser"));
     }
         
     @Test
-    public void thirdWordToimiiKunSanojaUseampia() {
+    public void thirdWordPalauttaaKolmannenSananKunSanojaUseampia() {
         assertEquals("parser,", WordParser.thirdWord("test my parser, please"));
     }
     
     @Test
-    public void unwrapParenthesizedWordToimiiKunTyhjaLista() {
+    public void unwrapParenthesizedWordPalauttaaTyhjanMJononKunTyhjaLista() {
         assertEquals("", WordParser.unwrapParenthesizedWord("()"));
     }
     
@@ -174,12 +169,12 @@ public class WordParserTest {
     }
     
     @Test
-    public void withoutQuoteToimiiKunEiQuote() {
+    public void withoutQuotePalauttaaAlkuperaisenMJononKunSyoteEiQuote() {
         assertEquals("word in A LISt", WordParser.withoutBeginningQuote("word in A LISt"));
     }
     
     @Test
-    public void withoutQuoteToimiiKunOnQuote() {
+    public void withoutQuotePoistaaQuotenKunSyoteOnQuote() {
         assertEquals("word in A LISt", WordParser.withoutBeginningQuote("'word in A LISt"));
     }
     
@@ -189,11 +184,16 @@ public class WordParserTest {
     }
     
     @Test
-    public void isAtomicWordToimiiKunEiOle() {
+    public void isAtomicWordPalauttaaFalseKunEiOle() {
         assertFalse(WordParser.isAtomicWord("test my parser, please"));
         assertFalse(WordParser.isAtomicWord(("()")));
         assertFalse(WordParser.isAtomicWord("(Help-mE)"));
         assertFalse(WordParser.isAtomicWord("(Help Me- Please"));
+    }
+       
+    @Test
+    public void isAtomicWordPalauttaaTrueKunEiOn() {
+        assertTrue(WordParser.isAtomicWord("tes8wuf908u0)+0d9fgt"));
     }
     
 }

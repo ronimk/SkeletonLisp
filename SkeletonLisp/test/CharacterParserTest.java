@@ -198,7 +198,22 @@ public class CharacterParserTest {
     }
     
     @Test
-    public void JosLukuTaynnaNolliaRemoveLeadingZeroesToimiiOikein() {
+    public void josLukuTaynnaNolliaRemoveLeadingZeroesToimiiOikein() {
         assertEquals("0", CharacterParser.removeLeadingZeroes("00000000"));
+    }
+    
+    @Test
+    public void onlyDigitsWithOneDotOnTrueKunLukuPäättyyPisteeseen() {
+        assertTrue(CharacterParser.onlyDigitsWithOneDot("98."));
+    }
+    
+    @Test
+    public void onlyDigitsWithOneDotOnTrueKunLukuOnLiukuluku() {
+        assertTrue(CharacterParser.onlyDigitsWithOneDot("00098.760"));
+    }
+    
+    @Test
+    public void onlyDigitsWithOneDotOnFalseKunMerkkijonoEiOleLiukuluku() {
+        assertFalse(CharacterParser.onlyDigitsWithOneDot("00t098.76/0"));
     }
 }

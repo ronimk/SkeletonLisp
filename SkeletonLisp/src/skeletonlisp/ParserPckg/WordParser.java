@@ -50,7 +50,7 @@ public class WordParser {
         
         String word = ParserConstants.emptyString;
         int numOfLeftParenthesesSoFar = 0;
-        
+    
         for (int i=0; i<exp.length(); i++) {
             char ch = exp.charAt(i);
             if (ch == '(') {
@@ -66,7 +66,7 @@ public class WordParser {
                     numOfLeftParenthesesSoFar--;
                 }
             }
-            
+        
             word += ch;
         }
         return word;

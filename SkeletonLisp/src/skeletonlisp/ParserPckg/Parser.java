@@ -5,7 +5,7 @@ import skeletonlisp.LExp.*;
 
 public class Parser {   
    
-    private static LExp parseSemantically(String formalExp) {
+    private static LExp parseSyntactically(String formalExp) {
         if (formalExp.isEmpty()) {
             return new LString("");
         } else if (WordParser.isAtomicWord(formalExp)) {         
@@ -36,9 +36,9 @@ public class Parser {
                     return new LError(e.getMessage() + " in: " + formalExp);
                 }
             } else {
-                return new LError("Bad syntax in: " + formalExp);
+                return new LError("Syntax error in: " + formalExp);
             }
-        } else { //must be a parenthesized word
+        } else if (WordParser.isParenthesizedWord(formalExp)) {
             if (ExpParser.isLambda(formalExp)) {
                 try {
                     return LambdaParser.makeANewLambda(formalExp);
@@ -52,25 +52,14 @@ public class Parser {
                     return new LError(e.getMessage() + " in: " + formalExp);
                 }
             } else {
-                return new LError("Bad syntax in " + formalExp);
+                return new LError("BSyntax error in " + formalExp);
             }
+        } else {
+            return new LError("Syntax error in  " + formalExp);
         } 
     }
-    
-    
-
-    
+        
     public static LExp parseExpression(String exp) {
-        String expParsedForSpaces = CharacterParser.removeAdditionalSpaces(exp);
-
-        if (!ExpParser.isQuote(exp) &&
-            !ExpParser.isString(exp) &&
-            !WordParser.isAtomicWord(expParsedForSpaces) &&
-            !WordParser.isParenthesizedWord(expParsedForSpaces)) {
-            return new LError("Syntax error: " + expParsedForSpaces);
-
-        } else {
-            return parseSemantically(expParsedForSpaces);            
-        }
+        return parseSyntactically(CharacterParser.removeAdditionalSpaces(exp));            
     }
 }

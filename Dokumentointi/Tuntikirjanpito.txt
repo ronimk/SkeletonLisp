@@ -84,7 +84,25 @@
 		 testauksen, kuin integraatiotestauksenkin muodossa lisää. Bugeja parse-
 		 rista karsittu pois. Käytännössä kuitenkin parserin toiminnallisuus
 		 valmis. Ja nyt näyttää jo huomattavasti siistimmältäkin.
-         
+		 
+12.12 Keskiviikko
+-----------------
+~1,5h:   Parserin viimeistely jatkuu... WordParser-luokan FirstWord näyttää
+		 hieman ongelmatapaukselta. Ja ParserConstantsin ReservedFirstLetters
+		 pitänee muuttaa ReservedLetters:ksi; eli siis, esim. sulkeita ei
+		 sanan sisällä saa käyttää ollenkaan. Tämä on melko tärkeää ohjelman
+		 myöhemmän toiminnan kannalta lauseiden evaluointivaiheessa...
+ 
+ 13.12 Torstai
+ -------------
+ ~1h:	 Muutamia virheitä vielä ratkastu parserista, pari jäi jäljelle, mitä
+		 pitää vielä hoitaa: Numeroille (kokonaisluvut ja liukuluvut) pitää
+		 sallia myös negatiivisten arvojen parserointi. Ja Application täytyy
+		 vielä testata silloin kun funktiona toimii monimutkaisempi lause
+		 (lambda, tai toinen applikaatio).
+		 Testejä myös tehty muutama lisää...
+ 
+       
  TODO
  ----
  päivitä luokkakaavio vastaamaan nykytilannetta
@@ -93,3 +111,9 @@
  Mieti tarvitaanko erikseen Bool-tyyppiä, mikäli kuitenkin kaikki mahdolliset
  "nil":stä tai "#f":stä poikkeavat arvot ovat automaattisesti "True"...
  Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
+ 
+ Ongelmakohtia
+ -------------
+ 1. Parseri joutuu useaan otteeseen tekemään samaa työtä (esim. tarkistaa onko
+ kyseessä sulkeiden sisällä oleva L-Lause. Nämä turhat tarkistukset ovat melko
+ kömpelöitä.

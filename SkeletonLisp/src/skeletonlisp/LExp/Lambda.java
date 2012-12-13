@@ -9,7 +9,7 @@ public class Lambda extends LExp {
     private String lambdaBody;
     
     public Lambda(String _body, ArrayList<LId> _vars, String _lambdaBody, boolean _aListParameter) {
-        super("*lambda*", _body);
+        super(LExpConstants.LambdaType, _body);
         aListParameter = _aListParameter;
         vars = _vars;
         lambdaBody = _lambdaBody;
@@ -29,6 +29,6 @@ public class Lambda extends LExp {
     
     @Override
     public String toString() {
-        return "<#procedure>";
+        return super.getType();
     }
 }

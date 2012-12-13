@@ -28,7 +28,8 @@ public class ExpParser {
     }
     
     public static boolean isDouble(String exp) {
-        return (CharacterParser.onlyDigitsWithOneDot(exp));
+        return CharacterParser.onlyDigitsWithOneDot(exp) &&
+               ParserConstants.digits.contains(exp.substring(exp.length()-1));
     }
     
     public static boolean isId(String exp) {

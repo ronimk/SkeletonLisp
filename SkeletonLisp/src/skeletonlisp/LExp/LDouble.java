@@ -12,7 +12,7 @@ public class LDouble extends LExp {
     double value;
     
     public LDouble(String _body) {
-        super("*int*", _body);
+        super(LExpConstants.LDoubleType, _body);
         
         value = Double.parseDouble(_body);
     }

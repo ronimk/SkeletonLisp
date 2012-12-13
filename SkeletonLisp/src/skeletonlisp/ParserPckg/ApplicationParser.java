@@ -9,34 +9,34 @@ public class ApplicationParser {
     public static LApplication makeNewApplication(String applicationBody) throws Exception {
         String unwrappedBody = WordParser.unwrapParenthesizedWord(applicationBody);
         String proc = WordParser.firstWord(unwrappedBody);
-        
-        if (!ExpParser.isId(proc)) {
-            throw new IllegalArgumentException(proc + " is not a proper identifier");
-        } else {
-            LId procedure = new LId(proc);
-            ArrayList<LExp> parameterValues = new ArrayList<LExp>();
-            String vals = WordParser.allButFirstWord(unwrappedBody);
+        LExp procedure = Parser.parseExpression(proc);
             
-            while (true) {
-                String first = WordParser.firstWord(vals);
-                
-                if (first.isEmpty()) {
-                    break;
-                }
-                
-                LExp nextExp = Parser.parseExpression(first);
-                
-                if (nextExp.getType().equals("*error*")) {
-                    throw new Exception("Illegal value (" + first + ") given to " + procedure);
-                } else {
-                    parameterValues.add(nextExp);
-                    vals = WordParser.allButFirstWord(vals);
-                }
-            }
-            
-            return new LApplication(applicationBody, procedure, parameterValues);
-            
+        if (!procedure.getType().matches("(" + LExpConstants.LIdType + "|"
+                                             + LExpConstants.LambdaType + "|"
+                                             + LExpConstants.LAppicationType
+                                             + ")")) {
+            throw new IllegalArgumentException(proc + " is not an identifier nor lambda");
         }
+        ArrayList<LExp> parameterValues = new ArrayList<LExp>();
+        String vals = WordParser.allButFirstWord(unwrappedBody);
+        
+        while (true) {
+            String first = WordParser.firstWord(vals);
             
+            if (first.isEmpty()) {
+                break;
+            }
+                
+            LExp nextExp = Parser.parseExpression(first);
+                
+            if (nextExp.getType().equals(LExpConstants.LErrorType)) {
+                throw new Exception("Illegal argument [" + first + "]");
+            } else {
+                parameterValues.add(nextExp);
+                vals = WordParser.allButFirstWord(vals);
+            }
+        }
+        
+        return new LApplication(applicationBody, procedure, parameterValues);
     }
 }

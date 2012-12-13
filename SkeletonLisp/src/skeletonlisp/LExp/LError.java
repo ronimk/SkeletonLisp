@@ -12,7 +12,7 @@ public class LError extends LExp {
     private String message;
     
     public LError(String _message) {
-        super("*error*", _message);
+        super(LExpConstants.LErrorType, _message);
         message = _message;
     }
     

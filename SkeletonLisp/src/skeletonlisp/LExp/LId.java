@@ -3,7 +3,7 @@ package skeletonlisp.LExp;
 
 public class LId extends LExp {
     public LId(String _body) {
-        super("*id*", _body);
+        super(LExpConstants.LIdType, _body);
     }
     
     public String getId() {

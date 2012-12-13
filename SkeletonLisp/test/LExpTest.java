@@ -34,14 +34,14 @@ public class LExpTest {
     public void NILinTyyppiOnOikea() {
         LExp nil = new NIL();
         
-        assertEquals("*nil*", nil.getType());
+        assertEquals(LExpConstants.NILType, nil.getType());
     }
     
     @Test
     public void NILinBodyOnOikea() {
         LExp nil = new NIL();
         
-        assertEquals("nil", nil.getBody());
+        assertEquals(LExpConstants.NILType, nil.getBody());
     }
     
     @Test
@@ -54,7 +54,7 @@ public class LExpTest {
     @Test
     public void uudenIDnTyyppiOnOikea() {
         LExp id = new LId("x");
-        assertEquals("*id*", id.getType());
+        assertEquals(LExpConstants.LIdType, id.getType());
     }
     
     @Test
@@ -83,7 +83,7 @@ public class LExpTest {
         vals.add(new LId("y"));
         LExp app = new LApplication("(+ x y)", new LId("+"), vals);
         
-        assertEquals("*application*", app.getType());
+        assertEquals(LExpConstants.LAppicationType, app.getType());
     }
     
     @Test
@@ -130,7 +130,7 @@ public class LExpTest {
         LExp app = new LApplication("(+ x y)", new LId("+"), vals);
         
         ArrayList<LExp> appVals = ((LApplication) app).getVals();
-        assertEquals("*application*", ((LApplication) app).toString());
+        assertEquals(LExpConstants.LAppicationType, ((LApplication) app).toString());
     }
     
     @Test
@@ -150,7 +150,7 @@ public class LExpTest {
         
         LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody, false);
         
-        assertEquals("*lambda*", ((Lambda)uusiLambda).getType());
+        assertEquals(LExpConstants.LambdaType, ((Lambda)uusiLambda).getType());
     }
     
     @Test
@@ -237,7 +237,7 @@ public class LExpTest {
         LExp uusiLambda = new Lambda("(lambda (f x y z) (f (f x y) z)", vars, lambdaBody, false);
         
         
-        assertEquals("procedure", ((Lambda)uusiLambda).toString());
+        assertEquals(LExpConstants.LambdaType, ((Lambda)uusiLambda).toString());
     }
     
     @Test
@@ -246,7 +246,7 @@ public class LExpTest {
         LExp uusiCdr = new LId("b");
         LExp uusiPair = new LPair("(a . b)", uusiCar, uusiCdr);
         
-        assertEquals("*pair*", uusiPair.getType());
+        assertEquals(LExpConstants.LPairType, uusiPair.getType());
     }
     
     @Test
@@ -267,7 +267,7 @@ public class LExpTest {
         String carArvo = ((LPair)uusiPair).getCar().getType() + " : " +
                          ((LPair)uusiPair).getCar().toString();
         
-        assertEquals("*id* : a", carArvo);
+        assertEquals(LExpConstants.LIdType + " : a", carArvo);
     }
     
     @Test
@@ -279,7 +279,7 @@ public class LExpTest {
         String cdrArvo = ((LPair)uusiPair).getCdr().getType() + " : " +
                          ((LPair)uusiPair).getCdr().toString();
         
-        assertEquals("*id* : b", cdrArvo);
+        assertEquals(LExpConstants.LIdType + " : b", cdrArvo);
     }
     
     @Test
@@ -305,7 +305,7 @@ public class LExpTest {
     @Test
     public void errorinTyyppiOnOikea() {
         LExp virhe = new LError("virhe");
-        assertEquals("*error*", virhe.getType());
+        assertEquals(LExpConstants.LErrorType, virhe.getType());
     }
     
         
@@ -324,14 +324,14 @@ public class LExpTest {
     @Test
     public void errorinToStringToimii() {
         LExp virhe = new LError("virhe");
-        assertEquals("virhe", ((LError)virhe).toString());
+        assertEquals("<error>: virhe", ((LError)virhe).toString());
     }
     
         
     @Test
     public void uudenLIntinTyyppiOnOikea() {
         LExp integ = new LInt("-678");
-        assertEquals("*int*", integ.getType());
+        assertEquals(LExpConstants.LIntType, integ.getType());
     }
     
     @Test
@@ -345,4 +345,6 @@ public class LExpTest {
         LExp integ = new LInt("-678");
         assertEquals(-678, ((LInt)integ).getValue());
     }
+    
+    // testaa vielä LString sekä LDouble...
 }

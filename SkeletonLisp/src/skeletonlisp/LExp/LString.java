@@ -11,7 +11,7 @@ package skeletonlisp.LExp;
 public class LString extends LExp {
 
     public LString(String value) {
-        super("*string*", value);
+        super(LExpConstants.LStringType, value);
     }
     
     public String getString() {
