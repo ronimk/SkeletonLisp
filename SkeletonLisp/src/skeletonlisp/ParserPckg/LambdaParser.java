@@ -9,31 +9,32 @@ import skeletonlisp.LExp.Lambda;
 public class LambdaParser {
     
     public static Lambda makeANewLambda(String exp) throws Exception {
-        String varsWord = WordParser.secondWord(WordParser.unwrapParenthesizedWord(exp));
-            boolean isAListParameter = false;
+        String unwrappedLambdaExp = WordParser.unwrapParenthesizedWord(exp);
+        String varsWord = WordParser.secondWord(unwrappedLambdaExp);
+        boolean isAListParameter = false;
                       
-            if (WordParser.isParenthesizedWord(varsWord)) {
-                // The lambda variables are of form
-                // (var1 var2 ... varn)
-                // therefore we have to take off the parentheses
-                varsWord = WordParser.unwrapParenthesizedWord(varsWord);
-            } else if (WordParser.isAtomicWord(varsWord)) {
-                // The lambda parameter is of form
-                // var; it is a single identifier that
-                // contains all the parameters given to the
-                // procedure in a list form.
-                isAListParameter = true;
-            } else {
-                // the lambda expression has a bad syntax: return
-                // an error message to the REPL:
-                throw new Exception("Bad syntax in the variable part: " + exp);
-            }
+        if (WordParser.isParenthesizedWord(varsWord)) {
+            // The lambda variables are of form
+            // (var1 var2 ... varn)
+            // therefore we have to take off the parentheses
+            varsWord = WordParser.unwrapParenthesizedWord(varsWord);
+        } else if (WordParser.isAtomicWord(varsWord)) {
+            // The lambda parameter is of form
+            // var; it is a single identifier that
+            // contains all the parameters given to the
+            // procedure in a list form.
+            isAListParameter = true;
+        } else {
+            // the lambda expression has a bad syntax: return
+            // an error message to the REPL:
+            throw new Exception("Bad syntax in the variable part: " + exp);
+        }
               
-            try {          
-                return new Lambda(exp, LambdaParser.makeVarList(varsWord), LambdaParser.lambdaBody(exp), isAListParameter);
-                } catch (Exception e) {
-                    throw new Exception(e.getMessage() + ": " + exp);
-            }
+        try {          
+            return new Lambda(exp, LambdaParser.makeVarList(varsWord), LambdaParser.lambdaBody(unwrappedLambdaExp), isAListParameter);
+            } catch (Exception e) {
+                throw new Exception(e.getMessage() + ": " + exp);
+        }
     }
     
     private static ArrayList<LId> makeVarList(String lambdaVars) throws Exception {
@@ -59,8 +60,8 @@ public class LambdaParser {
 
     }
   
-    private static String lambdaBody(String lambdaExp) throws Exception{
-        String body = WordParser.thirdWord(WordParser.unwrapParenthesizedWord(lambdaExp));
+    private static String lambdaBody(String unwrappedLambdaExp) throws Exception {
+        String body = WordParser.thirdWord(unwrappedLambdaExp);
         
         if (body.isEmpty()) {
             throw new IllegalArgumentException("A procedure must have a body");

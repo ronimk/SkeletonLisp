@@ -2,7 +2,7 @@
 package skeletonlisp.LExp;
 
 
-public class LInt extends LExp {
+public class LInt extends LValue {
     int value;
     
     public LInt(String _body) {

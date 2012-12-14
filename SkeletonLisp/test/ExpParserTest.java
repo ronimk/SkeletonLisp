@@ -44,13 +44,13 @@ public class ExpParserTest {
     }
     
     @Test
-    public void isIntegerPalauttaaTrueJosOnInteger() {
-        assertTrue(ExpParser.isInteger("04687"));
+    public void isIntegerPalattaaTrueKunOnKokonaisluku() {
+        assertTrue(ExpParser.isInteger("46"));
     }
- 
+        
     @Test
-    public void isDoublePalauttaaFalseKunLukuPaattyyPisteeseen() {
-        assertFalse(ExpParser.isDouble("0123."));
+    public void isIntegerPalauttaaTrueNegatiivisillaLuvuilla() {
+        assertTrue(ExpParser.isInteger("-46"));
     }
     
     @Test
@@ -62,6 +62,11 @@ public class ExpParserTest {
     public void isDoublePalauttaaTrueKunOnDouble() {
         assertTrue(ExpParser.isDouble("0123.87"));
     }
+    @Test
+    public void isDoubleToimiiNegatiivisillaLuvuilla() {
+        assertTrue(ExpParser.isDouble("-123.87"));
+    }
+    
     
     @Test
     public void isIdPalauttaaFalseKunAtomiEiId() {
@@ -89,17 +94,17 @@ public class ExpParserTest {
     }
     
     @Test
-    public void equalsNILPalauttaaFalseKunEiNil() {
-        assertFalse(ExpParser.equalsNIL("not-nil"));
+    public void isNILPalauttaaFalseKunEiNil() {
+        assertFalse(ExpParser.isNIL("not-nil"));
     }
     
     @Test
-    public void equalsNILPalauttaaTrueKunOnNIL() {
-        assertTrue(ExpParser.equalsNIL("nil"));
+    public void isNILPalauttaaTrueKunOnNIL() {
+        assertTrue(ExpParser.isNIL("nil"));
     }
    
     @Test
-    public void equalsNILPalauttaaTrueKunOnNiL() {
-        assertTrue(ExpParser.equalsNIL("NiL"));
+    public void isNILPalauttaaTrueKunOnNiL() {
+        assertTrue(ExpParser.isNIL("NiL"));
     }
 }

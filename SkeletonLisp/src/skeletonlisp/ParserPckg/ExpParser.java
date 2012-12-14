@@ -13,7 +13,7 @@ public class ExpParser {
     public static boolean isEmptyList(String exp) {
         return exp.equals("()");
     }
-    public static boolean equalsNIL(String exp) {
+    public static boolean isNIL(String exp) {
         return exp.toLowerCase().equals("nil");
     }
     
@@ -24,12 +24,23 @@ public class ExpParser {
     }
     
     public static boolean isInteger(String exp) {
-        return CharacterParser.onlyDigits(exp);
+        try {
+            Integer.parseInt(exp);
+        } catch (Exception e) {
+            return false;
+        }
+        
+        return true;
     }
     
     public static boolean isDouble(String exp) {
-        return CharacterParser.onlyDigitsWithOneDot(exp) &&
-               ParserConstants.digits.contains(exp.substring(exp.length()-1));
+        try {
+            Double.parseDouble(exp);
+        } catch (Exception e) {
+            return false;
+        }
+        
+        return true;
     }
     
     public static boolean isId(String exp) {
@@ -40,6 +51,7 @@ public class ExpParser {
     public static boolean isApplication(String exp) {
         String firstWord = WordParser.firstWord(WordParser.unwrapParenthesizedWord(exp));
         
-        return WordParser.isAtomicWord(firstWord);
+        return ExpParser.isId(firstWord) ||
+               WordParser.isParenthesizedWord(exp);
     }
 }

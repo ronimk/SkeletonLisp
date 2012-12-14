@@ -18,25 +18,11 @@ package skeletonlisp.ParserPckg;
  * - All these can be combined to get any word we want
  *   in an expression.
  * 
- * The class can also be used:
- * 
- * - to separate a quote from the body of a quoted (compound)word
- * 
- * - to add a word at the beginning of a compound word:
- *   since SkeletonLisp does not provide macros, the
- *    quoted-list structure is transformed during parsing
- *   cycle to avoid having to deal with quotes - which are
- *   in essence syntactic sugar for IDs and lists -
- *   in evaluation process. So
- *          '(a b c)
- *   is equivalent to
- *          (list a b c)
- *   and    'a
- *   is equivalent to
- *          new LId("a");
+ * - To separate the body of the quoted atom from the
+ *   quote
  * 
  *  And last, the class can be used to check whether an
- *  L-exressions is an atomic word. Basically all IDs (atoms)
+ *  L-exressions is an atomic word. Basically all IDs, atoms,
  *  and numbers, #t and #f are atomic words.
  * 
  */
@@ -104,10 +90,6 @@ public class WordParser {
         } else {
             return word;
         }
-    }
-    
-    public static String addToTheBeginningOfParenthesizedWord(String toAdd, String parWord) {
-        return "(" + toAdd + " " + parWord.substring(1);
     }
     
     public static boolean isParenthesizedWord(String exp) {       

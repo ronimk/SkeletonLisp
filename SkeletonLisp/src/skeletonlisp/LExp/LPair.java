@@ -1,7 +1,7 @@
 
 package skeletonlisp.LExp;
 
-public class LPair extends LExp {
+public class LPair extends LValue {
     LExp car;
     LExp cdr;
     

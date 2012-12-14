@@ -8,7 +8,7 @@ package skeletonlisp.LExp;
  *
  * @author root
  */
-public class LString extends LExp {
+public class LString extends LValue {
 
     public LString(String value) {
         super(LExpConstants.LStringType, value);

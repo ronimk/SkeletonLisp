@@ -96,32 +96,35 @@ public class CharacterParser {
     return newExp;
     }
     
-    public static boolean onlyDigits(String exp) {
-        return exp.matches("[0-9]*");
-    }
-    
-    public static boolean onlyDigitsWithOneDot(String exp) {
-       int dotAt = exp.indexOf(".");
-       
-       if (dotAt == -1) {
-           return false;
-       } else {
-           return onlyDigits(exp.substring(0, dotAt)) &&
-                  onlyDigits(exp.substring(dotAt+1)); 
-       }
-       
-    }
-    
     public static String removeLeadingZeroes(String exp) {
-        String newExp = exp;
+        boolean isSigned = false;
+        String newExp;
+        
+        if (exp.charAt(0) == '-') {
+            isSigned = true;
+            newExp = exp.substring(1);
+        } else {
+            newExp = exp;
+        }
+
         while (true) {
             if (newExp == null || newExp.isEmpty()) {
                 return "0";
-            } else if (newExp.startsWith("0")) {
+            } else if (newExp.charAt(0) == '0') {
                 newExp = newExp.substring(1);
             } else {
-                return newExp;
+                break;
             }
         }
+        
+        if (newExp.charAt(0) == '.') {
+            newExp = "0" + newExp;
+        }
+        
+        if (isSigned) {
+            newExp = "-" + newExp;
+        }
+        
+        return newExp;
     }
 }

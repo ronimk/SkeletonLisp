@@ -68,10 +68,10 @@ public class ApplicationParserTest {
         @Test
     public void uudenApplicationinParametriArvotOikeat() {
         try {
-            LExp app = ApplicationParser.makeNewApplication("(f 2 't '(t atom))");
+            LExp app = ApplicationParser.makeNewApplication("(f 2 't f)");
             
             ArrayList<LExp> vals = ((LApplication)app).getVals();
-            assertEquals("2 t (list t atom)", vals.get(0).toString() + " " +
+            assertEquals("2 t f", vals.get(0).toString() + " " +
                                               vals.get(1).toString() + " " +
                                               vals.get(2).getBody().toString());
         } catch (Exception e) {
@@ -98,7 +98,7 @@ public class ApplicationParserTest {
             
             assertEquals(LExpConstants.LAppicationType, app.getType());
         } catch (Exception e) {
-            assertEquals("0.23 is not an identifier nor lambda", e.getMessage());
+            assertEquals("0.23 is not a proper procedure", e.getMessage());
         }
     }
     

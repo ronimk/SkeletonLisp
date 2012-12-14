@@ -8,7 +8,7 @@ package skeletonlisp.LExp;
  *
  * @author root
  */
-public class LError extends LExp {
+public class LError extends LValue {
     private String message;
     
     public LError(String _message) {

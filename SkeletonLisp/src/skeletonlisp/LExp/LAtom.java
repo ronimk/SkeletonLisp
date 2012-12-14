@@ -8,17 +8,13 @@ package skeletonlisp.LExp;
  *
  * @author root
  */
-public class LDouble extends LValue {
-    double value;
-    
-    public LDouble(String _body) {
-        super(LExpConstants.LDoubleType, _body);
-        
-        value = Double.parseDouble(_body);
+public class LAtom extends LValue {
+    public LAtom(String _body) {
+        super(LExpConstants.LAtomType, _body);
     }
     
-    public double getValue() {
-        return value;
+    public String getAtom() {
+        return getBody();
     }
     
     @Override

@@ -179,11 +179,6 @@ public class WordParserTest {
     }
     
     @Test
-    public void addToTheBeginningOfParenthesizedWordToimii() {
-        assertEquals("(add me to the beginning)", WordParser.addToTheBeginningOfParenthesizedWord("add", "(me to the beginning)"));
-    }
-    
-    @Test
     public void isAtomicWordPalauttaaFalseKunEiOle() {
         assertFalse(WordParser.isAtomicWord("test my parser, please"));
         assertFalse(WordParser.isAtomicWord(("()")));

@@ -13,10 +13,10 @@ public class Parser {
                 return new LInt(CharacterParser.removeLeadingZeroes(formalExp));
             } else if (ExpParser.isDouble(formalExp)) {
                 return new LDouble(CharacterParser.removeLeadingZeroes(formalExp));
-            } else if (ExpParser.isId(formalExp)) {
-                return new LId(formalExp);
-            } else if (ExpParser.equalsNIL(formalExp)) {
+            } else if (ExpParser.isNIL(formalExp)) {
                 return new NIL();
+            }  else if (ExpParser.isId(formalExp)) {
+                return new LId(formalExp);
             } else {
                 return new LError(formalExp);
             }
@@ -28,13 +28,7 @@ public class Parser {
             if (ExpParser.isEmptyList(quoteBody)) {
                 return new NIL();
             } else if (ExpParser.isId(quoteBody)) {
-                return new LId(quoteBody);
-            } else if (WordParser.isParenthesizedWord(quoteBody)) {
-                try {
-                    return ApplicationParser.makeNewApplication(WordParser.addToTheBeginningOfParenthesizedWord("list", quoteBody));
-                } catch (Exception e) {
-                    return new LError(e.getMessage() + " in: " + formalExp);
-                }
+                return new LAtom(quoteBody);
             } else {
                 return new LError("Syntax error in: " + formalExp);
             }
@@ -45,14 +39,11 @@ public class Parser {
                 } catch (Exception e) {
                     return new LError(e.getMessage());
                 }
-            } else if (ExpParser.isApplication(formalExp)) {
-                try {
-                    return ApplicationParser.makeNewApplication(formalExp);
-                } catch (Exception e) {
-                    return new LError(e.getMessage() + " in: " + formalExp);
-                }
-            } else {
-                return new LError("BSyntax error in " + formalExp);
+            } else try { // formalExp must be either an application
+                         // or an improper expression
+                return ApplicationParser.makeNewApplication(formalExp);
+            } catch (Exception e) {
+                return new LError(e.getMessage() + " in: " + formalExp);
             }
         } else {
             return new LError("Syntax error in  " + formalExp);

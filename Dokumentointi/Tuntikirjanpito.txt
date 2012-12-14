@@ -95,12 +95,17 @@
  
  13.12 Torstai
  -------------
- ~1h:	 Muutamia virheitä vielä ratkastu parserista, pari jäi jäljelle, mitä
-		 pitää vielä hoitaa: Numeroille (kokonaisluvut ja liukuluvut) pitää
-		 sallia myös negatiivisten arvojen parserointi. Ja Application täytyy
-		 vielä testata silloin kun funktiona toimii monimutkaisempi lause
-		 (lambda, tai toinen applikaatio).
-		 Testejä myös tehty muutama lisää...
+ ~3h:	 * Muutamia virheitä vielä ratkastu parserista, pari jäi jäljelle, mitä
+		   pitää vielä hoitaa: Numeroille (kokonaisluvut ja liukuluvut) pitää
+		   sallia myös negatiivisten arvojen parserointi. Ja Application täytyy
+		   vielä testata silloin kun funktiona toimii monimutkaisempi lause
+		   (lambda, tai toinen applikaatio).
+		 * Nyt LExp-paketti sisältää kaikki L-lausetyypit.
+		 * Parseriin pitää kirjoittaa vielä tuki Cond-lauseiden luomiselle.
+		 * Testejä myös tehty muutama lisää.
+		 * Koodia alettu kommentoimaan paremmin
+		 * LExpin osalta luokkakaavio piirretty uusiksi; se pitää vielä
+		   skannata.
  
        
  TODO
