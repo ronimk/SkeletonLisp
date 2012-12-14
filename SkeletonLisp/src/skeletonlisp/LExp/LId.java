@@ -11,6 +11,17 @@ public class LId extends LExp {
     }
     
     @Override
+    public boolean equals(Object o) {
+        return (o.getClass() == this.getClass()) &&
+               (((LId) o).getId().equals(this.getId()));
+    }
+    
+    @Override
+    public int hashCode() {
+        return getBody().hashCode();
+    }
+    
+    @Override
     public String toString() {
         return getBody();
     }

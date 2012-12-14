@@ -107,14 +107,27 @@
 		 * LExpin osalta luokkakaavio piirretty uusiksi; se pitää vielä
 		   skannata.
  
-       
+ 14.12 Perjantai
+ ---------------
+ ~4h:    * Parseria vielä vähän siistitty.
+         * Environment luotu: käytännössä Environment on vain HashMap-Olio,
+           joka varastoi tunnisteita ja niihin sidottja arvoja
+           (yhdellä tunnisteella voi olla yksi arvo) ja kontrolloi arvojen
+           hakua, etsintää sekä uusien arvojen lisäämistä.
+         * Evaluaattorin luominen aloitettu.
+         * Luokkakaaviota päivitetty myös ohjelman toiminnallisten osien
+           kohdalta; jälleen täytyy skannata ne koneelle.
+         * Kun evaluaattori on valmis, alkaa laajempi integraatiotestaus,
+           ja kun kaikki on saatu toimimaan kunnolla, Parseri refaktoroidaan
+           vielä kerran paremmaksi, niiltä osin mitä pystyy, ja dokumentoinnit
+           laitetaan kuntoon, ja sitten jos vielä jää aikaa, mietitään, voiko/eh-
+           tiikö ohjelmaan lisätä laajempia toiminnallisuuksia.
+           (kuten set! proseduurin sekä tiedostosta ohjelmakoodin luvun).
+           
  TODO
  ----
  päivitä luokkakaavio vastaamaan nykytilannetta
  muutenkin päivitä dokumentointia
- Luo Environmentille luuranko
- Mieti tarvitaanko erikseen Bool-tyyppiä, mikäli kuitenkin kaikki mahdolliset
- "nil":stä tai "#f":stä poikkeavat arvot ovat automaattisesti "True"...
  Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
  
  Ongelmakohtia
@@ -122,3 +135,11 @@
  1. Parseri joutuu useaan otteeseen tekemään samaa työtä (esim. tarkistaa onko
  kyseessä sulkeiden sisällä oleva L-Lause. Nämä turhat tarkistukset ovat melko
  kömpelöitä.
+ 
+ 2. Tässä mallissa Evaluaattori joutuu vielä ainakin Lambda-lausekkeiden
+    bodien osalta ja cond-bodien osalta parseroimaan uudestaan samaa lausetta:
+    toki, näitä osia ei ole ennestään kovin kummoisesti parseroitu,
+    mutta tehdäänkö tässä kuitenkin vähän niinkuin tuplasti työtä?
+ 
+Parseri näyttäisi tosiaan siis olevan (kuten jo ennakkoon otaksuinkin) se
+ehdottomasti haastavin osio.

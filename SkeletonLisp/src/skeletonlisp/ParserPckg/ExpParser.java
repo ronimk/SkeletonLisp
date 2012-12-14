@@ -6,6 +6,21 @@ public class ExpParser {
         return WordParser.firstWord(WordParser.unwrapParenthesizedWord(exp)).toLowerCase().equals("lambda");
     }
     
+    public static boolean isApplication(String exp) {
+        return ExpParser.isId(WordParser.firstWord(WordParser.unwrapParenthesizedWord(exp))) ||
+               WordParser.isParenthesizedWord(exp);
+    }
+    
+    public static boolean isCond(String exp) {
+        return (WordParser.firstWord(WordParser.unwrapParenthesizedWord(exp)).toLowerCase().equals("cond"));        
+    }
+    
+    public static boolean isId(String exp) {
+        return !ParserConstants.digits.contains(exp.substring(0, 1)) &&
+               WordParser.isAtomicWord(exp);
+    }
+ 
+    
     public static boolean isQuote(String exp) {
         return exp.charAt(0) == '\'';
     }
@@ -41,17 +56,6 @@ public class ExpParser {
         }
         
         return true;
-    }
-    
-    public static boolean isId(String exp) {
-        return !ParserConstants.digits.contains(exp.substring(0, 1)) &&
-               WordParser.isAtomicWord(exp);
-    }
-    
-    public static boolean isApplication(String exp) {
-        String firstWord = WordParser.firstWord(WordParser.unwrapParenthesizedWord(exp));
-        
-        return ExpParser.isId(firstWord) ||
-               WordParser.isParenthesizedWord(exp);
-    }
+    }   
+
 }

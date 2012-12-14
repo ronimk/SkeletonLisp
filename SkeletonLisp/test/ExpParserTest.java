@@ -107,4 +107,14 @@ public class ExpParserTest {
     public void isNILPalauttaaTrueKunOnNiL() {
         assertTrue(ExpParser.isNIL("NiL"));
     }
+    
+    @Test
+    public void isCondPalauttaaTrueKunProseduuriOnCond() {
+        assertTrue(ExpParser.isCond("(cond ((> x 6) 1) ((= x 6) 0) (else -1))"));
+    }
+    
+    @Test
+    public void isCondPalauttaaFalseKunProseduuriEiOleCond() {
+        assertFalse(ExpParser.isCond("(add ((> x 6) 1) ((= x 6) 0) (else -1))"));
+    }
 }

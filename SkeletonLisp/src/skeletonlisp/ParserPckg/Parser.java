@@ -39,6 +39,12 @@ public class Parser {
                 } catch (Exception e) {
                     return new LError(e.getMessage());
                 }
+            } else if (ExpParser.isCond(formalExp)) {
+                try {
+                    return CondParser.makeANewCond(formalExp);
+                } catch (Exception e) {
+                    return new LError(e.getMessage());
+                }
             } else try { // formalExp must be either an application
                          // or an improper expression
                 return ApplicationParser.makeNewApplication(formalExp);
