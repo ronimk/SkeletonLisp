@@ -124,6 +124,11 @@
            tiikö ohjelmaan lisätä laajempia toiminnallisuuksia.
            (kuten set! proseduurin sekä tiedostosta ohjelmakoodin luvun).
            
+15.12 Lauantai
+--------------
+
+~1,5h:	 * Evaluaattorin rakennus edistynyt hieman.          
+           
  TODO
  ----
  päivitä luokkakaavio vastaamaan nykytilannetta

@@ -4,7 +4,7 @@
 // * LValues are the simplest expressions possible - they cannot
 //   be simplified anymore
 //
-// * LIds are LOOKed UP in the environment provided to the
+// * LIDs are LOOKed UP IN the ENVironment provided to the
 //   evaluator, and the bound value is returned: if the Id is
 //   not found in the environment provided, an exception is raised
 //   (therefore, even though the primitive functions that
@@ -34,38 +34,70 @@ import skeletonlisp.LExp.*;
 
 public class Evaluator {
     
-    public Evaluator() {
-        
-    }
-    
     public LExp eval(LExp exp, Environment env) {
         if (exp.getClass().getSuperclass().equals(LValue.class)) {
             return exp;
-        } else if (exp.getType().equals(LExpConstants.LIdType)) {
-            try {
-                return lookUp((LId) exp, env);
-            } catch (Exception e) {
-                return new LError("Id unbound");
-            }
-        } else if (exp.getType().equals(LExpConstants.LambdaType)) {
-            return new LString ("<anonymous procedure>");
-        } else if (exp.getType().equals(LExpConstants.LCondType)) {
-            return new LString ("Not implemented yet");
         } else {
-            LApplication app = (LApplication) exp;
-            return apply(app.getProcedure(), app.getVals(), env);
+            String type = exp.getType();
+            
+            if (type.equals(LExpConstants.LIdType)) {
+                try {
+                    return lookupIdInEnv((LId) exp, env);
+              } catch (Exception e) {
+                  return new LError("Id unbound");
+              }
+            } else if (type.equals(LExpConstants.LambdaType)) {
+                return new LString ("<anonymous procedure>");
+            } else if (type.equals(LExpConstants.LCondType)) {
+                return new LString ("Not implemented yet");
+            } else {
+                LApplication app = (LApplication) exp;
+                try {
+                    return apply(app.getProcedure(), app.getVals(), env);
+                } catch (Exception e) {
+                    return new LError(e.getMessage());
+                }
+            }
         }
     }
     
-    public LExp apply(LExp procedure, ArrayList<LExp> paramVals, Environment env) {
+    private LExp apply(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
+        String type = procedure.getType();
+        if (type.equals(LExpConstants.LambdaType)) {
+            applyLambda(procedure, paramVals, env);
+        } else if (type.equals(LExpConstants.LAppicationType)) {
+            return apply(eval(procedure, env), paramVals, env);
+        } else if (type.equals(LExpConstants.LIdType)) {
+            LExp app = lookupIdInEnv((LId)procedure, env);
+            
+            if (app == null) {
+                applyPrimitive(procedure, paramVals,env);
+            } else {
+                apply(eval(app, env), paramVals, env);
+            }
+            
+            return new LString("<not implemented yet>");
+        } else {
+            throw new IllegalArgumentException("Not a proper application: " + procedure);
+        }
         return new LString("<not implemented yet>");
     }
     
-    public LExp applyPrimitive(LApplication app) throws Exception {
+    private LExp applyLambda(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
+        return new LString("<not implemented yet>");        
+    }
+        
+    private LExp applyPrimitive(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
+        String body = procedure.getBody();
+        
+        if (body.equals("exit")) {
+            
+        }
+        
         return new LString("<not implemented yet>");        
     }
     
-    public LExp lookUp(LId id, Environment env) throws Exception {
+    private LExp lookupIdInEnv(LId id, Environment env) throws Exception {
         if (env.containsId(id)) {
             return env.getValueOf(id);
         } else {
