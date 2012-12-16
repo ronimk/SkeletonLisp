@@ -116,7 +116,12 @@ public class WordParser {
     }
     
     public static boolean isAtomicWord(String exp) {
-        return !ParserConstants.reservedStartingLetters.contains(exp.substring(0,1)) &&
-               !exp.contains(" ");
+        for (int i=0; i<exp.length(); i++) {
+            if (ParserConstants.reservedLetters.contains(exp.substring(i, i+1))) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

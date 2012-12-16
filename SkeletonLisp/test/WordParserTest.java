@@ -187,8 +187,8 @@ public class WordParserTest {
     }
        
     @Test
-    public void isAtomicWordPalauttaaTrueKunEiOn() {
-        assertTrue(WordParser.isAtomicWord("tes8wuf908u0)+0d9fgt"));
+    public void isAtomicWordPalauttaaTrueKunOn() {
+        assertTrue(WordParser.isAtomicWord("tes8wuf908u0+0d9fgt"));
     }
     
 }

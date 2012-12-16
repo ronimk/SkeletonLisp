@@ -127,7 +127,17 @@
 15.12 Lauantai
 --------------
 
-~1,5h:	 * Evaluaattorin rakennus edistynyt hieman.          
+~1,5h:	 * Evaluaattorin rakennus edistynyt hieman.
+
+16.12 Sunnuntai
+---------------
+
+20 min:   * Aihemäärittely ja toiminnallisuus päivitetty
+1h:		  * Nyt atomit toimivat järkevästi: ne eivät voi sisältää
+			merkkejä, jotka voisivat sekoittaa parserin toimintaa
+			(lähinnä sulkumerkit, tyhjä merkki, ja '\').
+		  * Lisäksi jotain pientä hienosäätöä evaluaattorin rakenteeseen,
+		    ennen kuin varsinainen "raskas työ" alkaa...
            
  TODO
  ----

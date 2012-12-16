@@ -24,7 +24,17 @@
 //
 // * And last but not least, Applications are APPLY()-ed and the
 //   result of the applying process is returned.
+//   Applying an application depends on the type of the application:
+//   all applications are first reduced to either a primitive
+//   application (which is then handled in applyPrimitive(),
+//   or to a lambda (which is handled in applyLambda().
+//   if the application is not already a lambda, or a primitive,
+//   then either its' Id is lookedUp in the environment provided
+//   to apply(), or it's application part is evaluated with
+//   eval(), again using the environment provided to apply().
 //
+//   evalParameterValues is used before the values are evaluated in
+//   the procedure/primitive.
 
 package skeletonlisp;
 
@@ -61,26 +71,27 @@ public class Evaluator {
         }
     }
     
+    public LExp evalParamVals(LExp exp, Environment env) {
+        return new LString("<not implemented yet>");
+    }
+    
     private LExp apply(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
         String type = procedure.getType();
         if (type.equals(LExpConstants.LambdaType)) {
-            applyLambda(procedure, paramVals, env);
+            return applyLambda(procedure, paramVals, env);
         } else if (type.equals(LExpConstants.LAppicationType)) {
             return apply(eval(procedure, env), paramVals, env);
         } else if (type.equals(LExpConstants.LIdType)) {
             LExp app = lookupIdInEnv((LId)procedure, env);
             
             if (app == null) {
-                applyPrimitive(procedure, paramVals,env);
+                return applyPrimitive(procedure, paramVals,env);
             } else {
-                apply(eval(app, env), paramVals, env);
+                return apply(app, paramVals, env);
             }
-            
-            return new LString("<not implemented yet>");
         } else {
             throw new IllegalArgumentException("Not a proper application: " + procedure);
         }
-        return new LString("<not implemented yet>");
     }
     
     private LExp applyLambda(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
