@@ -31,7 +31,7 @@ public class LambdaParser {
         }
               
         try {          
-            return new Lambda(exp, LambdaParser.makeVarList(varsWord), LambdaParser.lambdaBody(unwrappedLambdaExp), isAListParameter);
+            return new Lambda(exp, makeVarList(varsWord), lambdaBody(unwrappedLambdaExp), isAListParameter);
             } catch (Exception e) {
                 throw new Exception(e.getMessage() + ": " + exp);
         }
@@ -60,13 +60,27 @@ public class LambdaParser {
 
     }
   
-    private static String lambdaBody(String unwrappedLambdaExp) throws Exception {
-        String body = WordParser.thirdWord(unwrappedLambdaExp);
+    private static ArrayList<String> lambdaBody(String unwrappedLambdaExp) throws Exception {
+        String body = WordParser.allButFirstWord(WordParser.allButFirstWord(unwrappedLambdaExp));
         
         if (body.isEmpty()) {
             throw new IllegalArgumentException("A procedure must have a body");
         } else {
-            return body;
+            ArrayList<String> lambdaBody = new ArrayList<String>();
+            
+            while (true) {
+                String nextExpression = WordParser.firstWord(body);
+                
+                if (nextExpression.isEmpty()) {
+                    break;
+                } else {
+                    lambdaBody.add(nextExpression);
+                    
+                    body = WordParser.allButFirstWord(body);
+                }
+            }
+            
+            return lambdaBody;
         }
     }    
 }

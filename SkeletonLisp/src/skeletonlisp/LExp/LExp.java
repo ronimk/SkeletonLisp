@@ -7,7 +7,7 @@ public abstract class LExp {
     
     public LExp(String _type, String _body) {
         type = _type;
-        body = _body;
+        body = _body.toUpperCase();
     }
     
     public String getType() {

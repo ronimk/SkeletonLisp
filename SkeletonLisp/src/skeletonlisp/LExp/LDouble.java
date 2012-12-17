@@ -9,12 +9,17 @@ package skeletonlisp.LExp;
  * @author root
  */
 public class LDouble extends LValue {
-    double value;
+    private double value;
     
     public LDouble(String _body) {
         super(LExpConstants.LDoubleType, _body);
         
         value = Double.parseDouble(_body);
+    }
+    
+    public LDouble(double _value) {
+        super(LExpConstants.LDoubleType, String.valueOf(_value));
+        value = _value;
     }
     
     public double getValue() {

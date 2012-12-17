@@ -15,10 +15,8 @@ public class Parser {
                 return new LDouble(CharacterParser.removeLeadingZeroes(formalExp));
             } else if (ExpParser.isNIL(formalExp)) {
                 return new NIL();
-            }  else if (ExpParser.isId(formalExp)) {
+            }  else {
                 return new LId(formalExp);
-            } else {
-                return new LError(formalExp);
             }
         } else if (ExpParser.isString(formalExp)) {
             return new LString(formalExp);
@@ -30,7 +28,7 @@ public class Parser {
             } else if (ExpParser.isId(quoteBody)) {
                 return new LAtom(quoteBody);
             } else {
-                return new LError("Syntax error in: " + formalExp);
+                return new LError("Syntax error in " + formalExp);
             }
         } else if (WordParser.isParenthesizedWord(formalExp)) {
             if (ExpParser.isLambda(formalExp)) {

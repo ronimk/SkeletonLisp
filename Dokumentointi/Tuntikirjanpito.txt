@@ -138,9 +138,19 @@
 			(lähinnä sulkumerkit, tyhjä merkki, ja '\').
 		  * Lisäksi jotain pientä hienosäätöä evaluaattorin rakenteeseen,
 		    ennen kuin varsinainen "raskas työ" alkaa...
+		    
+17.12 Maanantai
+---------------
+~4h:	  * Siivottu vielä vähän parseria, ja rakenettu Evaluaattorin oikeasti
+		    toimiva ensimmäinen versio: evaluaattori osaa nyt laskea
+		    +, -, / ja * -laskuja puhtailla numeroilla sekä monimutkaisempia
+		    +,-,*,/ -operaatioita sisältäviä +, -, *, / -laskuja.
            
  TODO
  ----
+  +,-,*,/ -laskuille: entä jos käyttäjä yrittää tehdä laskutoimituksen, jonka
+					  tulos ei mahdu Javan int-tai double-tyyppiseen lukuun?
+					  Jonkinlainen virheentarkistus oisi tällöin paikoillaan...
   Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
  
  Ongelmakohtia
@@ -153,6 +163,9 @@
     bodien osalta ja cond-bodien osalta parseroimaan uudestaan samaa lausetta:
     toki, näitä osia ei ole ennestään kovin kummoisesti parseroitu,
     mutta tehdäänkö tässä kuitenkin vähän niinkuin tuplasti työtä?
+    
+3. Evaluaattori on muuten varsin kiva, mutta sen ApplyPrimitive:stä taitaa
+   tulla aivan turhan liian sotkuinen.
  
 Parseri näyttäisi tosiaan siis olevan (kuten jo ennakkoon otaksuinkin) se
 ehdottomasti haastavin osio.

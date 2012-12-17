@@ -8,6 +8,6 @@ public class NIL extends LValue {
     
     @Override
     public String toString() {
-        return "nil";
+        return "NIL";
     }
 }

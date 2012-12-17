@@ -2,8 +2,8 @@
 package skeletonlisp.LExp;
 
 public class LPair extends LValue {
-    LExp car;
-    LExp cdr;
+    private LExp car;
+    private LExp cdr;
     
     public LPair(String _body, LExp _car, LExp _cdr) {
         super(LExpConstants.LPairType, _body);

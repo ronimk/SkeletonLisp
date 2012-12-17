@@ -3,7 +3,7 @@ package skeletonlisp.ParserPckg;
 
 public class ExpParser {
     public static boolean isLambda(String exp) {       
-        return WordParser.firstWord(WordParser.unwrapParenthesizedWord(exp)).toLowerCase().equals("lambda");
+        return WordParser.firstWord(WordParser.unwrapParenthesizedWord(exp)).toUpperCase().equals("LAMBDA");
     }
     
     public static boolean isApplication(String exp) {
@@ -12,7 +12,7 @@ public class ExpParser {
     }
     
     public static boolean isCond(String exp) {
-        return (WordParser.firstWord(WordParser.unwrapParenthesizedWord(exp)).toLowerCase().equals("cond"));        
+        return (WordParser.firstWord(WordParser.unwrapParenthesizedWord(exp)).toUpperCase().equals("COND"));        
     }
     
     public static boolean isId(String exp) {
@@ -29,7 +29,7 @@ public class ExpParser {
         return exp.equals("()");
     }
     public static boolean isNIL(String exp) {
-        return exp.toLowerCase().equals("nil");
+        return exp.toUpperCase().equals("NIL");
     }
     
     public static boolean isString(String exp) {

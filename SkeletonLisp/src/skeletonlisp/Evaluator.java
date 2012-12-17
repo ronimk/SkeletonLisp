@@ -71,23 +71,32 @@ public class Evaluator {
         }
     }
     
-    public LExp evalParamVals(LExp exp, Environment env) {
-        return new LString("<not implemented yet>");
+    public ArrayList<LExp> evalParamVals(ArrayList<LExp> params, Environment env) {
+        ArrayList<LExp> vals = new ArrayList<LExp>();
+        
+        for (int i=0; i<params.size(); i++) {
+            vals.add(eval(params.get(i), env));
+        }
+        
+        return vals;
     }
     
     private LExp apply(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
         String type = procedure.getType();
         if (type.equals(LExpConstants.LambdaType)) {
-            return applyLambda(procedure, paramVals, env);
+            return applyLambda(procedure, evalParamVals(paramVals, env), env);
         } else if (type.equals(LExpConstants.LAppicationType)) {
             return apply(eval(procedure, env), paramVals, env);
         } else if (type.equals(LExpConstants.LIdType)) {
-            LExp app = lookupIdInEnv((LId)procedure, env);
-            
-            if (app == null) {
-                return applyPrimitive(procedure, paramVals,env);
-            } else {
+            try {
+                LExp app = lookupIdInEnv((LId)procedure, env);
                 return apply(app, paramVals, env);
+            } catch (Exception e1) {
+                try {
+                    return applyPrimitive(procedure, evalParamVals(paramVals, env), env);
+                } catch (Exception e2) {
+                    return new LError(e2.getMessage());
+                }
             }
         } else {
             throw new IllegalArgumentException("Not a proper application: " + procedure);
@@ -103,6 +112,151 @@ public class Evaluator {
         
         if (body.equals("exit")) {
             
+        } else if (body.equals("+")) {
+            boolean doubleResult = false;
+            
+            for (int i=0; i<paramVals.size(); i++) {
+                LExp nextParam = paramVals.get(i);
+                if (nextParam.getType().equals(LExpConstants.LDoubleType)) {
+                    doubleResult = true;
+                } else if (!nextParam.getType().equals(LExpConstants.LIntType)) {
+                    throw new IllegalArgumentException("Trying to add a non-number");
+                }
+            }
+            
+            if (!doubleResult) {
+                int result = 0;
+                
+                for (int i=0; i<paramVals.size(); i++) {
+                    LInt nextParam = (LInt)paramVals.get(i);
+                    result += nextParam.getValue();
+                }
+                
+                return new LInt(result);
+            } else {
+                double result = 0.0;
+                
+                for (int i=0; i<paramVals.size(); i++) {
+                    LExp nextParam = paramVals.get(i);
+                    if (nextParam.getType().equals(LExpConstants.LIntType)) {
+                        result += ((LInt)nextParam).getValue();
+                    } else {
+                        result += ((LDouble)nextParam).getValue();
+                    }
+                }
+                
+                return new LDouble(result);
+            }
+        } else if (body.equals("-")) {
+            boolean doubleResult = false;
+            
+            for (int i=0; i<paramVals.size(); i++) {
+                LExp nextParam = paramVals.get(i);
+                if (nextParam.getType().equals(LExpConstants.LDoubleType)) {
+                    doubleResult = true;
+                } else if (!nextParam.getType().equals(LExpConstants.LIntType)) {
+                    throw new IllegalArgumentException("Trying to subtract a non-number");
+                }
+            }
+            
+            if (!doubleResult) {
+                int result = ((LInt)paramVals.get(0)).getValue();
+                
+                if (paramVals.size()==1) {
+                    return new LInt(-result);
+                }
+                
+                for (int i=1; i<paramVals.size(); i++) {
+                    LInt nextParam = (LInt)paramVals.get(i);
+                    result -= nextParam.getValue();
+                }
+                
+                return new LInt(result);
+            } else {
+                LExp firstVal = paramVals.get(0);
+                double result = 0.0;
+                
+                if (firstVal.getType().equals(LExpConstants.LIntType)) {
+                    result = ((LInt)firstVal).getValue();
+                } else {
+                    result = ((LDouble)firstVal).getValue();
+                }
+                
+                if (paramVals.size()==1) {
+                    return new LDouble(-result);
+                }
+                
+                for (int i=1; i<paramVals.size(); i++) {
+                    LExp nextParam = paramVals.get(i);
+                    if (nextParam.getType().equals(LExpConstants.LIntType)) {
+                        result -= ((LInt)nextParam).getValue();
+                    } else {
+                        result -= ((LDouble)nextParam).getValue();
+                    }
+                }
+                
+                return new LDouble(result);
+            }
+        } else if (body.equals("/")) {
+            LExp firstVal = paramVals.get(0);
+            double result = 0.0;
+                
+            if (firstVal.getType().equals(LExpConstants.LIntType)) {
+                result = ((LInt)firstVal).getValue();
+            } else if (firstVal.getType().equals(LExpConstants.LDoubleType)) {
+                result = ((LDouble)firstVal).getValue();
+            } else {
+                throw new IllegalArgumentException("Trying to divide a non-number");
+            }
+            
+            
+            for (int i=1; i<paramVals.size(); i++) {
+                LExp nextParam = paramVals.get(i);
+                if (nextParam.getType().equals(LExpConstants.LIntType)) {
+                    result /= ((LInt)nextParam).getValue();
+                } else if (nextParam.getType().equals(LExpConstants.LDoubleType)) {
+                    result /= ((LDouble)nextParam).getValue();
+                } else {
+                    throw new IllegalArgumentException("Trying to divide a non-number");
+                }
+            }            
+            return new LDouble(result);
+            
+        } else if (body.equals("*")) {
+            boolean doubleResult = false;
+            
+            for (int i=0; i<paramVals.size(); i++) {
+                LExp nextParam = paramVals.get(i);
+                if (nextParam.getType().equals(LExpConstants.LDoubleType)) {
+                    doubleResult = true;
+                } else if (!nextParam.getType().equals(LExpConstants.LIntType)) {
+                    throw new IllegalArgumentException("Trying to multipy a non-number");
+                }
+            }
+            
+            if (!doubleResult) {
+                int result = 1;
+                
+                for (int i=0; i<paramVals.size(); i++) {
+                    LInt nextParam = (LInt)paramVals.get(i);
+                    result *= nextParam.getValue();
+                }
+                
+                return new LInt(result);
+            } else {
+                double result = 1.0;
+                
+                for (int i=0; i<paramVals.size(); i++) {
+                    LExp nextParam = paramVals.get(i);
+                    if (nextParam.getType().equals(LExpConstants.LIntType)) {
+                        result *= ((LInt)nextParam).getValue();
+                    } else {
+                        result *= ((LDouble)nextParam).getValue();
+                    }
+                }
+                
+                return new LDouble(result);
+            }
         }
         
         return new LString("<not implemented yet>");        

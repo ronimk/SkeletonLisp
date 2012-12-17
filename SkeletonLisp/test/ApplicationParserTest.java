@@ -48,7 +48,7 @@ public class ApplicationParserTest {
         try {
             LExp app = ApplicationParser.makeNewApplication("(f 2)");
             
-            assertEquals("(f 2)", app.getBody());
+            assertEquals("(F 2)", app.getBody());
         } catch (Exception e) {
             assertTrue(false);
         }
@@ -59,7 +59,7 @@ public class ApplicationParserTest {
         try {
             LExp app = ApplicationParser.makeNewApplication("(f 2)");
             
-            assertEquals("f", ((LApplication)app).getProcedure().toString());
+            assertEquals("F", ((LApplication)app).getProcedure().toString());
         } catch (Exception e) {
             assertTrue(false);
         }
@@ -71,7 +71,7 @@ public class ApplicationParserTest {
             LExp app = ApplicationParser.makeNewApplication("(f 2 't f)");
             
             ArrayList<LExp> vals = ((LApplication)app).getVals();
-            assertEquals("2 t f", vals.get(0).toString() + " " +
+            assertEquals("2 T F", vals.get(0).toString() + " " +
                                               vals.get(1).toString() + " " +
                                               vals.get(2).getBody().toString());
         } catch (Exception e) {
