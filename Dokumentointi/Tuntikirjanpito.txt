@@ -141,9 +141,7 @@
            
  TODO
  ----
- päivitä luokkakaavio vastaamaan nykytilannetta
- muutenkin päivitä dokumentointia
- Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
+  Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
  
  Ongelmakohtia
  -------------
