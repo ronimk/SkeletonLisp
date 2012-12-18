@@ -6,7 +6,7 @@ public class LPair extends LValue {
     private LExp cdr;
     
     public LPair(String _body, LExp _car, LExp _cdr) {
-        super(LExpConstants.LPairType, _body);
+        super(LExpTypes.LPAIRTYPE, _body);
         car = _car;
         cdr = _cdr;
     }
@@ -22,9 +22,9 @@ public class LPair extends LValue {
     public String toStringWithoutParentheses() {
         String tail = "";
         
-        if (cdr.getType().equals(LExpConstants.LPairType)) {
+        if (cdr.getType() == (LExpTypes.LPAIRTYPE)) {
             tail = " " + ((LPair) cdr).toStringWithoutParentheses();
-        } else if (!cdr.getType().equals(LExpConstants.NILType)) {
+        } else if (cdr.getType() != (LExpTypes.NILTYPE)) {
             tail = " . " + cdr.toString();
         }
             return car.toString() + tail;

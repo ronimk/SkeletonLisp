@@ -2,17 +2,17 @@
 package skeletonlisp.LExp;
 
 
-public class LInt extends LValue {
+public class LInt extends LNumber {
     private int value;
     
     public LInt(String _body) {
-        super(LExpConstants.LIntType, _body);
+        super(LExpTypes.LINTTYPE, _body);
         
         value = Integer.parseInt(_body);
     }
     
     public LInt(int _value) {
-        super(LExpConstants.LIntType, String.valueOf(_value));
+        super(LExpTypes.LINTTYPE, String.valueOf(_value));
         value = _value;
     }
     

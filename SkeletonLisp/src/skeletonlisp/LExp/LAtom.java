@@ -9,8 +9,9 @@ package skeletonlisp.LExp;
  * @author root
  */
 public class LAtom extends LValue {
+    
     public LAtom(String _body) {
-        super(LExpConstants.LAtomType, _body);
+        super(LExpTypes.LATOMTYPE, _body);
     }
     
     public String getAtom() {

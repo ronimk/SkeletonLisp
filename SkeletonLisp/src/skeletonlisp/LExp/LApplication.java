@@ -8,7 +8,7 @@ public class LApplication extends LExp {
     private ArrayList<LExp> parameterValues;
     
     public LApplication(String _body, LExp _procedure, ArrayList<LExp> _parameterValues) {
-        super(LExpConstants.LAppicationType, _body);
+        super(LExpTypes.LAPPLICATIONTYPE, _body);
         procedure = _procedure;
         parameterValues = _parameterValues;
     }

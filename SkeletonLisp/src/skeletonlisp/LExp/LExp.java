@@ -2,15 +2,19 @@
 package skeletonlisp.LExp;
 
 public abstract class LExp {
-    private String type;
+    private LExpTypes type;
     private String body;
     
-    public LExp(String _type, String _body) {
+    public LExp(LExpTypes _type, String _body) {
         type = _type;
         body = _body.toUpperCase();
     }
     
-    public String getType() {
+    public LExpTypes getType() {
+        return type;
+    }
+    
+    public LExpTypes getSubType() {
         return type;
     }
     
@@ -20,6 +24,6 @@ public abstract class LExp {
     
     @Override
     public String toString() {
-        return type;
+        return type.toString();
     }
 }

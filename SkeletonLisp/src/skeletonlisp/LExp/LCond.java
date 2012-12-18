@@ -7,7 +7,7 @@ public class LCond extends LExp {
     private ArrayList<String> cases;
     
     public LCond(String _body, ArrayList<String> _cases) {
-        super(LExpConstants.LCondType, _body);
+        super(LExpTypes.LCONDTYPE, _body);
         
         cases = _cases;
     }

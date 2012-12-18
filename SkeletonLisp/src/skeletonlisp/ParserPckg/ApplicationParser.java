@@ -17,6 +17,8 @@
 //
 // if either the procedure part, or any of the value parts
 // are not proper, we return an error.
+// This of course means that errors are not first-class
+// citizens in SkeletonLisp...
 
 package skeletonlisp.ParserPckg;
 
@@ -30,10 +32,10 @@ public class ApplicationParser {
         String proc = WordParser.firstWord(unwrappedBody);
         LExp procedure = Parser.parseExpression(proc);
             
-        if (!procedure.getType().matches("(" + LExpConstants.LIdType + "|"
-                                             + LExpConstants.LambdaType + "|"
-                                             + LExpConstants.LAppicationType + "|"
-                                             + LExpConstants.LCondType + "|"
+        if (!procedure.getType().name().matches("(" + LExpTypes.LIDTYPE + "|"
+                                             + LExpTypes.LAMBDATYPE + "|"
+                                             + LExpTypes.LAPPLICATIONTYPE+ "|"
+                                             + LExpTypes.LCONDTYPE + "|"
                                              + ")")) {
             throw new IllegalArgumentException(proc + " is not a proper procedure");
         }
@@ -49,7 +51,7 @@ public class ApplicationParser {
                 
             LExp nextExp = Parser.parseExpression(first);
                 
-            if (nextExp.getType().equals(LExpConstants.LErrorType)) {
+            if (nextExp.getType() == LExpTypes.LERRORTYPE) {
                 throw new Exception("Illegal argument [" + first + "]");
             } else {
                 parameterValues.add(nextExp);

@@ -146,27 +146,8 @@
 		    +, -, / ja * -laskuja puhtailla numeroilla sekä monimutkaisempia
 		    +,-,*,/ -operaatioita sisältäviä +, -, *, / -laskuja.
            
-18.12 Tiistai
--------------
-~5h:	* uusi ongelmakohta havaittu (4)
-	* Tyyppien tyyppimääritelmät muutettu Stringeistä Enumeiksi
-	  (Eli; LExp sisältää nyt jäsenmuuttujan String type sijaan
-		jäsenmuuttujan LExpTypes type, ja LExpTypes on
-		ENUM).
-	* Lisäksi tyyppimääritelmiä parannettu niin, että nyt kaikki
-	  LIntit ja LDoublet ovat hierarkkisesti kantatyyppiä
-          LValue, subTyyppiä LNumber, ja numerotyyppiä LInt/LDouble
-	* Lisää primitiivifunktioita (nyt SkeletonLisp sisältää seuraavat
-	  primitiivit: (+, -, /, *, <, <=, =, >=), jotka on määritelty
-	  R4RS-standardin mukaisiksi
-	  (TODO: Tarkista vielä, että näin oo, eikä huolimattomuudessa ole
-		unohtunut esim. jonkun vertailuoperaattorin default-arvoja
-		kun niitä kutsutaan ilman parametreja...)
-
  TODO
  ----
-  Päivitä luokkakaavio Deadline II:ta varten!!! (se ei pakosti onnistu, sillä
-	en ole varma pääsenkö toimivan skannerin luo ennen DeadLine II:hta).
   +,-,*,/ -laskuille: entä jos käyttäjä yrittää tehdä laskutoimituksen, jonka
 					  tulos ei mahdu Javan int-tai double-tyyppiseen lukuun?
 					  Jonkinlainen virheentarkistus oisi tällöin paikoillaan...
@@ -186,10 +167,8 @@
 3. Evaluaattori on muuten varsin kiva, mutta sen ApplyPrimitive:stä taitaa
    tulla aivan turhan liian sotkuinen.
 
-4. LErroreilla ei ole first class citizen -statusta, tämä lienee korjauksen
-   paikka... (ainakin ApplicationParser alkaa herjaamaan, mikäli
-	      sille yrittää syöttää applikaatiota, joka saa arvokseen
-	      LErrorin...)
+4. Erroreilla ei ole first class citizen -statusta, tämä lienee korjauksen
+   paikka...
  
 Parseri näyttäisi tosiaan siis olevan (kuten jo ennakkoon otaksuinkin) se
 ehdottomasti haastavin osio.

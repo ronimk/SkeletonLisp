@@ -9,7 +9,7 @@ public class Lambda extends LExp {
     private ArrayList<String> lambdaBody;
     
     public Lambda(String _body, ArrayList<LId> _vars, ArrayList<String> _lambdaBody, boolean _aListParameter) {
-        super(LExpConstants.LambdaType, _body);
+        super(LExpTypes.LAMBDATYPE, _body);
         aListParameter = _aListParameter;
         vars = _vars;
         lambdaBody = _lambdaBody;
@@ -29,6 +29,6 @@ public class Lambda extends LExp {
     
     @Override
     public String toString() {
-        return super.getType();
+        return super.getType().name();
     }
 }

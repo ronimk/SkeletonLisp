@@ -12,7 +12,7 @@ public class LString extends LValue {
     private String value;
     
     public LString(String _value) {
-        super(LExpConstants.LStringType, _value);
+        super(LExpTypes.LSTRINGTYPE, _value);
         value = _value;
     }
     

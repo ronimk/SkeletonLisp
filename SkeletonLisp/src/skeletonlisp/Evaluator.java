@@ -49,29 +49,27 @@ public class Evaluator {
     private PrimitiveApplier primitiveApplier = new PrimitiveApplier();
     
     public LExp eval(LExp exp, Environment env) {
-        if (exp.getClass().getSuperclass().equals(LValue.class)) {
-            return exp;
-        } else {
-            String type = exp.getType();
-            
-            if (type.equals(LExpConstants.LIdType)) {
-                try {
-                    return lookupIdInEnv((LId) exp, env);
-              } catch (Exception e) {
-                  return new LError("Id unbound");
-              }
-            } else if (type.equals(LExpConstants.LambdaType)) {
-                return new LString ("<anonymous procedure>");
-            } else if (type.equals(LExpConstants.LCondType)) {
-                return new LString ("Not implemented yet");
-            } else {
-                LApplication app = (LApplication) exp;
-                try {
-                    return apply(app.getProcedure(), app.getVals(), env);
-                } catch (Exception e) {
-                    return new LError(e.getMessage());
-                }
-            }
+        switch (exp.getType()) {
+            case LVALUETYPE:        return exp;
+                
+            case LIDTYPE:           try {
+                                        return lookupIdInEnv((LId) exp, env);
+                                    } catch (Exception e) {
+                                        return new LError("Id unbound");
+                                    }
+                
+            case LAMBDATYPE:        return new LString ("<anonymous procedure>");
+                
+            case LCONDTYPE:         return new LString ("Not implemented yet");
+                
+            case LAPPLICATIONTYPE:  LApplication app = (LApplication) exp;
+                                    try {
+                                        return apply(app.getProcedure(), app.getVals(), env);
+                                    } catch (Exception e) {
+                                        return new LError(e.getMessage());
+                                    }
+                
+            default:                return new LError("Syntax Error");
         }
     }
     
@@ -86,24 +84,25 @@ public class Evaluator {
     }
     
     private LExp apply(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
-        String type = procedure.getType();
-        if (type.equals(LExpConstants.LambdaType)) {
-            return applyLambda(procedure, evalParamVals(paramVals, env), env);
-        } else if (type.equals(LExpConstants.LAppicationType)) {
-            return apply(eval(procedure, env), paramVals, env);
-        } else if (type.equals(LExpConstants.LIdType)) {
-            try {
-                LExp app = lookupIdInEnv((LId)procedure, env);
-                return apply(app, paramVals, env);
-            } catch (Exception e1) {
-                try {
-                    return applyPrimitive(procedure, evalParamVals(paramVals, env), env);
-                } catch (Exception e2) {
-                    return new LError(e2.getMessage());
-                }
-            }
-        } else {
-            throw new IllegalArgumentException("Not a proper application: " + procedure);
+        LExpTypes type = procedure.getType();
+        
+        switch (procedure.getType()) {
+            case LAMBDATYPE :           return applyLambda(procedure, evalParamVals(paramVals, env), env);
+                
+            case LAPPLICATIONTYPE :     return apply(eval(procedure, env), paramVals, env);
+                
+            case LIDTYPE :              try {
+                                            LExp app = lookupIdInEnv((LId)procedure, env);
+                                            return apply(app, paramVals, env);
+                                        } catch (Exception e1) {
+                                            try {
+                                                return applyPrimitive(procedure, evalParamVals(paramVals, env), env);
+                                            } catch (Exception e2) {
+                                                return new LError(e2.getMessage());
+                                            }
+                                        }
+                
+            default:                     throw new IllegalArgumentException("Not a proper application: " + procedure);
         }
     }
     
@@ -130,6 +129,10 @@ public class Evaluator {
             return primitiveApplier.lessOrEqualThan(paramVals);
         } else if (body.equals("=")) {
             return primitiveApplier.areEquals(paramVals);
+        } else if (body.equals(">=")) {
+            return primitiveApplier.greaterOrEqualThan(paramVals);
+        } else if (body.equals(">")) {
+            return primitiveApplier.greaterThan(paramVals);
         }
         
         return new LString("<not implemented yet>");        
