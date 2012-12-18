@@ -26,7 +26,9 @@
 //   result of the applying process is returned.
 //   Applying an application depends on the type of the application:
 //   all applications are first reduced to either a primitive
-//   application (which is then handled in applyPrimitive(),
+//   application (which is then handled in applyPrimitive()
+//   (which itself uses a PrimitiveApplier-object to handle all
+//    the heavy stuff),
 //   or to a lambda (which is handled in applyLambda().
 //   if the application is not already a lambda, or a primitive,
 //   then either its' Id is lookedUp in the environment provided
@@ -43,6 +45,8 @@ import skeletonlisp.LExp.*;
 
 
 public class Evaluator {
+    
+    private PrimitiveApplier primitiveApplier = new PrimitiveApplier();
     
     public LExp eval(LExp exp, Environment env) {
         if (exp.getClass().getSuperclass().equals(LValue.class)) {
@@ -112,151 +116,20 @@ public class Evaluator {
         
         if (body.equals("exit")) {
             
-        } else if (body.equals("+")) {
-            boolean doubleResult = false;
-            
-            for (int i=0; i<paramVals.size(); i++) {
-                LExp nextParam = paramVals.get(i);
-                if (nextParam.getType().equals(LExpConstants.LDoubleType)) {
-                    doubleResult = true;
-                } else if (!nextParam.getType().equals(LExpConstants.LIntType)) {
-                    throw new IllegalArgumentException("Trying to add a non-number");
-                }
-            }
-            
-            if (!doubleResult) {
-                int result = 0;
-                
-                for (int i=0; i<paramVals.size(); i++) {
-                    LInt nextParam = (LInt)paramVals.get(i);
-                    result += nextParam.getValue();
-                }
-                
-                return new LInt(result);
-            } else {
-                double result = 0.0;
-                
-                for (int i=0; i<paramVals.size(); i++) {
-                    LExp nextParam = paramVals.get(i);
-                    if (nextParam.getType().equals(LExpConstants.LIntType)) {
-                        result += ((LInt)nextParam).getValue();
-                    } else {
-                        result += ((LDouble)nextParam).getValue();
-                    }
-                }
-                
-                return new LDouble(result);
-            }
+        } else if (body.equals("+")) { 
+            return primitiveApplier.add(paramVals);
         } else if (body.equals("-")) {
-            boolean doubleResult = false;
-            
-            for (int i=0; i<paramVals.size(); i++) {
-                LExp nextParam = paramVals.get(i);
-                if (nextParam.getType().equals(LExpConstants.LDoubleType)) {
-                    doubleResult = true;
-                } else if (!nextParam.getType().equals(LExpConstants.LIntType)) {
-                    throw new IllegalArgumentException("Trying to subtract a non-number");
-                }
-            }
-            
-            if (!doubleResult) {
-                int result = ((LInt)paramVals.get(0)).getValue();
-                
-                if (paramVals.size()==1) {
-                    return new LInt(-result);
-                }
-                
-                for (int i=1; i<paramVals.size(); i++) {
-                    LInt nextParam = (LInt)paramVals.get(i);
-                    result -= nextParam.getValue();
-                }
-                
-                return new LInt(result);
-            } else {
-                LExp firstVal = paramVals.get(0);
-                double result = 0.0;
-                
-                if (firstVal.getType().equals(LExpConstants.LIntType)) {
-                    result = ((LInt)firstVal).getValue();
-                } else {
-                    result = ((LDouble)firstVal).getValue();
-                }
-                
-                if (paramVals.size()==1) {
-                    return new LDouble(-result);
-                }
-                
-                for (int i=1; i<paramVals.size(); i++) {
-                    LExp nextParam = paramVals.get(i);
-                    if (nextParam.getType().equals(LExpConstants.LIntType)) {
-                        result -= ((LInt)nextParam).getValue();
-                    } else {
-                        result -= ((LDouble)nextParam).getValue();
-                    }
-                }
-                
-                return new LDouble(result);
-            }
+            return primitiveApplier.subtract(paramVals);
         } else if (body.equals("/")) {
-            LExp firstVal = paramVals.get(0);
-            double result = 0.0;
-                
-            if (firstVal.getType().equals(LExpConstants.LIntType)) {
-                result = ((LInt)firstVal).getValue();
-            } else if (firstVal.getType().equals(LExpConstants.LDoubleType)) {
-                result = ((LDouble)firstVal).getValue();
-            } else {
-                throw new IllegalArgumentException("Trying to divide a non-number");
-            }
-            
-            
-            for (int i=1; i<paramVals.size(); i++) {
-                LExp nextParam = paramVals.get(i);
-                if (nextParam.getType().equals(LExpConstants.LIntType)) {
-                    result /= ((LInt)nextParam).getValue();
-                } else if (nextParam.getType().equals(LExpConstants.LDoubleType)) {
-                    result /= ((LDouble)nextParam).getValue();
-                } else {
-                    throw new IllegalArgumentException("Trying to divide a non-number");
-                }
-            }            
-            return new LDouble(result);
-            
+            return primitiveApplier.divide(paramVals);
         } else if (body.equals("*")) {
-            boolean doubleResult = false;
-            
-            for (int i=0; i<paramVals.size(); i++) {
-                LExp nextParam = paramVals.get(i);
-                if (nextParam.getType().equals(LExpConstants.LDoubleType)) {
-                    doubleResult = true;
-                } else if (!nextParam.getType().equals(LExpConstants.LIntType)) {
-                    throw new IllegalArgumentException("Trying to multipy a non-number");
-                }
-            }
-            
-            if (!doubleResult) {
-                int result = 1;
-                
-                for (int i=0; i<paramVals.size(); i++) {
-                    LInt nextParam = (LInt)paramVals.get(i);
-                    result *= nextParam.getValue();
-                }
-                
-                return new LInt(result);
-            } else {
-                double result = 1.0;
-                
-                for (int i=0; i<paramVals.size(); i++) {
-                    LExp nextParam = paramVals.get(i);
-                    if (nextParam.getType().equals(LExpConstants.LIntType)) {
-                        result *= ((LInt)nextParam).getValue();
-                    } else {
-                        result *= ((LDouble)nextParam).getValue();
-                    }
-                }
-                
-                return new LDouble(result);
-            }
+            return primitiveApplier.multiply(paramVals);
+        } else if (body.equals("<")) {
+            return primitiveApplier.lessThan(paramVals);
+        } else if (body.equals("<=")) {
+            return primitiveApplier.lessOrEqualThan(paramVals);
+        } else if (body.equals("=")) {
+            return primitiveApplier.areEquals(paramVals);
         }
         
         return new LString("<not implemented yet>");        
