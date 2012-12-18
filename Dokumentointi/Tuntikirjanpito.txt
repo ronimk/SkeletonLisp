@@ -148,7 +148,7 @@
            
 18.12 Tiistai
 -------------
-~5h:	* uusi ongelmakohta havaittu (4)
+~5h:	* uusi ongelmakohta havaittu (4 + 5)
 	* Tyyppien tyyppimääritelmät muutettu Stringeistä Enumeiksi
 	  (Eli; LExp sisältää nyt jäsenmuuttujan String type sijaan
 		jäsenmuuttujan LExpTypes type, ja LExpTypes on
@@ -190,6 +190,12 @@
    paikka... (ainakin ApplicationParser alkaa herjaamaan, mikäli
 	      sille yrittää syöttää applikaatiota, joka saa arvokseen
 	      LErrorin...)
+
+5. Jotkut testit ovat tällä hetkellä rikki, johtuen tyyppimuutoksista
+   PrimitiveApplier täytyy testata kunnolla seuraavaksi
+   (sitä ei ole vielä yksikkötestein testattu ollenkaan...)
+   Muuten Evaluaattori on testattu vain integraatiotestauksella,
+   (kuten myös REPL)
  
 Parseri näyttäisi tosiaan siis olevan (kuten jo ennakkoon otaksuinkin) se
 ehdottomasti haastavin osio.
