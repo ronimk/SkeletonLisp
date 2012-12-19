@@ -20,4 +20,9 @@ public class LApplication extends LExp {
     public ArrayList<LExp> getVals() {
         return parameterValues;
     }
+    
+    @Override
+    public String toString() {
+        return "<application>";
+    }
 }

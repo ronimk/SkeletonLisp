@@ -29,6 +29,6 @@ public class Lambda extends LExp {
     
     @Override
     public String toString() {
-        return super.getType().name();
+        return "<anonymous procedure>";
     }
 }

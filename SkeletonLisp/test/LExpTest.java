@@ -89,12 +89,17 @@ public class LExpTest {
     
     @Test
     public void NILinTyyppiOnOikea() {     
-        assertEquals(LExpConstants.NILType, nil.getType());
+        assertEquals(LExpTypes.LVALUETYPE, nil.getType());
+    }
+    
+    @Test
+    public void NILinSubTyyppiOnOikea() {     
+        assertEquals(LExpTypes.NILTYPE, nil.getSubType());
     }
     
     @Test
     public void NILinBodyOnOikea() {
-        assertEquals(LExpConstants.NILType, nil.getBody());
+        assertEquals("NIL", nil.getBody());
     }
     
     @Test
@@ -104,7 +109,7 @@ public class LExpTest {
     
     @Test
     public void uudenIDnTyyppiOnOikea() {
-        assertEquals(LExpConstants.LIdType, id.getType());
+        assertEquals(LExpTypes.LIDTYPE, id.getType());
     }
     
     @Test
@@ -124,7 +129,7 @@ public class LExpTest {
     
     @Test
     public void uudenApplicationinTyyppiOikea() {               
-        assertEquals(LExpConstants.LAppicationType, app.getType());
+        assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
     }
     
     @Test
@@ -147,13 +152,13 @@ public class LExpTest {
     @Test
     public void applicationinToStringMetodiToimii() {      
         ArrayList<LExp> appVals = ((LApplication) app).getVals();
-        assertEquals(LExpConstants.LAppicationType, ((LApplication) app).toString());
+        assertEquals("<application>", ((LApplication) app).toString());
     }
     
     @Test
     public void uudenLambdanTyyppiOikein() {
                 
-        assertEquals(LExpConstants.LambdaType, ((Lambda)uusiLambda).getType());
+        assertEquals(LExpTypes.LAMBDATYPE, ((Lambda)uusiLambda).getType());
     }
     
     @Test
@@ -179,12 +184,17 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanToStringOikein() {
-        assertEquals(LExpConstants.LambdaType, ((Lambda)uusiLambda).toString());
+        assertEquals("<anonymous procedure>", ((Lambda)uusiLambda).toString());
     }
     
     @Test
     public void uudenParinTyyppiOikea() {
-        assertEquals(LExpConstants.LPairType, uusiPair.getType());
+        assertEquals(LExpTypes.LVALUETYPE, uusiPair.getType());
+    }
+    
+    @Test
+    public void uudenParinSubTyyppiOikea() {
+        assertEquals(LExpTypes.LPAIRTYPE, uusiPair.getSubType());
     }
     
     @Test
@@ -197,7 +207,7 @@ public class LExpTest {
         String carArvo = ((LPair)uusiPair).getCar().getType() + " : " +
                          ((LPair)uusiPair).getCar().toString();
         
-        assertEquals(LExpConstants.LIdType + " : A", carArvo);
+        assertEquals(LExpTypes.LIDTYPE + " : A", carArvo);
     }
     
     @Test
@@ -205,7 +215,7 @@ public class LExpTest {
         String cdrArvo = ((LPair)uusiPair).getCdr().getType() + " : " +
                          ((LPair)uusiPair).getCdr().toString();
         
-        assertEquals(LExpConstants.LIdType + " : B", cdrArvo);
+        assertEquals(LExpTypes.LIDTYPE + " : B", cdrArvo);
     }
     
     @Test
@@ -226,7 +236,12 @@ public class LExpTest {
     
     @Test
     public void errorinTyyppiOnOikea() {
-        assertEquals(LExpConstants.LErrorType, virhe.getType());
+        assertEquals(LExpTypes.LVALUETYPE, virhe.getType());
+    }
+    
+    @Test
+    public void errorinSubTyyppiOnOikea() {
+        assertEquals(LExpTypes.LERRORTYPE, virhe.getSubType());
     }
     
         
@@ -248,7 +263,17 @@ public class LExpTest {
         
     @Test
     public void uudenLIntinTyyppiOnOikea() {
-        assertEquals(LExpConstants.LIntType, integ.getType());
+        assertEquals(LExpTypes.LVALUETYPE, integ.getType());
+    }
+    
+    @Test
+    public void uudenLIntinSubTyyppiOnOikea() {
+        assertEquals(LExpTypes.LNUMBERTYPE, integ.getSubType());
+    }
+    
+    @Test
+    public void uudenLIntinNumberTyyppiOnOikea() {
+        assertEquals(LExpTypes.LINTTYPE, ((LNumber)integ).getNumberType());
     }
     
     @Test
@@ -269,7 +294,19 @@ public class LExpTest {
     @Test
     public void uudenLDoublenTyyppiOnOikea() {
 
-        assertEquals(LExpConstants.LDoubleType, doub.getType());
+        assertEquals(LExpTypes.LVALUETYPE, doub.getType());
+    }
+    
+    @Test
+    public void uudenLDoublenSubTyyppiOnOikea() {
+
+        assertEquals(LExpTypes.LNUMBERTYPE, doub.getSubType());
+    }
+    
+    @Test
+    public void uudenLDoublenNumberTyyppiOnOikea() {
+
+        assertEquals(LExpTypes.LDOUBLETYPE, ((LNumber)doub).getNumberType());
     }
     
     @Test
@@ -286,10 +323,15 @@ public class LExpTest {
     public void uudenLDoublentoStringToimii() {
         assertEquals("-678.542", doub.toString());
     }
+    
+    @Test
+    public void uudenAtominTyyppiOnOikea() {
+        assertEquals(LExpTypes.LVALUETYPE, atomi.getType());
+    }
    
     @Test
-    public void uudenLAtominTyyppiOnOikea() {
-        assertEquals(LExpConstants.LAtomType, atomi.getType());
+    public void uudenLAtominSubTyyppiOnOikea() {
+        assertEquals(LExpTypes.LATOMTYPE, atomi.getSubType());
     }
     
     @Test
@@ -304,7 +346,12 @@ public class LExpTest {
     
     @Test
     public void uudenStringinTyyppiOnOikea() {
-        assertEquals(LExpConstants.LStringType, mJono.getType());
+        assertEquals(LExpTypes.LVALUETYPE, mJono.getType());
+    }
+    
+    @Test
+    public void uudenStringinSubTyyppiOnOikea() {
+        assertEquals(LExpTypes.LSTRINGTYPE, mJono.getSubType());
     }
     
     @Test

@@ -37,7 +37,7 @@ public class ApplicationParserTest {
         try {
             LExp app = ApplicationParser.makeNewApplication("(f 2)");
             
-            assertEquals(LExpConstants.LAppicationType, app.getType());
+            assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
         } catch (Exception e) {
             assertTrue(false);
         }
@@ -84,7 +84,7 @@ public class ApplicationParserTest {
         try {
             LExp app = ApplicationParser.makeNewApplication("(f)");
             
-            assertEquals(LExpConstants.LAppicationType, app.getType());
+            assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
         } catch (Exception e) {
             assertTrue(false);
         }
@@ -96,7 +96,7 @@ public class ApplicationParserTest {
         try {
             LExp app = ApplicationParser.makeNewApplication("(0.23 g h)");
             
-            assertEquals(LExpConstants.LAppicationType, app.getType());
+            assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
         } catch (Exception e) {
             assertEquals("0.23 is not a proper procedure", e.getMessage());
         }
@@ -107,7 +107,7 @@ public class ApplicationParserTest {
         try {
             LExp app = ApplicationParser.makeNewApplication("((lambda (f x) (* (f x) 2)) g 4)");
             
-            assertEquals(LExpConstants.LAppicationType, app.getType());
+            assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
         } catch (Exception e) {
             assertTrue(false);
         }
@@ -118,7 +118,7 @@ public class ApplicationParserTest {
         try {
             LExp app = ApplicationParser.makeNewApplication("((f 6) g 4)");
             
-            assertEquals(LExpConstants.LAppicationType, app.getType());
+            assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
         } catch (Exception e) {
             assertTrue(false);
         }

@@ -22,9 +22,9 @@ public class LPair extends LValue {
     public String toStringWithoutParentheses() {
         String tail = "";
         
-        if (cdr.getType() == (LExpTypes.LPAIRTYPE)) {
+        if (cdr.getSubType() == (LExpTypes.LPAIRTYPE)) {
             tail = " " + ((LPair) cdr).toStringWithoutParentheses();
-        } else if (cdr.getType() != (LExpTypes.NILTYPE)) {
+        } else if (cdr.getSubType() != (LExpTypes.NILTYPE)) {
             tail = " . " + cdr.toString();
         }
             return car.toString() + tail;

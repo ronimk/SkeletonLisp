@@ -15,4 +15,9 @@ public class LCond extends LExp {
     public ArrayList<String> getCases() {
         return cases;
     }
+    
+    @Override
+    public String toString() {
+        return "<cond>";
+    }
 }
