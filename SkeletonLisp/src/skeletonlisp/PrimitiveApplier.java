@@ -51,7 +51,7 @@ public class PrimitiveApplier {
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("Trying to add a non-number");
+            throw new IllegalArgumentException("PROCEDURE + EVALUATES ONLY TO NUMBERS");
         }
               
         double result = 0.0;
@@ -73,7 +73,7 @@ public class PrimitiveApplier {
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("Trying to subtract a non-number");
+            throw new IllegalArgumentException("PROCEDURE - EVALUATES ONLY TO NUMBERS");
         }
             
         double result = ((LNumber)paramVals.get(0)).getNumberVal();
@@ -95,7 +95,7 @@ public class PrimitiveApplier {
         }
                 
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("Trying to divide a non-number");
+            throw new IllegalArgumentException("PROCEDURE / EVALUATES ONLY TO NUMBERS");
         }  
         
        double result = ((LNumber)paramVals.get(0)).getNumberVal();
@@ -104,7 +104,7 @@ public class PrimitiveApplier {
              double nextVal = ((LNumber)paramVals.get(i)).getNumberVal();
              
              if (nextVal == 0) {
-                 throw new Exception("divide by zero");
+                 throw new Exception("DIVIDE BY ZERO");
              }
              
              result /= nextVal;
@@ -120,7 +120,7 @@ public class PrimitiveApplier {
         }
                 
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("Trying to multiply a non-number");
+            throw new IllegalArgumentException("PROCEDURE * EVALUATES ONLY TO NUMBERS");
         }
             
         double result = 1;
@@ -143,11 +143,11 @@ public class PrimitiveApplier {
     
     public LExp lessThan(ArrayList<LExp> paramVals) throws Exception {
         if (paramVals.isEmpty()) {
-            return new LString("#t");
+            return new LAtom("#t");
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("Trying to make a number comparison on non-numbers");
+            throw new IllegalArgumentException("PROCEDURE < EVALUATES ONLY TO NUMBERS");
         }
 
         LExp prevVal = paramVals.get(0);
@@ -162,16 +162,16 @@ public class PrimitiveApplier {
             prevVal = currVal;
         }
         
-        return new LString("#t");
+        return new LAtom("#t");
     }
     
     public LExp lessOrEqualThan(ArrayList<LExp> paramVals) throws Exception {
         if (paramVals.isEmpty()) {
-            return new LString("#t");
+            return new LAtom("#t");
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("Trying to make a number comparison on non-numbers");
+            throw new IllegalArgumentException("PROCEDURE <= EVALUATES ONLY TO NUMBERS");
         }
 
         LExp prevVal = paramVals.get(0);
@@ -186,16 +186,16 @@ public class PrimitiveApplier {
             prevVal = currVal;
         }
         
-        return new LString("#t");
+        return new LAtom("#t");
     }
     
     public LExp areEquals(ArrayList<LExp> paramVals) throws Exception {
         if (paramVals.isEmpty()) {
-            return new LString("#t");
+            return new LAtom("#t");
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("Trying to make a number comparison on non-numbers");
+            throw new IllegalArgumentException("PROCEDURE = EVALUATES ONLY TO NUMBERS");
         }
 
         LExp firstVal = paramVals.get(0);
@@ -208,16 +208,16 @@ public class PrimitiveApplier {
             }
         }
         
-        return new LString("#t");
+        return new LAtom("#t");
     }
     
      public LExp greaterOrEqualThan(ArrayList<LExp> paramVals) throws Exception {
         if (paramVals.isEmpty()) {
-            return new LString("#t");
+            return new LAtom("#t");
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("Trying to make a number comparison on non-numbers");
+            throw new IllegalArgumentException("PROCEDURE >= EVALUATES ONLY TO NUMBERS");
         }
 
         LExp prevVal = paramVals.get(0);
@@ -232,16 +232,16 @@ public class PrimitiveApplier {
             prevVal = currVal;
         }
         
-        return new LString("#t");
+        return new LAtom("#t");
     }
      
      public LExp greaterThan(ArrayList<LExp> paramVals) throws Exception {
         if (paramVals.isEmpty()) {
-            return new LString("#t");
+            return new LAtom("#t");
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("Trying to make a number comparison on non-numbers");
+            throw new IllegalArgumentException("PROCEDURE > EVALUATES ONLY TO NUMBERS");
         }
 
         LExp prevVal = paramVals.get(0);
@@ -256,6 +256,48 @@ public class PrimitiveApplier {
             prevVal = currVal;
         }
         
-        return new LString("#t");
+        return new LAtom("#t");
     }
+     
+     public LExp evaluateAbs(ArrayList<LExp> paramVals) throws Exception {
+         if (paramVals.size() != 1) {
+             throw new Exception("PROCEDURE ABS EVALUATE TO EXACTLY ONE NUMBER");
+         }
+         
+         LExp val = paramVals.get(0);
+         
+         if (val.getSubType() != LExpTypes.LNUMBERTYPE) {
+             throw new Exception("PROCEDURE ABS EVALUATES ONLY TO NUMBERS");
+         }
+         
+         switch (((LNumber)val).getNumberType()) {
+             case LINTTYPE:     return new LInt(Math.abs(((LInt)val).getValue()));
+             default:           return new LDouble(Math.abs(((LDouble)val).getValue()));   
+         }
+     }
+     
+     public LExp evaluateAnd(ArrayList<LExp> paramVals, Evaluator evaluator, Environment env) throws Exception {
+         LExp returnVal = new LAtom("#t");
+         
+         for(int i=0; i<paramVals.size(); i++) {
+             returnVal = evaluator.eval(paramVals.get(i), env);
+             if (returnVal.getSubType() == LExpTypes.NILTYPE) {
+                 return new NIL();
+             }
+         }
+         
+         return returnVal;
+     }
+     
+     public LExp evaluateOr(ArrayList<LExp> paramVals, Evaluator evaluator, Environment env) throws Exception {
+         
+         for(int i=0; i<paramVals.size(); i++) {
+             LExp returnVal = evaluator.eval(paramVals.get(i), env);
+             if (returnVal.getSubType() != LExpTypes.NILTYPE) {
+                 return returnVal;
+             }
+         }
+         
+         return new NIL();
+     }
 }

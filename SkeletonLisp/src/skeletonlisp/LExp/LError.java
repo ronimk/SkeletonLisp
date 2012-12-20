@@ -22,6 +22,6 @@ public class LError extends LValue {
     
     @Override
     public String toString() {
-        return "<error>: " + message;
+        return "<ERROR>: " + message;
     }
 }

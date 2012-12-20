@@ -98,7 +98,7 @@ public class ApplicationParserTest {
             
             assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
         } catch (Exception e) {
-            assertEquals("0.23 is not a proper procedure", e.getMessage());
+            assertEquals("0.23 IS NOT A PROPER PROCEDURE", e.getMessage());
         }
     }
     

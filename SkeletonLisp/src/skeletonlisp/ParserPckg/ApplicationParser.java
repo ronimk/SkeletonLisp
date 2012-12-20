@@ -16,9 +16,7 @@
 // glue all together to form a new Application to return
 //
 // if either the procedure part, or any of the value parts
-// are not proper, we return an error.
-// This of course means that errors are not first-class
-// citizens in SkeletonLisp...
+// are not proper, we throw an exception.
 
 package skeletonlisp.ParserPckg;
 
@@ -37,7 +35,7 @@ public class ApplicationParser {
                                              + LExpTypes.LAPPLICATIONTYPE+ "|"
                                              + LExpTypes.LCONDTYPE + "|"
                                              + ")")) {
-            throw new IllegalArgumentException(proc + " is not a proper procedure");
+            throw new IllegalArgumentException(proc + " IS NOT A PROPER PROCEDURE");
         }
         ArrayList<LExp> parameterValues = new ArrayList<LExp>();
         String vals = WordParser.allButFirstWord(unwrappedBody);
@@ -51,12 +49,10 @@ public class ApplicationParser {
                 
             LExp nextExp = Parser.parseExpression(first);
                 
-            if (nextExp.getType() == LExpTypes.LERRORTYPE) {
-                throw new Exception("Illegal argument [" + first + "]");
-            } else {
-                parameterValues.add(nextExp);
-                vals = WordParser.allButFirstWord(vals);
-            }
+            
+            parameterValues.add(nextExp);
+            vals = WordParser.allButFirstWord(vals);
+            
         }
         
         return new LApplication(applicationBody, procedure, parameterValues);

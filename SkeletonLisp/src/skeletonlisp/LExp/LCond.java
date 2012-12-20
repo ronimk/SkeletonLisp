@@ -18,6 +18,6 @@ public class LCond extends LExp {
     
     @Override
     public String toString() {
-        return "<cond>";
+        return "<COND>";
     }
 }

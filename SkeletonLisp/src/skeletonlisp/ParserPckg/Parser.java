@@ -5,7 +5,7 @@ import skeletonlisp.LExp.*;
 
 public class Parser {   
    
-    private static LExp parseSyntactically(String formalExp) {
+    private static LExp parseSyntactically(String formalExp) throws Exception {
         if (formalExp.isEmpty()) {
             return new LString("");
         } else if (WordParser.isAtomicWord(formalExp)) {         
@@ -28,33 +28,27 @@ public class Parser {
             } else if (ExpParser.isId(quoteBody)) {
                 return new LAtom(quoteBody);
             } else {
-                return new LError("Syntax error in " + formalExp);
+                throw new Exception("SYNTAX ERROR IN " + formalExp);
             }
         } else if (WordParser.isParenthesizedWord(formalExp)) {
             if (ExpParser.isLambda(formalExp)) {
-                try {
                     return LambdaParser.makeANewLambda(formalExp);
-                } catch (Exception e) {
-                    return new LError(e.getMessage());
-                }
             } else if (ExpParser.isCond(formalExp)) {
-                try {
                     return CondParser.makeANewCond(formalExp);
+            } else { // formalExp must be either an application
+                try { // or an improper expression
+                      
+                    return ApplicationParser.makeNewApplication(formalExp);
                 } catch (Exception e) {
-                    return new LError(e.getMessage());
+                    throw new Exception(e.getMessage() + " IN: " + formalExp);
                 }
-            } else try { // formalExp must be either an application
-                         // or an improper expression
-                return ApplicationParser.makeNewApplication(formalExp);
-            } catch (Exception e) {
-                return new LError(e.getMessage() + " in: " + formalExp);
             }
         } else {
-            return new LError("Syntax error in  " + formalExp);
+            throw new Exception("SYNTAX ERROR IN  " + formalExp);
         } 
     }
         
-    public static LExp parseExpression(String exp) {
+    public static LExp parseExpression(String exp) throws Exception {
         return parseSyntactically(CharacterParser.removeAdditionalSpaces(exp));            
     }
 }

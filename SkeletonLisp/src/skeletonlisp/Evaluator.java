@@ -7,12 +7,8 @@
 // * LIDs are LOOKed UP IN the ENVironment provided to the
 //   evaluator, and the bound value is returned: if the Id is
 //   not found in the environment provided, an exception is raised
-//   (therefore, even though the primitive functions that
-//   SkeletonLisp provides are evaluated separately, they are still
-//   stored in the globalEnvironment of REPL as a
-//   new LString("<primitive procedure>");
 //
-// * Lambdas are evaluated as: new String("<anonymous procedure>")
+// * Lambdas are evaluated and returned as they are as they are
 //   So, it is only when lambdas and LIds are used as applications
 //   that anything ineresting happens to them
 //
@@ -36,7 +32,7 @@
 //   eval(), again using the environment provided to apply().
 //
 //   evalParameterValues is used before the values are evaluated in
-//   the procedure/primitive.
+//   the procedure/primitive unless the primitive is a Special Form.
 
 package skeletonlisp;
 
@@ -48,32 +44,24 @@ public class Evaluator {
     
     private PrimitiveApplier primitiveApplier = new PrimitiveApplier();
     
-    public LExp eval(LExp exp, Environment env) {
+    public LExp eval(LExp exp, Environment env) throws Exception {
         switch (exp.getType()) {
             case LVALUETYPE:        return exp;
                 
-            case LIDTYPE:           try {
-                                        return lookupIdInEnv((LId) exp, env);
-                                    } catch (Exception e) {
-                                        return new LError("Id unbound");
-                                    }
+            case LIDTYPE:           return lookupIdInEnv((LId) exp, env);
                 
-            case LAMBDATYPE:        return new LString ("<anonymous procedure>");
+            case LAMBDATYPE:        return exp;
                 
-            case LCONDTYPE:         return new LString ("Not implemented yet");
+            case LCONDTYPE:         return new LString ("COND NOT IMPLEMENTED YET");
                 
             case LAPPLICATIONTYPE:  LApplication app = (LApplication) exp;
-                                    try {
-                                        return apply(app.getProcedure(), app.getVals(), env);
-                                    } catch (Exception e) {
-                                        return new LError(e.getMessage());
-                                    }
+                                    return apply(app.getProcedure(), app.getVals(), env);
                 
-            default:                return new LError("Syntax Error");
+            default:                throw new Exception("SYNTAX ERROR");
         }
     }
     
-    public ArrayList<LExp> evalParamVals(ArrayList<LExp> params, Environment env) {
+    public ArrayList<LExp> evalParamVals(ArrayList<LExp> params, Environment env) throws Exception {
         ArrayList<LExp> vals = new ArrayList<LExp>();
         
         for (int i=0; i<params.size(); i++) {
@@ -92,50 +80,51 @@ public class Evaluator {
             case LAPPLICATIONTYPE :     return apply(eval(procedure, env), paramVals, env);
                 
             case LIDTYPE :              try {
-                                            LExp app = lookupIdInEnv((LId)procedure, env);
-                                            return apply(app, paramVals, env);
-                                        } catch (Exception e1) {
-                                            try {
-                                                return applyPrimitive(procedure, evalParamVals(paramVals, env), env);
-                                            } catch (Exception e2) {
-                                                return new LError(e2.getMessage());
-                                            }
+                                            return apply(lookupIdInEnv((LId)procedure, env), paramVals, env);
+                                        } catch (Exception e) {
+                                            return applyPrimitive(procedure, paramVals, env);
                                         }
                 
-            default:                     throw new IllegalArgumentException("Not a proper application: " + procedure);
+            default:                     throw new IllegalArgumentException("NOT A PROPER APPLICATION: " + procedure);
         }
     }
     
     private LExp applyLambda(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
-        return new LString("<not implemented yet>");        
+        return new LString("<LAMBDA NOT IMPLEMENTED YET>");        
     }
         
     private LExp applyPrimitive(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
-        String body = procedure.getBody();
+        String primitive = procedure.getBody();
         
-        if (body.equals("exit")) {
+        if (primitive.equals("EXIT")) {
             
-        } else if (body.equals("+")) { 
-            return primitiveApplier.add(paramVals);
-        } else if (body.equals("-")) {
-            return primitiveApplier.subtract(paramVals);
-        } else if (body.equals("/")) {
-            return primitiveApplier.divide(paramVals);
-        } else if (body.equals("*")) {
-            return primitiveApplier.multiply(paramVals);
-        } else if (body.equals("<")) {
-            return primitiveApplier.lessThan(paramVals);
-        } else if (body.equals("<=")) {
-            return primitiveApplier.lessOrEqualThan(paramVals);
-        } else if (body.equals("=")) {
-            return primitiveApplier.areEquals(paramVals);
-        } else if (body.equals(">=")) {
-            return primitiveApplier.greaterOrEqualThan(paramVals);
-        } else if (body.equals(">")) {
-            return primitiveApplier.greaterThan(paramVals);
+        } else if (primitive.equals("+")) { 
+            return primitiveApplier.add(evalParamVals(paramVals, env));
+        } else if (primitive.equals("-")) {
+            return primitiveApplier.subtract(evalParamVals(paramVals, env));
+        } else if (primitive.equals("/")) {
+            return primitiveApplier.divide(evalParamVals(paramVals, env));
+        } else if (primitive.equals("*")) {
+            return primitiveApplier.multiply(evalParamVals(paramVals, env));
+        } else if (primitive.equals("<")) {
+            return primitiveApplier.lessThan(evalParamVals(paramVals, env));
+        } else if (primitive.equals("<=")) {
+            return primitiveApplier.lessOrEqualThan(evalParamVals(paramVals, env));
+        } else if (primitive.equals("=")) {
+            return primitiveApplier.areEquals(evalParamVals(paramVals, env));
+        } else if (primitive.equals(">=")) {
+            return primitiveApplier.greaterOrEqualThan(evalParamVals(paramVals, env));
+        } else if (primitive.equals(">")) {
+            return primitiveApplier.greaterThan(evalParamVals(paramVals,env));
+        } else if (primitive.equals("ABS")) {
+            return primitiveApplier.evaluateAbs(evalParamVals(paramVals, env));
+        } else if (primitive.equals("AND")) {
+            return primitiveApplier.evaluateAnd(paramVals, this, env);
+        } else if (primitive.equals("OR")) {
+            return primitiveApplier.evaluateOr(paramVals, this, env);
         }
         
-        return new LString("<not implemented yet>");        
+        return new LString("<NOT IMPLEMENTED YET>");        
     }
     
     private LExp lookupIdInEnv(LId id, Environment env) throws Exception {

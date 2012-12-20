@@ -23,6 +23,6 @@ public class LApplication extends LExp {
     
     @Override
     public String toString() {
-        return "<application>";
+        return "<APPLICATION>";
     }
 }

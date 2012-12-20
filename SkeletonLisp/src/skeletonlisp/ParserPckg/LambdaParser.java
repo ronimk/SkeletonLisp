@@ -27,7 +27,7 @@ public class LambdaParser {
         } else {
             // the lambda expression has a bad syntax: return
             // an error message to the REPL:
-            throw new Exception("Bad syntax in the variable part: " + exp);
+            throw new Exception("BAD SYNTAX IN THE VARIABLE PART: " + exp);
         }
               
         try {          
@@ -47,9 +47,9 @@ public class LambdaParser {
             
             if (nextVar.isEmpty()) {
                 // All variables have been consumed; we are done: 
-                return varList;
+                break;
             } else if (!ExpParser.isId(nextVar)) {
-                throw new IllegalArgumentException("Illegal parameter declaration " + nextVar);
+                throw new Exception("ILLEGAL PARAMETER DECLARATION " + nextVar);
             } else {
                 varList.add(new LId(nextVar));
                 
@@ -57,14 +57,15 @@ public class LambdaParser {
                 vars = WordParser.allButFirstWord(vars);
             }            
         }
-
+        
+        return varList;
     }
   
     private static ArrayList<String> lambdaBody(String unwrappedLambdaExp) throws Exception {
         String body = WordParser.allButFirstWord(WordParser.allButFirstWord(unwrappedLambdaExp));
         
         if (body.isEmpty()) {
-            throw new IllegalArgumentException("A procedure must have a body");
+            throw new Exception("A PROCEDURE MUST HAVE A BODY");
         } else {
             ArrayList<String> lambdaBody = new ArrayList<String>();
             

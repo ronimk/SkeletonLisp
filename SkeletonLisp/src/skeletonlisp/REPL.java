@@ -24,11 +24,19 @@ public class REPL {
             lines += " " + reader.nextLine();
         }
         
-        return Parser.parseExpression(lines);
+        try {
+            return Parser.parseExpression(lines);
+        } catch (Exception e) {
+            return new LError(e.getMessage());
+        }
     }
     
     public LExp eval(LExp exp) {
-        return evaluator.eval(exp, globalEnvironment);
+        try {
+            return evaluator.eval(exp, globalEnvironment);
+        } catch (Exception e) {
+            return new LError(e.getMessage());
+        }
     }
     
     public void print(LExp exp) {  

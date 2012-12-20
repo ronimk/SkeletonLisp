@@ -152,7 +152,7 @@ public class LExpTest {
     @Test
     public void applicationinToStringMetodiToimii() {      
         ArrayList<LExp> appVals = ((LApplication) app).getVals();
-        assertEquals("<application>", ((LApplication) app).toString());
+        assertEquals("<APPLICATION>", ((LApplication) app).toString());
     }
     
     @Test
@@ -184,7 +184,7 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanToStringOikein() {
-        assertEquals("<anonymous procedure>", ((Lambda)uusiLambda).toString());
+        assertEquals("<ANONYMOUS PROCEDURE>", ((Lambda)uusiLambda).toString());
     }
     
     @Test
@@ -257,7 +257,7 @@ public class LExpTest {
     
     @Test
     public void errorinToStringToimii() {
-        assertEquals("<error>: virhe", ((LError)virhe).toString());
+        assertEquals("<ERROR>: virhe", ((LError)virhe).toString());
     }
     
         

@@ -36,7 +36,7 @@ public class CondParser {
             if (nextCase.isEmpty()) {
                 break;
             } else if (!WordParser.isParenthesizedWord(nextCase)) {
-                throw new IllegalArgumentException("Bad syntax in " + exp);
+                throw new IllegalArgumentException("BAD SYNTAX IN " + exp);
             } else {
                 cases.add(nextCase);
                 condBody = WordParser.allButFirstWord(condBody);

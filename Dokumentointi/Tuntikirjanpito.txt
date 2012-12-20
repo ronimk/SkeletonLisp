@@ -170,6 +170,20 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			  jota en saanut millään skannattua ja päivitettyä nykyiselle
 			  mallilleen...
 			* TODO-listaa päivitetty
+			
+20.12 Torstai
+-------------
+~5h:		* Kone kaatui kriittisellä hetkellä ja n. 3 tunnint työ piti tehdä
+			  uusiksi.
+			* Exceptionien käsittely on nyt huomattavasti järkevämpää
+			  (katso kuitenkin TODO)
+			* Evaluaattori alkaa vihdoin toimia niinkuin sen pitäisikin,
+			  (edelleenkin kuitenkin lambdat ja condit jää evaluoimatta)
+			* primitiivejä lisää: abs ja ekat Special Form-primitiivit
+			  (AND ja OR).
+			* Definekin toimi jossain vaiheessa ennen koneen kaatumista,
+			  mutta nyt se ei ole enää ollenkaan vaikea juttu, joten sen saanee
+			  nopeasti hoidettua.
 
  TODO
  ----
@@ -181,18 +195,14 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
   Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
   
   19.12-23.12:
-  1) Paranna Eval:in toimintaa: IDt ja lambdat tulisi palauttaa sellaisinaan,
-     eikä suinkaan niitä kuvaavia merkkijonoja, sillä muuten ne menettävät
-     first-class citizen -oikeudet...
-  2) Exceptionit selkeämmiksi niin, että ainoastaan REPL:n read- ja
-     eval-metodit lopulta muuttavat ne virheiksi: tällöin Exceptionien
-     hoitaminen on hallittavampaa (ne hoidetaan vaih yhdessä - kahdessa
-     paikassa kymmenen-kahdenkymmenen paikan sijasta).
   3) Luo tuki Cond-lauseiden ja Lambda-lauseiden evaluoimiselle
-  4) Lisää primitiivejä, tällä viikolla pitäisi saada kaikki primitiivien
+  4) Lisää primitiivejä; tällä viikolla pitäisi saada kaikki primitiivien
      käsittelijät valmiiksi.
   5) mieti miten if...else if...else, osioita voisi siivota parempaan
      muotoon
+  6) Voisiko Exceptioneiden käsittelyä vielä parantaa erottelemalla erillaisia
+     poikkeustyyppejä? Sitä on syytä miettiä...
+     (Selvitä minkälaisia poikkeuksia Java tukee)
  
  Ongelmakohtia
  -------------
@@ -208,13 +218,7 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 3. Evaluaattori on muuten varsin kiva, mutta sen ApplyPrimitive:stä taitaa
    tulla aivan turhan liian sotkuinen.
 
-4. LErroreilla ei ole first class citizen -statusta, tämä lienee korjauksen
-   paikka... (ainakin ApplicationParser alkaa herjaamaan, mikäli
-	      sille yrittää syöttää applikaatiota, joka saa arvokseen
-	      LErrorin...)
-
-5. Jotkut testit ovat tällä hetkellä rikki, johtuen tyyppimuutoksista
-   PrimitiveApplier täytyy testata kunnolla seuraavaksi
+5. PrimitiveApplier täytyy testata kunnolla seuraavaksi
    (sitä ei ole vielä yksikkötestein testattu ollenkaan...)
    Muuten Evaluaattori on testattu vain integraatiotestauksella,
    (kuten myös REPL)
