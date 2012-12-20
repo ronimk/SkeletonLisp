@@ -220,6 +220,7 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
   6) Voisiko Exceptioneiden käsittelyä vielä parantaa erottelemalla erillaisia
      poikkeustyyppejä? Sitä on syytä miettiä...
      (Selvitä minkälaisia poikkeuksia Java tukee)
+  7) voisiko applyLambdaa parannella jotenkin selkeämmäksi?
  
  Ongelmakohtia
  -------------

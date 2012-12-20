@@ -202,6 +202,13 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			body))
 		   'a 'b 'c)
 
+~5min:		* applyLambdassa() havaittu pieni bugi: kun kyseessä on listamuuttuja
+		  niin eihän suinkaan parametreina annettuja arvoja etukäteen
+		  evaluoida, vaan ne laitetaan uudeen list-applikaatioon sellaisenaan
+		  ja list-applikaation evaluointivaiheessa ne vasta evaluoidaan.
+		  tämä jo selkeytti metodia huomattavasti. Nyt homman pitäisi toimia
+		  paljon paremmin!
+
  TODO
  ----
   Päivitä luokkakaavio Deadline II:ta varten!!! (se ei pakosti onnistu, sillä

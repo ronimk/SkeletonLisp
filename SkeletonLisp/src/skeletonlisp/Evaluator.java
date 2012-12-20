@@ -40,7 +40,7 @@
 //
 //   applyLambda also has to check whether the variable(s) is
 //   a list variable or not, and act accordingly (either it
-//   creates a new list of the evaluated parameterValues and binds
+//   creates a new list of the parameterValues and binds
 //   that to the lambda list-variable,
 //   or it binds each variable to the corresponding evaluated
 //   parameterValue
@@ -118,12 +118,10 @@ public class Evaluator {
         if (procedure.isAListParameter()) {
             ArrayList<LExp> listVals = new ArrayList<LExp>();
             
-            for (int i=0; i<paramVals.size(); i++) {
-                listVals.add(eval(paramVals.get(i), env));
-            }
-            
             newEnv.extendEnvironment(vars.get(0),
-                                     eval(new LApplication("(LIST " + paramVals + ")", new LId("LIST"), listVals), env));
+                                     eval(new LApplication("(LIST " + paramVals + ")",
+                                          new LId("LIST"), paramVals),
+                                          env));
         } else {
             if (varSize != paramVals.size()) {
                 throw new Exception("ERROR EVALUATING A LAMBDA EXPRESSION: WRONG AMOUNT OF ARGUMENTS GIVEN");
