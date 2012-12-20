@@ -289,6 +289,23 @@ public class PrimitiveApplier {
          return returnVal;
      }
      
+     public LExp defineGlobally(ArrayList<LExp> paramVals, Environment globalEnv, Evaluator evaluator, Environment currentEnv) throws Exception {
+         if (paramVals.size() != 2) {
+             throw new Exception("PROCEDURE DEFINE ONLY TAKES TWO ARGUMENTS");
+         }
+         
+         LExp var = paramVals.get(0);
+         
+         if (var.getType() != LExpTypes.LIDTYPE) {
+             throw new Exception("ONLY IDENTIFIERS CAN BE DEFINED");
+         }
+         
+         LExp val = evaluator.eval(paramVals.get(1), currentEnv);
+         globalEnv.extendEnvironment((LId)var, val);
+         
+         return val;
+     }
+     
      public LExp evaluateOr(ArrayList<LExp> paramVals, Evaluator evaluator, Environment env) throws Exception {
          
          for(int i=0; i<paramVals.size(); i++) {

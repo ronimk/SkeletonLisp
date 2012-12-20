@@ -209,6 +209,11 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 		  tämä jo selkeytti metodia huomattavasti. Nyt homman pitäisi toimia
 		  paljon paremmin!
 
+~15min:		* primitiivi define lisätty: nyt esim lause:
+		  ((lambda (x y) ((lambda (z) (define t (+ z x y))) (* x y))) 5 7)
+		  evaluoidaan luvuksi 47 ((5*7) + 5 + 7) ja tämän jälkeen
+		  globaaliin ympäristöön on ilmestynyt ID T=47'
+
  TODO
  ----
   Päivitä luokkakaavio Deadline II:ta varten!!! (se ei pakosti onnistu, sillä

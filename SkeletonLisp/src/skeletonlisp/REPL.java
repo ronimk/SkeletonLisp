@@ -8,7 +8,7 @@ public class REPL {
     private Scanner reader = new Scanner(System.in);
     private boolean exit = false;
     private Environment globalEnvironment = new Environment();
-    private Evaluator evaluator = new Evaluator();
+    private Evaluator evaluator = new Evaluator(globalEnvironment);
     
     public void run() {
         while (!exit) {

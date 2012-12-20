@@ -16,7 +16,7 @@
 //   a predicate with a value differing from NIL is found.
 //   Then the value part of that predicate is evaluated and
 //   returned. If no LCond predicate is evaluated to a true
-//   valua (anything differing from NIL), an error is returned.
+//   value (anything differing from NIL), an error is returned.
 //
 // * And last but not least, Applications are APPLY()-ed and the
 //   result of the applying process is returned.
@@ -60,8 +60,12 @@ import skeletonlisp.LExp.*;
 
 
 public class Evaluator {
-    
+    private Environment globalEnvironment;
     private PrimitiveApplier primitiveApplier = new PrimitiveApplier();
+    
+    public Evaluator(Environment _globalEnvironment) {
+        globalEnvironment = _globalEnvironment;
+    }
     
     public LExp eval(LExp exp, Environment env) throws Exception {
         switch (exp.getType()) {
@@ -168,6 +172,8 @@ public class Evaluator {
             return primitiveApplier.evaluateAbs(evalParamVals(paramVals, env));
         } else if (primitive.equals("AND")) {
             return primitiveApplier.evaluateAnd(paramVals, this, env);
+        } else if (primitive.equals("DEFINE")) {
+            return primitiveApplier.defineGlobally(paramVals, globalEnvironment, this, env);
         } else if (primitive.equals("OR")) {
             return primitiveApplier.evaluateOr(paramVals, this, env);
         }
