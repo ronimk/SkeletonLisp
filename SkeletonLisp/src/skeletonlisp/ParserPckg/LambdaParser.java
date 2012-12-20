@@ -2,8 +2,7 @@
 package skeletonlisp.ParserPckg;
 
 import java.util.ArrayList;
-import skeletonlisp.LExp.LId;
-import skeletonlisp.LExp.Lambda;
+import skeletonlisp.LExp.*;
 
 
 public class LambdaParser {
@@ -61,13 +60,13 @@ public class LambdaParser {
         return varList;
     }
   
-    private static ArrayList<String> lambdaBody(String unwrappedLambdaExp) throws Exception {
+    private static ArrayList<LExp> lambdaBody(String unwrappedLambdaExp) throws Exception {
         String body = WordParser.allButFirstWord(WordParser.allButFirstWord(unwrappedLambdaExp));
         
         if (body.isEmpty()) {
             throw new Exception("A PROCEDURE MUST HAVE A BODY");
         } else {
-            ArrayList<String> lambdaBody = new ArrayList<String>();
+            ArrayList<LExp> lambdaBody = new ArrayList<LExp>();
             
             while (true) {
                 String nextExpression = WordParser.firstWord(body);
@@ -75,7 +74,7 @@ public class LambdaParser {
                 if (nextExpression.isEmpty()) {
                     break;
                 } else {
-                    lambdaBody.add(nextExpression);
+                    lambdaBody.add(Parser.parseExpression(nextExpression));
                     
                     body = WordParser.allButFirstWord(body);
                 }

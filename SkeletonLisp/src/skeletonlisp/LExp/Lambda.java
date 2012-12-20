@@ -6,9 +6,9 @@ import java.util.ArrayList;
 public class Lambda extends LExp {
     private ArrayList<LId> vars;
     private boolean aListParameter;
-    private ArrayList<String> lambdaBody;
+    private ArrayList<LExp> lambdaBody;
     
-    public Lambda(String _body, ArrayList<LId> _vars, ArrayList<String> _lambdaBody, boolean _aListParameter) {
+    public Lambda(String _body, ArrayList<LId> _vars, ArrayList<LExp> _lambdaBody, boolean _aListParameter) {
         super(LExpTypes.LAMBDATYPE, _body);
         aListParameter = _aListParameter;
         vars = _vars;
@@ -19,7 +19,7 @@ public class Lambda extends LExp {
         return vars;
     }
     
-    public ArrayList<String> getLambdaBody() {
+    public ArrayList<LExp> getLambdaBody() {
         return lambdaBody;
     }
     

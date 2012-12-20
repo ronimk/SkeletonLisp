@@ -174,16 +174,33 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 20.12 Torstai
 -------------
 ~5h:		* Kone kaatui kriittisellä hetkellä ja n. 3 tunnint työ piti tehdä
-			  uusiksi.
-			* Exceptionien käsittely on nyt huomattavasti järkevämpää
-			  (katso kuitenkin TODO)
-			* Evaluaattori alkaa vihdoin toimia niinkuin sen pitäisikin,
-			  (edelleenkin kuitenkin lambdat ja condit jää evaluoimatta)
-			* primitiivejä lisää: abs ja ekat Special Form-primitiivit
-			  (AND ja OR).
-			* Definekin toimi jossain vaiheessa ennen koneen kaatumista,
-			  mutta nyt se ei ole enää ollenkaan vaikea juttu, joten sen saanee
-			  nopeasti hoidettua.
+		  uusiksi.
+		* Exceptionien käsittely on nyt huomattavasti järkevämpää
+		  (katso kuitenkin TODO)
+		* Evaluaattori alkaa vihdoin toimia niinkuin sen pitäisikin,
+		  (edelleenkin kuitenkin lambdat ja condit jää evaluoimatta)
+		* primitiivejä lisää: abs ja ekat Special Form-primitiivit
+		  (AND ja OR).
+		* Definekin toimi jossain vaiheessa ennen koneen kaatumista,
+		  mutta nyt se ei ole enää ollenkaan vaikea juttu, joten sen saanee
+		  nopeasti hoidettua.
+
+~1h:		* applyLambda on toiminnallisuudeltaan valmis; se kykenee mm.
+		  evaluoimaan seuraavan lambda-lauseen:
+		  ((lambda (x) ((lambda (y) (+ x y 3)) x)) 7)
+		  oikeaan arvoon 17.
+		* lambda-lauseiden muuttujien mahdollisuus olla joko
+		  tavallisia parametrimuuttujia TAI listamuuttujia, tekee tosin
+		  metodista hieman ärsyttävän näköisen... Tätä olisi syytä
+		  joko refaktoroida, tai sitten poistaa listamuuttujaominaisuus
+		  kokonaan.
+		  listamuuttuja on siis lambda-lauseissa muotoa:
+		  x: ((lambda x body) 'a 'b 'c)
+		  joka voisi muuttaa seuraavaan kuvitteelliseen lambda+let-muotoon:
+		  ((lambda (x y z)
+		     (let ((x) (list x y z))
+			body))
+		   'a 'b 'c)
 
  TODO
  ----
@@ -203,6 +220,7 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
   6) Voisiko Exceptioneiden käsittelyä vielä parantaa erottelemalla erillaisia
      poikkeustyyppejä? Sitä on syytä miettiä...
      (Selvitä minkälaisia poikkeuksia Java tukee)
+  7) voisiko applyLambdaa parannella jotenkin selkeämmäksi?
  
  Ongelmakohtia
  -------------

@@ -148,7 +148,7 @@
            
 18.12 Tiistai
 -------------
-~5h:	* uusi ongelmakohta havaittu (4)
+~5h:	* uusi ongelmakohta havaittu (4 + 5)
 	* Tyyppien tyyppimääritelmät muutettu Stringeistä Enumeiksi
 	  (Eli; LExp sisältää nyt jäsenmuuttujan String type sijaan
 		jäsenmuuttujan LExpTypes type, ja LExpTypes on
@@ -162,6 +162,45 @@
 	  (TODO: Tarkista vielä, että näin oo, eikä huolimattomuudessa ole
 		unohtunut esim. jonkun vertailuoperaattorin default-arvoja
 		kun niitä kutsutaan ilman parametreja...)
+		
+19.12 Keskiviikko
+-----------------
+n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
+			  kaikki Deadline II:n jutut kohdillaan... Paitsi se luokkakaavio,
+			  jota en saanut millään skannattua ja päivitettyä nykyiselle
+			  mallilleen...
+			* TODO-listaa päivitetty
+			
+20.12 Torstai
+-------------
+~5h:		* Kone kaatui kriittisellä hetkellä ja n. 3 tunnint työ piti tehdä
+		  uusiksi.
+		* Exceptionien käsittely on nyt huomattavasti järkevämpää
+		  (katso kuitenkin TODO)
+		* Evaluaattori alkaa vihdoin toimia niinkuin sen pitäisikin,
+		  (edelleenkin kuitenkin lambdat ja condit jää evaluoimatta)
+		* primitiivejä lisää: abs ja ekat Special Form-primitiivit
+		  (AND ja OR).
+		* Definekin toimi jossain vaiheessa ennen koneen kaatumista,
+		  mutta nyt se ei ole enää ollenkaan vaikea juttu, joten sen saanee
+		  nopeasti hoidettua.
+
+~1h:		* applyLambda on toiminnallisuudeltaan valmis; se kykenee mm.
+		  evaluoimaan seuraavan lambda-lauseen:
+		  ((lambda (x) ((lambda (y) (+ x y 3)) x)) 7)
+		  oikeaan arvoon 17.
+		* lambda-lauseiden muuttujien mahdollisuus olla joko
+		  tavallisia parametrimuuttujia TAI listamuuttujia, tekee tosin
+		  metodista hieman ärsyttävän näköisen... Tätä olisi syytä
+		  joko refaktoroida, tai sitten poistaa listamuuttujaominaisuus
+		  kokonaan.
+		  listamuuttuja on siis lambda-lauseissa muotoa:
+		  x: ((lambda x body) 'a 'b 'c)
+		  joka voisi muuttaa seuraavaan kuvitteelliseen lambda+let-muotoon:
+		  ((lambda (x y z)
+		     (let ((x) (list x y z))
+			body))
+		   'a 'b 'c)
 
  TODO
  ----
@@ -171,6 +210,16 @@
 					  tulos ei mahdu Javan int-tai double-tyyppiseen lukuun?
 					  Jonkinlainen virheentarkistus oisi tällöin paikoillaan...
   Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
+  
+  19.12-23.12:
+  3) Luo tuki Cond-lauseiden ja Lambda-lauseiden evaluoimiselle
+  4) Lisää primitiivejä; tällä viikolla pitäisi saada kaikki primitiivien
+     käsittelijät valmiiksi.
+  5) mieti miten if...else if...else, osioita voisi siivota parempaan
+     muotoon
+  6) Voisiko Exceptioneiden käsittelyä vielä parantaa erottelemalla erillaisia
+     poikkeustyyppejä? Sitä on syytä miettiä...
+     (Selvitä minkälaisia poikkeuksia Java tukee)
  
  Ongelmakohtia
  -------------
@@ -186,10 +235,10 @@
 3. Evaluaattori on muuten varsin kiva, mutta sen ApplyPrimitive:stä taitaa
    tulla aivan turhan liian sotkuinen.
 
-4. LErroreilla ei ole first class citizen -statusta, tämä lienee korjauksen
-   paikka... (ainakin ApplicationParser alkaa herjaamaan, mikäli
-	      sille yrittää syöttää applikaatiota, joka saa arvokseen
-	      LErrorin...)
+5. PrimitiveApplier täytyy testata kunnolla seuraavaksi
+   (sitä ei ole vielä yksikkötestein testattu ollenkaan...)
+   Muuten Evaluaattori on testattu vain integraatiotestauksella,
+   (kuten myös REPL)
  
 Parseri näyttäisi tosiaan siis olevan (kuten jo ennakkoon otaksuinkin) se
 ehdottomasti haastavin osio.

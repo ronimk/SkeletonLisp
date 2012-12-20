@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import skeletonlisp.LExp.*;
+import skeletonlisp.ParserPckg.LambdaParser;
 
 public class LExpTest {
     LExp nil;
@@ -45,22 +46,15 @@ public class LExpTest {
         vals.add(new LId("y"));
         app = new LApplication("(+ x y)", new LId("+"), vals);
         
+        // set up uusiLambda:
         LId f = new LId("f");
         LId x = new LId("x");
         LId y = new LId("y");
         LId z = new LId("z");
         
-        // set up uusiLambda:
-        ArrayList<LId> vars = new ArrayList<LId>();
-        vars.add(f);
-        vars.add(x);
-        vars.add(y);
-        vars.add(z);
-        ArrayList<String> lambdaBody = new ArrayList<String>();
-        lambdaBody.add("(f x)");
-        lambdaBody.add("(f y)");
-        lambdaBody.add("(f z)");
-        uusiLambda = new Lambda("(lambda (f x y z) (f x) (f y) (f z))", vars, lambdaBody, false);
+        try{
+            uusiLambda = LambdaParser.makeANewLambda("(lambda (f x y z) (f x) y (f z))");
+        } catch (Exception e) { }
         
         //set up uusiPair
         LExp uusiCar = new LId("a");
@@ -163,7 +157,7 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanBodyOikein() {        
-        assertEquals("(LAMBDA (F X Y Z) (F X) (F Y) (F Z))", ((Lambda)uusiLambda).getBody());
+        assertEquals("(LAMBDA (F X Y Z) (F X) Y (F Z))", ((Lambda)uusiLambda).getBody());
     }
     
     @Test
@@ -179,7 +173,7 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanlambdaBodyOikein() {      
-        assertEquals("[(f x), (f y), (f z)]", ((Lambda)uusiLambda).getLambdaBody().toString());
+        assertEquals("[<APPLICATION>, Y, <APPLICATION>]", ((Lambda)uusiLambda).getLambdaBody().toString());
     }
     
     @Test
