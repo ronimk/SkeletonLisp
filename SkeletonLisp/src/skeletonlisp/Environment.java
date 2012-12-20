@@ -32,4 +32,9 @@ public class Environment {
     public LExp getValueOf(LId id) {
         return associations.get(id);
     }
+    
+    // FOR testig purpouses only:
+    public HashMap<LId, LExp> getAssociations() {
+        return associations;
+    }
 }

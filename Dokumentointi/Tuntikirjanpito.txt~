@@ -210,9 +210,41 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 		  paljon paremmin!
 
 ~15min:		* primitiivi define lisätty: nyt esim lause:
-		((lambda (x y) ((lambda (z) (define t (+ z x y))) (* x y))) 5 7)
-		evaluoidaan luvuksi 47 ((5*7) + 5 + 7) ja tämän jälkeen
-		globaaliin ympäristöön on ilmestynyt ID T=47
+		  ((lambda (x y) ((lambda (z) (define t (+ z x y))) (* x y))) 5 7)
+		  evaluoidaan luvuksi 47 ((5*7) + 5 + 7) ja tämän jälkeen
+		  globaaliin ympäristöön on ilmestynyt ID T=47'
+
+~1,5h:		* Integraatiotestauksella löytyi melko vakava ja ongelmallinen virhe, jota
+		  metsästettiin puolitoista tuntia. Virhe oli kaikessa lyhykäisyydessään seuraava
+		  (Tässä suoraan tulkin syöte/tulosteparit:
+		  >> (define t (lambda (x) (+ x 2)))	OK
+		     <ANONYMOUS PROCEDURE>		OK
+		  >> (t (+ 8 3))			OK
+		     13					VIELÄKIN AIVAN FINE
+		  >> (t '#t)				PITÄISI TUOTTAA VIRHE
+		     ID UNBOUND: T			VIRHE ON AIVAN ROSKAA!!!
+
+		  Tämä johtui siis siitä, että applyLambda ei itse käsitellyt niitä poikkeuksia
+		  mitenkään, joita eval():in kutsu komennolla:
+		  returnVal = eval(lambdaBody.get(i), newEnv);
+		  tuotti, vaan heitti ne autuaan tietämättömänä eteenpäin, jolloin käy niin, että
+		  se apply():n instannsi, joka alunperin yritti hakea T:tä senhetkisestä ympäristöstä,
+		  ja joka T:n sieltä löysi, ja joka apply():asi taas eteenpäin evaluoiden ensin
+		  T:n bindaaman arvon, lopulta yritti T:tä muuttaa primitiiviproseduuriksi siinä
+		  vaiheessa kun se sai tiedon, että T:tä vastaavaa arvoa ei voitukaan evaluoida...
+		  Ratkaisu:
+		  Luo oma LambdaEvaluationException, jonka applyLambda heittää aina kun sille selviää,
+		  että kyseistä lambda ei voidakaan evaluoida, ja laita sitten apply() vastaavasti
+		  käsittelemään tämä tilanne. Nyt:
+		  >> (define t (lambda (x) (+ x 2)))	OK
+		     <ANONYMOUS PROCEDURE>		OK
+		  >> (t (+ 8 3))			OK
+		     13					VIELÄKIN AIVAN FINE
+		  >> (t '#t)				PITÄISI TUOTTAA VIRHE
+		     <ERROR>: PROCEDURE + EVALUATES ONLY TO NUMBERS
+
+		  Ja virheilmoitus toimii niin kuin sen pitääkin!
+		     
 
  TODO
  ----

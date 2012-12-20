@@ -131,9 +131,14 @@ public class LExpTest {
         assertEquals("(+ X Y)", app.getBody());
     }
     
-     @Test
+    @Test
     public void uudenApplicationinProseduuriOikea() {        
         assertEquals("+", ((LApplication) app).getProcedure().getBody());
+    }
+    
+    @Test
+    public void uudenApplicationinProseduurinTyyppiOikea() {        
+        assertEquals(LExpTypes.LIDTYPE, ((LApplication) app).getProcedure().getType());
     }
     
     @Test

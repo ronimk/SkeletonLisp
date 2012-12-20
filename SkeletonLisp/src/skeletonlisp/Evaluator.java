@@ -45,6 +45,10 @@
 //   or it binds each variable to the corresponding evaluated
 //   parameterValue
 //
+//   If lambda cannot be evaluated for some reason, we MUST return
+//   a new LambdaEvaluationException and not just throw the exception that
+//   the evaluator threw back: if we do so, the interpreter gives garbage! 
+//
 //   Now that the values have been bound to the proper variables in
 //   a new local environment, all that is left to do is to evaluate
 //   each and every lambdaBody expressions within the newly created
@@ -57,6 +61,7 @@ package skeletonlisp;
 
 import java.util.ArrayList;
 import skeletonlisp.LExp.*;
+import skeletonlisp.exceptions.*;
 
 
 public class Evaluator {
@@ -98,14 +103,18 @@ public class Evaluator {
         LExpTypes type = procedure.getType();
         
         switch (procedure.getType()) {
-            case LAMBDATYPE :           return applyLambda((Lambda)procedure, evalParamVals(paramVals, env), env);
+            case LAMBDATYPE :           return applyLambda((Lambda)procedure, paramVals, env);
                 
             case LAPPLICATIONTYPE :     return apply(eval(procedure, env), paramVals, env);
                 
             case LIDTYPE :              try {
                                             return apply(lookupIdInEnv((LId)procedure, env), paramVals, env);
                                         } catch (Exception e) {
-                                            return applyPrimitive(procedure, paramVals, env);
+                                            if (e.getClass() == LambdaEvaluationException.class) {
+                                                throw e;
+                                            } else {
+                                                return applyPrimitive((LId)procedure, paramVals, env);
+                                            }
                                         }
                 
             default:                     throw new IllegalArgumentException("NOT A PROPER APPLICATION: " + procedure);
@@ -128,7 +137,7 @@ public class Evaluator {
                                           env));
         } else {
             if (varSize != paramVals.size()) {
-                throw new Exception("ERROR EVALUATING A LAMBDA EXPRESSION: WRONG AMOUNT OF ARGUMENTS GIVEN");
+                throw new LambdaEvaluationException("ERROR EVALUATING A LAMBDA EXPRESSION: WRONG AMOUNT OF ARGUMENTS GIVEN");
             }
             
             for (int i=0; i<varSize; i++) {
@@ -139,13 +148,17 @@ public class Evaluator {
         LExp returnVal = new NIL();
         
         for (int i=0; i<lambdaBody.size(); i++) {
-            returnVal = eval(lambdaBody.get(i), newEnv);
+            try {
+                returnVal = eval(lambdaBody.get(i), newEnv);
+            } catch (Exception e) {
+                throw new LambdaEvaluationException(e.getMessage());
+            }
         }
         
         return returnVal;
     }
         
-    private LExp applyPrimitive(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
+    private LExp applyPrimitive(LId procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
         String primitive = procedure.getBody();
         
         if (primitive.equals("EXIT")) {
@@ -178,7 +191,7 @@ public class Evaluator {
             return primitiveApplier.evaluateOr(paramVals, this, env);
         }
         
-        return new LString("<NOT IMPLEMENTED YET>");        
+        throw new Exception("UNBOUND ID: " + primitive);        
     }
     
     private LExp lookupIdInEnv(LId id, Environment env) throws Exception {
