@@ -13,6 +13,35 @@ import skeletonlisp.exceptions.*;
  * @author rmkekkon
  */
 public class PrimitiveApplier {
+    private ArrayList<LExp> primitives;
+    
+    public PrimitiveApplier() {
+        primitives = new ArrayList<LExp>();
+        
+        primitives.add(new LId("+"));
+        primitives.add(new LId("-"));
+        primitives.add(new LId("/"));
+        primitives.add(new LId("*"));
+        primitives.add(new LId("<"));
+        primitives.add(new LId("<="));
+        primitives.add(new LId("="));
+        primitives.add(new LId(">="));
+        primitives.add(new LId(">"));
+        primitives.add(new LId("ABS"));
+        primitives.add(new LId("AND"));
+        primitives.add(new LId("CONS"));
+        primitives.add(new LId("DEFINE"));
+        primitives.add(new LId("LIST"));
+        primitives.add(new LId("OR"));
+    }
+    
+    public LExp lookupPrimitive(LId proc) throws Exception {
+        if (!primitives.contains(proc)) {
+            throw new UnboundIDException("ID UNBOUND: " + proc);
+        }
+        
+        return proc;
+    }
     
     private boolean allLExpsInAListAreLNumbers(ArrayList<LExp> list) {
         for (int i=0; i<list.size(); i++) {

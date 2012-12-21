@@ -288,8 +288,34 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			  täytyy sopeuttaa tähän uuteen muutokseen.
 			  Tämä tosin vaatii hieman tylsää työtä, mutta sen pyrin
 			  tekemään ensi viikon alusta.
+
+1h:			* Muutama ongelmakohta havaittu ja korjattu: primitiivien
+			  käsittely on nyt huomattavasti parempaa; tulkki ymmärtää nyt,
+			  jos käyttäjä syöttää
+			  >> CONS
+			  <CONS:ID>
+			  Tämä mahdollistaa mm. seuraavanlaisia L-lauseita:
+			  (((lambda () +)) 3 4) => (+ 3 4) => 3 + 4 => 8
+			  Aiemmin tämä olisi tuottanut poikkeuksen (UnboundIDException)
+			  Syynä tälle oli se, että applikaation
+			  ((lambda () +)) evaluoinnin yhteydessä lambda-bodya (+) ei osattu
+			  oikein evaluoida, koska tulkki ei ymmärtänyt aiemmin primitiivejä.
+			  Siispä lopullinen tulos oli UnboundIDException...
 			  
-			
+			  Suurin ongelma tässä vaiheessa kuitenkin evaluaattorissa on se,
+			  että se on luonteeltaan rekursiivinen ihan pelkästään LISP-kielen
+			  syntaksin ja semantiikan rekursiivisen luonteen vuoksi; Java ei
+			  taas rekursiivista ohjelmointia juurikaan tue, enkä tässä vaiheessa
+			  keksi mitään parempaakaan keinoa rakentaa evaluaattoria kuin se,
+			  mihin olen Schemelläkin tottunut: rekursioon.
+			  
+			  Tämä sekava rakenne on ongelmallista oikeastaan juurikin
+			  poikkeustilanteiden hallinnan kannalta: mitkä poikkeustilanteet
+			  vaikuttavat mihinkin lauseisiin, ja mitä poikkeustilanteita
+			  tulisi sallia... Tämä on vaikein hallittava asia evaluaattorissa,
+			  jota pitäisi miettiä tarkemmin...
+			  (kts. Ongelmakohtia 6.)
+			  
  TODO
  ----
   Päivitä luokkakaavio Deadline II:ta varten!!! (se ei pakosti onnistu, sillä
@@ -339,6 +365,8 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
    (sitä ei ole vielä yksikkötestein testattu ollenkaan...)
    Muuten Evaluaattori on testattu vain integraatiotestauksella,
    (kuten myös REPL)
+
+6. Pystyisikö evaluaattorin rekursiivista käyttäytymistä selkeyttää hieman...
  
 Parseri näyttäisi tosiaan siis olevan (kuten jo ennakkoon otaksuinkin) se
 ehdottomasti haastavin osio.

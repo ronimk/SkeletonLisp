@@ -4,9 +4,13 @@
 // * LValues are the simplest expressions possible - they cannot
 //   be simplified anymore
 //
-// * LIDs are LOOKed UP IN the ENVironment provided to the
+// * LIDs are irst LOOKed UP IN the ENVironment provided to the
 //   evaluator, and the bound value is returned: if the Id is
-//   not found in the environment provided, an exception is raised
+//   not found in the environment provided, it is LOOKed UP in
+//   PRIMITIVE list (primitiveApplier.luukupPrimitive())
+//   and if not found there either, an exception is raised,
+//   otherwise the id is returned.
+//
 //
 // * Lambdas are evaluated and returned as they are as they are
 //   So, it is only when lambdas and LIds are used as applications
@@ -78,7 +82,12 @@ public class Evaluator {
         switch (exp.getType()) {
             case LVALUETYPE:        return exp;
                 
-            case LIDTYPE:           return lookupIdInEnv((LId) exp, env);
+            case LIDTYPE:           LExp val = lookupIdInEnv((LId) exp, env);
+                                    if (val != null) {
+                                        return val;
+                                    } else { 
+                                        return primitiveApplier.lookupPrimitive((LId) exp);
+                                    }
                 
             case LAMBDATYPE:        return exp;
                 
@@ -109,14 +118,11 @@ public class Evaluator {
                 
             case LAPPLICATIONTYPE :     return apply(eval(procedure, env), paramVals, env);
                 
-            case LIDTYPE :              try {
-                                            return apply(lookupIdInEnv((LId)procedure, env), paramVals, env);
-                                        } catch (Exception e) {
-                                            if (e.getClass() != UnboundIDException.class) {
-                                                throw e;
-                                            } else {
-                                                return applyPrimitive((LId)procedure, paramVals, env);
-                                            }
+            case LIDTYPE :             LExp procVal = lookupIdInEnv((LId) procedure, env);
+                                       if (procVal != null) {
+                                            return apply(procVal, paramVals, env);
+                                        } else {
+                                            return applyPrimitive((LId)procedure, paramVals, env);
                                         }
                 
             default:                     throw new ApplicationException("NOT A PROPER APPLICATION: " + procedure);
@@ -198,14 +204,10 @@ public class Evaluator {
             return primitiveApplier.or(paramVals, this, env);
         }
         
-        throw new ApplyPrimitiveException("ID CANNOT BE IDENTIFIED: " + primitive);        
+        throw new ApplyPrimitiveException("ID UNBOUND: " + procedure);        
     }
     
     private LExp lookupIdInEnv(LId id, Environment env) throws Exception {
-        if (env.containsId(id)) {
-            return env.getValueOf(id);
-        } else {
-            throw new UnboundIDException("ID UNBOUND: " + id);
-        }
+        return env.getValueOf(id);
     }
 }
