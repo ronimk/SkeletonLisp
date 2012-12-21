@@ -8,7 +8,7 @@ public class REPL {
     private Scanner reader = new Scanner(System.in);
     private boolean exit = false;
     private Environment globalEnvironment = new Environment();
-    private Evaluator evaluator = new Evaluator(globalEnvironment);
+    private Evaluator evaluator = new Evaluator(globalEnvironment, new Runnable () { @Override public void run() { exit(); }});
     
     public void run() {
         while (!exit) {
@@ -41,5 +41,9 @@ public class REPL {
     
     public void print(LExp exp) {  
         System.out.println(exp);
+    }
+    
+    public void exit() {
+        exit = true;
     }
 }

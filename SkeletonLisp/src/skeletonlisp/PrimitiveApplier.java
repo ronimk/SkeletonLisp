@@ -6,7 +6,8 @@ package skeletonlisp;
 
 import java.util.ArrayList;
 import skeletonlisp.LExp.*;
-
+import skeletonlisp.exceptions.*;
+;
 /**
  *
  * @author rmkekkon
@@ -300,7 +301,15 @@ public class PrimitiveApplier {
              throw new Exception("ONLY IDENTIFIERS CAN BE DEFINED");
          }
          
-         LExp val = evaluator.eval(paramVals.get(1), currentEnv);
+         LExp val;
+         try {
+            val = evaluator.eval(paramVals.get(1), currentEnv);
+         } catch(Exception e) {
+             if (e.getClass() != UnboundIDException.class) {
+                 throw new Exception(e.getMessage());
+             }
+             val = paramVals.get(1);
+         }
          globalEnv.extendEnvironment((LId)var, val);
          
          return val;

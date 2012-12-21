@@ -46,7 +46,7 @@
 //   parameterValue
 //
 //   If lambda cannot be evaluated for some reason, we MUST return
-//   a new LambdaEvaluationException and not just throw the exception that
+//   a new LambdaApplicationException and not just throw the exception that
 //   the evaluator threw back: if we do so, the interpreter gives garbage! 
 //
 //   Now that the values have been bound to the proper variables in
@@ -66,10 +66,12 @@ import skeletonlisp.exceptions.*;
 
 public class Evaluator {
     private Environment globalEnvironment;
+    private Runnable exit;
     private PrimitiveApplier primitiveApplier = new PrimitiveApplier();
     
-    public Evaluator(Environment _globalEnvironment) {
+    public Evaluator(Environment _globalEnvironment, Runnable _exit) {
         globalEnvironment = _globalEnvironment;
+        exit = _exit;
     }
     
     public LExp eval(LExp exp, Environment env) throws Exception {
@@ -110,14 +112,15 @@ public class Evaluator {
             case LIDTYPE :              try {
                                             return apply(lookupIdInEnv((LId)procedure, env), paramVals, env);
                                         } catch (Exception e) {
-                                            if (e.getClass() == LambdaEvaluationException.class) {
+                                            if (e.getClass() == LambdaApplicationException.class ||
+                                                e.getClass() == ApplicationException.class) {
                                                 throw e;
                                             } else {
                                                 return applyPrimitive((LId)procedure, paramVals, env);
                                             }
                                         }
                 
-            default:                     throw new IllegalArgumentException("NOT A PROPER APPLICATION: " + procedure);
+            default:                     throw new ApplicationException("NOT A PROPER APPLICATION: " + procedure);
         }
     }
     
@@ -137,7 +140,7 @@ public class Evaluator {
                                           env));
         } else {
             if (varSize != paramVals.size()) {
-                throw new LambdaEvaluationException("ERROR EVALUATING A LAMBDA EXPRESSION: WRONG AMOUNT OF ARGUMENTS GIVEN");
+                throw new LambdaApplicationException("ERROR EVALUATING A LAMBDA EXPRESSION: WRONG AMOUNT OF ARGUMENTS GIVEN");
             }
             
             for (int i=0; i<varSize; i++) {
@@ -151,7 +154,7 @@ public class Evaluator {
             try {
                 returnVal = eval(lambdaBody.get(i), newEnv);
             } catch (Exception e) {
-                throw new LambdaEvaluationException(e.getMessage());
+                throw new LambdaApplicationException(e.getMessage());
             }
         }
         
@@ -162,7 +165,8 @@ public class Evaluator {
         String primitive = procedure.getBody();
         
         if (primitive.equals("EXIT")) {
-            
+            exit.run();
+            return new LString("Farewell:\n\t\"I suppose I should learn Lisp,\n\t but it seems so foreign.\"\n\t(Paul Graham, 1983)");
         } else if (primitive.equals("+")) { 
             return primitiveApplier.add(evalParamVals(paramVals, env));
         } else if (primitive.equals("-")) {
@@ -191,14 +195,14 @@ public class Evaluator {
             return primitiveApplier.evaluateOr(paramVals, this, env);
         }
         
-        throw new Exception("UNBOUND ID: " + primitive);        
+        throw new UnboundIDException("UNBOUND ID: " + primitive);        
     }
     
     private LExp lookupIdInEnv(LId id, Environment env) throws Exception {
         if (env.containsId(id)) {
             return env.getValueOf(id);
         } else {
-            throw new IllegalArgumentException("ID UNBOUND: " + id);
+            throw new UnboundIDException("ID UNBOUND: " + id);
         }
     }
 }

@@ -244,8 +244,33 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 		     <ERROR>: PROCEDURE + EVALUATES ONLY TO NUMBERS
 
 		  Ja virheilmoitus toimii niin kuin sen pitääkin!
-		     
 
+21.12 Perjanta
+--------------
+
+~40min:		* Oletettavaa oli, että eilinen ongelma ilmeni myös silloin kun yritti tehdä jotain
+			  seuraavankaltaista LValueilla:
+			  >> (define t 0)
+			  0
+			  >> (t 9)
+			  <ERROR>: UNBOUND ID T
+			  
+			  nyt ongelma on sen suhteen myös korjattu. Define tosin kaipaa vielä lisätestausta,
+			  muidenkin L-lauseiden yhteydessä kuin vain Lambdojen ja LValueitten...
+			  
+			* EXIT primitiivin toiminnallisuus lisätty.
+			
+			* Pari uutta Exception-luokkaa lisätty.
+			  (kts. TODO - kohta 6)
+			  (LambdaEvaluationExceptionin nimi muutettu myös järkevämmäksi:
+			   LambdaApplicationException - sillä kyseiset poikkeukset tapah-
+			   tuvat nimenomaan Lambda lauseiden apply()-vaiheessa, eikä suinkaan
+			   eval()-vaiheessa
+			  (vrt.
+			      eval((lambda (x) x)) 				=> <ANONYMOUS PROCEDURE>
+			      eval(((lambda (x) x) 'IDENTITY)) 	=> IDENTITY
+			   )
+			
  TODO
  ----
   Päivitä luokkakaavio Deadline II:ta varten!!! (se ei pakosti onnistu, sillä
@@ -256,15 +281,22 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
   Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
   
   19.12-23.12:
-  3) Luo tuki Cond-lauseiden ja Lambda-lauseiden evaluoimiselle
+  3) Luo tuki Cond-lauseiden evaluoimiselle
   4) Lisää primitiivejä; tällä viikolla pitäisi saada kaikki primitiivien
      käsittelijät valmiiksi.
   5) mieti miten if...else if...else, osioita voisi siivota parempaan
      muotoon
   6) Voisiko Exceptioneiden käsittelyä vielä parantaa erottelemalla erillaisia
      poikkeustyyppejä? Sitä on syytä miettiä...
-     (Selvitä minkälaisia poikkeuksia Java tukee)
-  7) voisiko applyLambdaa parannella jotenkin selkeämmäksi?
+     (21.12: Päätös alkaa luoda omia Exceptioneitä, oli ihan järkevä, sillä nyt
+      niiden avulla voidaan hallita järkevämmin poikkeuksellista toimintaa.
+      Tässä vaiheessa tosin voisi miettiä, miten näitä voisi parhaalla tavalla
+      hyödyntää: esim. voisiko parserille luoda omia ParserExceptioneitä, joiden
+      avulla Read pystyisi lopulta palauttamaan kustomoidun virhetekstin, joka
+      ei olisi riippuvainen siitä, mitä kaikissa eri parserointivaiheissa on
+      tapahtunut...)
+     
+  7) voisiko applyLambdaa parannella jotenkin vieläkin selkeämmäksi?
  
  Ongelmakohtia
  -------------
