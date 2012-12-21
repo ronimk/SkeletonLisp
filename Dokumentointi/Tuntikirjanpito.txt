@@ -270,6 +270,25 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			      eval((lambda (x) x)) 				=> <ANONYMOUS PROCEDURE>
 			      eval(((lambda (x) x) 'IDENTITY)) 	=> IDENTITY
 			   )
+			   
+~2h:		* Uusia primitiivejä: LIST ja PAIR.
+			* Törmätty uuteen bugiin parserissa - Korjataan pikimmiten
+			  (kts. bugeja 1)
+			* Uusi Exception: ApplyPrimitiveException
+			* apply()-rutiinia parannettu:
+			  jos appllikaatio sisältää ensimmäisenä IDn -
+			  vaikkapa (f 0) - sen tulkinta pitäisi tästä lähtien
+			  toimia aina: eli poikkeus heitetään REPL:ille aina mikäli
+			  f ei ole bindattu primitiiviin tai lambda-lauseeseen taikka
+			  sellaiseen cond-lauseeseen, jonka tuloksena on joko
+			  primitiiviproseduuri tai lambda-lause.
+			* Tässä vaiheessa on jo pakko myöntää, että LExp-abstraktiluokan
+			  String body-jäsenmuuttuja on aivan turha kaiken muun kuin
+			  testauksen kannalta. Se on pakko repiä jo pois ja ohjelmaa
+			  täytyy sopeuttaa tähän uuteen muutokseen.
+			  Tämä tosin vaatii hieman tylsää työtä, mutta sen pyrin
+			  tekemään ensi viikon alusta.
+			  
 			
  TODO
  ----
@@ -281,6 +300,10 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
   Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
   
   19.12-23.12:
+  1) Poista LExp-luokan body-jäsenmuuttuja ja muokkaa muu ohjelma sellaiseksi,
+     että se toimii ilmankin...
+  2) Korjaa merkkijonobugi, testaa ohjelman kaikkea tähänastista toimintaa
+     merkkijonoilla, ja katso löytyykö uusia bugeja...
   3) Luo tuki Cond-lauseiden evaluoimiselle
   4) Lisää primitiivejä; tällä viikolla pitäisi saada kaikki primitiivien
      käsittelijät valmiiksi.
@@ -319,3 +342,10 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
  
 Parseri näyttäisi tosiaan siis olevan (kuten jo ennakkoon otaksuinkin) se
 ehdottomasti haastavin osio.
+
+Bugeja
+------
+1. Jos välimerkkejä sisältävän merkkijonon syöttää osana monimutkaisempaa L-lausetta,
+   WordParser ei osaa erottaa merkkijonoa kokonaisuutena, vaan palauttaa sen yksittäisinä
+   sanoina... Täten merkkijonojen käyttö monimutkaisemmissa lauseissa aiheuttavat
+   tulostuksena täydellistä roskaa...

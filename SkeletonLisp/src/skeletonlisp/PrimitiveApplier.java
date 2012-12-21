@@ -46,13 +46,13 @@ public class PrimitiveApplier {
         return !isLessThan(val1, val2) && !isEqualTo(val1, val2);
     }
     
-    public LExp add(ArrayList<LExp> paramVals) {
+    public LExp add(ArrayList<LExp> paramVals) throws Exception {
         if (paramVals.isEmpty()) {
             return new LInt(0);
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("PROCEDURE + EVALUATES ONLY TO NUMBERS");
+            throw new ApplyPrimitiveException("PROCEDURE + EVALUATES ONLY TO NUMBERS");
         }
               
         double result = 0.0;
@@ -74,7 +74,7 @@ public class PrimitiveApplier {
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("PROCEDURE - EVALUATES ONLY TO NUMBERS");
+            throw new ApplyPrimitiveException("PROCEDURE - EVALUATES ONLY TO NUMBERS");
         }
             
         double result = ((LNumber)paramVals.get(0)).getNumberVal();
@@ -96,7 +96,7 @@ public class PrimitiveApplier {
         }
                 
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("PROCEDURE / EVALUATES ONLY TO NUMBERS");
+            throw new ApplyPrimitiveException("PROCEDURE / EVALUATES ONLY TO NUMBERS");
         }  
         
        double result = ((LNumber)paramVals.get(0)).getNumberVal();
@@ -105,7 +105,7 @@ public class PrimitiveApplier {
              double nextVal = ((LNumber)paramVals.get(i)).getNumberVal();
              
              if (nextVal == 0) {
-                 throw new Exception("DIVIDE BY ZERO");
+                 throw new ApplyPrimitiveException("DIVIDE BY ZERO");
              }
              
              result /= nextVal;
@@ -121,7 +121,7 @@ public class PrimitiveApplier {
         }
                 
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("PROCEDURE * EVALUATES ONLY TO NUMBERS");
+            throw new ApplyPrimitiveException("PROCEDURE * EVALUATES ONLY TO NUMBERS");
         }
             
         double result = 1;
@@ -148,7 +148,7 @@ public class PrimitiveApplier {
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("PROCEDURE < EVALUATES ONLY TO NUMBERS");
+            throw new ApplyPrimitiveException("PROCEDURE < EVALUATES ONLY TO NUMBERS");
         }
 
         LExp prevVal = paramVals.get(0);
@@ -172,7 +172,7 @@ public class PrimitiveApplier {
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("PROCEDURE <= EVALUATES ONLY TO NUMBERS");
+            throw new ApplyPrimitiveException("PROCEDURE <= EVALUATES ONLY TO NUMBERS");
         }
 
         LExp prevVal = paramVals.get(0);
@@ -196,7 +196,7 @@ public class PrimitiveApplier {
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("PROCEDURE = EVALUATES ONLY TO NUMBERS");
+            throw new ApplyPrimitiveException("PROCEDURE = EVALUATES ONLY TO NUMBERS");
         }
 
         LExp firstVal = paramVals.get(0);
@@ -218,7 +218,7 @@ public class PrimitiveApplier {
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("PROCEDURE >= EVALUATES ONLY TO NUMBERS");
+            throw new ApplyPrimitiveException("PROCEDURE >= EVALUATES ONLY TO NUMBERS");
         }
 
         LExp prevVal = paramVals.get(0);
@@ -242,7 +242,7 @@ public class PrimitiveApplier {
         }
         
         if (!allLExpsInAListAreLNumbers(paramVals)) {
-            throw new IllegalArgumentException("PROCEDURE > EVALUATES ONLY TO NUMBERS");
+            throw new ApplyPrimitiveException("PROCEDURE > EVALUATES ONLY TO NUMBERS");
         }
 
         LExp prevVal = paramVals.get(0);
@@ -260,15 +260,15 @@ public class PrimitiveApplier {
         return new LAtom("#t");
     }
      
-     public LExp evaluateAbs(ArrayList<LExp> paramVals) throws Exception {
+     public LExp abs(ArrayList<LExp> paramVals) throws Exception {
          if (paramVals.size() != 1) {
-             throw new Exception("PROCEDURE ABS EVALUATE TO EXACTLY ONE NUMBER");
+             throw new ApplyPrimitiveException("PROCEDURE ABS EVALUATE TO EXACTLY ONE NUMBER");
          }
          
          LExp val = paramVals.get(0);
          
          if (val.getSubType() != LExpTypes.LNUMBERTYPE) {
-             throw new Exception("PROCEDURE ABS EVALUATES ONLY TO NUMBERS");
+             throw new ApplyPrimitiveException("PROCEDURE ABS EVALUATES ONLY TO NUMBERS");
          }
          
          switch (((LNumber)val).getNumberType()) {
@@ -277,7 +277,7 @@ public class PrimitiveApplier {
          }
      }
      
-     public LExp evaluateAnd(ArrayList<LExp> paramVals, Evaluator evaluator, Environment env) throws Exception {
+     public LExp and(ArrayList<LExp> paramVals, Evaluator evaluator, Environment env) throws Exception {
          LExp returnVal = new LAtom("#t");
          
          for(int i=0; i<paramVals.size(); i++) {
@@ -290,15 +290,46 @@ public class PrimitiveApplier {
          return returnVal;
      }
      
+     public LExp cons(ArrayList<LExp> paramVals, Evaluator evaluator, Environment env) throws Exception {
+         if (paramVals.size() != 2) {
+             throw new ApplyPrimitiveException("CONS TAKES EXACTLY TWO ARGUMENTS");
+         }
+         
+         LExp val0;
+         LExp val1;
+         
+         try {
+             val0 = evaluator.eval(paramVals.get(0), env);
+         } catch (Exception e) {
+             if (e.getClass() != UnboundIDException.class) {
+                 throw new ApplyPrimitiveException(e.getMessage());
+             }
+             
+             val0 =paramVals.get(0);
+         }
+         
+         try {
+             val1 = evaluator.eval(paramVals.get(1), env);
+         } catch (Exception e) {
+             if (e.getClass() != UnboundIDException.class) {
+                 throw new ApplyPrimitiveException(e.getMessage());
+             }
+             
+             val1 =paramVals.get(1);
+         }
+         
+         return new LPair(val0, val1);
+     }
+     
      public LExp defineGlobally(ArrayList<LExp> paramVals, Environment globalEnv, Evaluator evaluator, Environment currentEnv) throws Exception {
          if (paramVals.size() != 2) {
-             throw new Exception("PROCEDURE DEFINE ONLY TAKES TWO ARGUMENTS");
+             throw new ApplyPrimitiveException("PROCEDURE DEFINE ONLY TAKES TWO ARGUMENTS");
          }
          
          LExp var = paramVals.get(0);
          
          if (var.getType() != LExpTypes.LIDTYPE) {
-             throw new Exception("ONLY IDENTIFIERS CAN BE DEFINED");
+             throw new ApplyPrimitiveException("ONLY IDENTIFIERS CAN BE DEFINED");
          }
          
          LExp val;
@@ -306,7 +337,7 @@ public class PrimitiveApplier {
             val = evaluator.eval(paramVals.get(1), currentEnv);
          } catch(Exception e) {
              if (e.getClass() != UnboundIDException.class) {
-                 throw new Exception(e.getMessage());
+                 throw new ApplyPrimitiveException(e.getMessage());
              }
              val = paramVals.get(1);
          }
@@ -315,7 +346,39 @@ public class PrimitiveApplier {
          return val;
      }
      
-     public LExp evaluateOr(ArrayList<LExp> paramVals, Evaluator evaluator, Environment env) throws Exception {
+     public LExp list(ArrayList<LExp> paramVals, Evaluator evaluator, Environment env) throws Exception {
+         if (paramVals.isEmpty()) {
+             return new NIL();
+         }
+         
+         LPair resultPair = new LPair();
+         
+         LPair currPair = resultPair;
+         LPair nextPair = resultPair;
+         
+         for (int i=0; i<paramVals.size(); i++) { 
+             currPair = nextPair;
+             LExp currCar;
+             try {
+                currCar = evaluator.eval(paramVals.get(i), env);
+             } catch (Exception e) {
+                 if (e.getClass() != UnboundIDException.class) {
+                     throw new ApplyPrimitiveException(e.getMessage()); 
+                 }
+                 currCar = paramVals.get(i);
+             }
+             
+             currPair.setCar(currCar);
+             currPair.setCdr(new LPair());
+             nextPair = (LPair)currPair.getCdr();
+         }
+         
+         currPair.setCdr(new NIL());
+         
+         return resultPair;
+     }
+     
+     public LExp or(ArrayList<LExp> paramVals, Evaluator evaluator, Environment env) throws Exception {
          
          for(int i=0; i<paramVals.size(); i++) {
              LExp returnVal = evaluator.eval(paramVals.get(i), env);

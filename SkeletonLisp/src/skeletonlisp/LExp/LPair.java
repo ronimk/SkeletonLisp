@@ -5,6 +5,18 @@ public class LPair extends LValue {
     private LExp car;
     private LExp cdr;
     
+    public LPair() {
+        super(LExpTypes.LPAIRTYPE, "NIL");
+        car = new NIL();
+        cdr = new NIL();
+    }
+    
+    public LPair(LExp _car, LExp _cdr) {
+        super(LExpTypes.LPAIRTYPE, "");
+        car = _car;
+        cdr = _cdr;
+    }
+    
     public LPair(String _body, LExp _car, LExp _cdr) {
         super(LExpTypes.LPAIRTYPE, _body);
         car = _car;
@@ -19,15 +31,29 @@ public class LPair extends LValue {
         return cdr;
     }
     
+    public void setCar(LExp cell) {
+        car = cell;
+    }
+    
+    public void setCdr(LExp cell) {
+        cdr = cell;
+    }
+    
     public String toStringWithoutParentheses() {
-        String tail = "";
+        String output;
         
-        if (cdr.getSubType() == (LExpTypes.LPAIRTYPE)) {
-            tail = " " + ((LPair) cdr).toStringWithoutParentheses();
-        } else if (cdr.getSubType() != (LExpTypes.NILTYPE)) {
-            tail = " . " + cdr.toString();
+        switch (cdr.getSubType()) {
+            case LPAIRTYPE:     output = car.toString() + " " + ((LPair) cdr).toStringWithoutParentheses();
+                                break;
+                
+            case NILTYPE:       output = car.toString();
+                                break;
+                
+            default:            output = car.toString() + " . " + cdr.toString();
+                                break;
         }
-            return car.toString() + tail;
+        
+        return output;
     }
     
     @Override

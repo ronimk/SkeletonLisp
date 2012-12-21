@@ -112,8 +112,7 @@ public class Evaluator {
             case LIDTYPE :              try {
                                             return apply(lookupIdInEnv((LId)procedure, env), paramVals, env);
                                         } catch (Exception e) {
-                                            if (e.getClass() == LambdaApplicationException.class ||
-                                                e.getClass() == ApplicationException.class) {
+                                            if (e.getClass() != UnboundIDException.class) {
                                                 throw e;
                                             } else {
                                                 return applyPrimitive((LId)procedure, paramVals, env);
@@ -186,16 +185,20 @@ public class Evaluator {
         } else if (primitive.equals(">")) {
             return primitiveApplier.greaterThan(evalParamVals(paramVals,env));
         } else if (primitive.equals("ABS")) {
-            return primitiveApplier.evaluateAbs(evalParamVals(paramVals, env));
+            return primitiveApplier.abs(evalParamVals(paramVals, env));
         } else if (primitive.equals("AND")) {
-            return primitiveApplier.evaluateAnd(paramVals, this, env);
+            return primitiveApplier.and(paramVals, this, env);
+        } else if (primitive.equals("CONS")) {
+            return primitiveApplier.cons(paramVals, this, env);
         } else if (primitive.equals("DEFINE")) {
             return primitiveApplier.defineGlobally(paramVals, globalEnvironment, this, env);
+        } else if (primitive.equals("LIST")) {
+            return primitiveApplier.list(paramVals, this, env);
         } else if (primitive.equals("OR")) {
-            return primitiveApplier.evaluateOr(paramVals, this, env);
+            return primitiveApplier.or(paramVals, this, env);
         }
         
-        throw new UnboundIDException("UNBOUND ID: " + primitive);        
+        throw new ApplyPrimitiveException("ID CANNOT BE IDENTIFIED: " + primitive);        
     }
     
     private LExp lookupIdInEnv(LId id, Environment env) throws Exception {

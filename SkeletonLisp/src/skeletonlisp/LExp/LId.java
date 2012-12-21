@@ -24,6 +24,6 @@ public class LId extends LExp {
     
     @Override
     public String toString() {
-        return getBody();
+        return "<" + getBody() + ":ID>";
     }
 }

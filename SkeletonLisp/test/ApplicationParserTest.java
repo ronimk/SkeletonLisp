@@ -59,7 +59,7 @@ public class ApplicationParserTest {
         try {
             LExp app = ApplicationParser.makeNewApplication("(f 2)");
             
-            assertEquals("F", ((LApplication)app).getProcedure().toString());
+            assertEquals("<F:ID>", ((LApplication)app).getProcedure().toString());
         } catch (Exception e) {
             assertTrue(false);
         }

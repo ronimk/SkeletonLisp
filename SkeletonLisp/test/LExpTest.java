@@ -118,7 +118,7 @@ public class LExpTest {
     
     @Test
     public void iDnToStringMetodiToimii() {
-        assertEquals("X", ((LId)id).toString());
+        assertEquals("<X:ID>", ((LId)id).toString());
     }
     
     @Test
@@ -178,7 +178,7 @@ public class LExpTest {
     
     @Test
     public void uudenLambdanlambdaBodyOikein() {      
-        assertEquals("[<APPLICATION>, Y, <APPLICATION>]", ((Lambda)uusiLambda).getLambdaBody().toString());
+        assertEquals("[<APPLICATION>, <Y:ID>, <APPLICATION>]", ((Lambda)uusiLambda).getLambdaBody().toString());
     }
     
     @Test
@@ -206,7 +206,7 @@ public class LExpTest {
         String carArvo = ((LPair)uusiPair).getCar().getType() + " : " +
                          ((LPair)uusiPair).getCar().toString();
         
-        assertEquals(LExpTypes.LIDTYPE + " : A", carArvo);
+        assertEquals(LExpTypes.LIDTYPE + " : <A:ID>", carArvo);
     }
     
     @Test
@@ -214,12 +214,12 @@ public class LExpTest {
         String cdrArvo = ((LPair)uusiPair).getCdr().getType() + " : " +
                          ((LPair)uusiPair).getCdr().toString();
         
-        assertEquals(LExpTypes.LIDTYPE + " : B", cdrArvo);
+        assertEquals(LExpTypes.LIDTYPE + " : <B:ID>", cdrArvo);
     }
     
     @Test
     public void uudenParinToStringMetodiToimiiKunPelkkiaAtomeja() {        
-        assertEquals("(A . B)", uusiPair.toString());
+        assertEquals("(<A:ID> . <B:ID>)", uusiPair.toString());
     }
     
     @Test
@@ -230,7 +230,7 @@ public class LExpTest {
         LExp uusiCdr = new LPair("(a b)", uusiIdA, new LPair("(b)", uusiIdB, new NIL()));
         uusiPair = new LPair("((a . b) a b)", uusiCar, uusiCdr);
         
-        assertEquals("((A . B) A B)", uusiPair.toString());
+        assertEquals("((<A:ID> . <B:ID>) <A:ID> <B:ID>)", uusiPair.toString());
     }
     
     @Test

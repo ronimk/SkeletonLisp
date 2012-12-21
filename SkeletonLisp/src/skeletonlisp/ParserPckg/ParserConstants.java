@@ -7,5 +7,5 @@ public class ParserConstants {
     public static final String emptyString = "";
     public static final char SPACE = ' ';
     public static final String digits = "0123456789";
-    public static final String reservedLetters = " \\\'()[]{}";
+    public static final String reservedLetters = " \\\'()[]{}\"";
 }
