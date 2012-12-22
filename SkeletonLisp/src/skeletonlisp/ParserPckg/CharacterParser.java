@@ -42,16 +42,21 @@ public class CharacterParser {
         for (int i=0; i<exp.length(); i++) {
             char ch = exp.charAt(i);
             
-            if (ch == ParserConstants.SPACE) {
-                if (prevCharWasASpace) {
-                    continue;
-                } else {
-                    prevCharWasASpace = true;
-                }
-            } else {
-                prevCharWasASpace = false;
+            switch (ch) {
+                case ParserConstants.SPACE: 
+                case ParserConstants.TAB:
+                    if (prevCharWasASpace) {
+                        continue;
+                    } else {
+                        prevCharWasASpace = true;
+                    }
+                    ch = ParserConstants.SPACE;
+                    break;
+                    
+                default:
+                    prevCharWasASpace = false;
+                    break;
             }
-            
             newExp += ch;
         }
         

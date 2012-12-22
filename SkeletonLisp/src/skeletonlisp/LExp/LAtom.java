@@ -9,17 +9,19 @@ package skeletonlisp.LExp;
  * @author root
  */
 public class LAtom extends LValue {
+    private String atom;
     
-    public LAtom(String _body) {
-        super(LExpTypes.LATOMTYPE, _body);
+    public LAtom(String _atom) {
+        super(LExpTypes.LATOMTYPE);
+        atom = _atom.toUpperCase();
     }
     
     public String getAtom() {
-        return getBody();
+        return atom;
     }
     
     @Override
     public String toString() {
-        return getBody();
+        return atom;
     }
 }

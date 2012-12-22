@@ -30,7 +30,7 @@ public class LambdaParser {
         }
               
         try {          
-            return new Lambda(exp, makeVarList(varsWord), lambdaBody(unwrappedLambdaExp), isAListParameter);
+            return new Lambda(makeVarList(varsWord), lambdaBody(unwrappedLambdaExp), isAListParameter);
             } catch (Exception e) {
                 throw new Exception(e.getMessage() + ": " + exp);
         }

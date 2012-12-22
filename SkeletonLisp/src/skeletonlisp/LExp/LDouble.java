@@ -11,16 +11,11 @@ package skeletonlisp.LExp;
 public class LDouble extends LNumber {
     private double value;
     
-    public LDouble(String _body) {
-        super(LExpTypes.LDOUBLETYPE, _body);
-        
-        value = Double.parseDouble(_body);
-    }
-    
     public LDouble(double _value) {
-        super(LExpTypes.LDOUBLETYPE, String.valueOf(_value));
+        super(LExpTypes.LDOUBLETYPE, _value);  
         value = _value;
     }
+    
     
     public double getValue() {
         return value;
@@ -28,6 +23,6 @@ public class LDouble extends LNumber {
     
     @Override
     public String toString() {
-        return getBody();
+        return String.valueOf(value);
     }
 }

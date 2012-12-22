@@ -4,15 +4,15 @@ package skeletonlisp.LExp;
 import java.util.ArrayList;
 
 public class LCond extends LExp {
-    private ArrayList<String> cases;
+    private ArrayList<CondCase> cases;
     
-    public LCond(String _body, ArrayList<String> _cases) {
-        super(LExpTypes.LCONDTYPE, _body);
+    public LCond(ArrayList<CondCase> _cases) {
+        super(LExpTypes.LCONDTYPE);
         
         cases = _cases;
     }
     
-    public ArrayList<String> getCases() {
+    public ArrayList<CondCase> getCases() {
         return cases;
     }
     

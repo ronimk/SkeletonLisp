@@ -6,6 +6,7 @@ package skeletonlisp.ParserPckg;
 public class ParserConstants {
     public static final String emptyString = "";
     public static final char SPACE = ' ';
+    public static final char TAB = '\t';
     public static final String digits = "0123456789";
     public static final String reservedLetters = " \\\'()[]{}\"";
 }

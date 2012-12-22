@@ -31,6 +31,7 @@ public class PrimitiveApplier {
         primitives.add(new LId("AND"));
         primitives.add(new LId("CONS"));
         primitives.add(new LId("DEFINE"));
+        primitives.add(new LId("EXIT"));
         primitives.add(new LId("LIST"));
         primitives.add(new LId("OR"));
     }

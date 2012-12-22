@@ -27,16 +27,6 @@ public class ExpParserTest {
     @After
     public void tearDown() {
     }
-
-    @Test
-    public void isStringPalauttaaFalseJosEiString() {
-        assertFalse(ExpParser.isString("\"kjsdfhkjs\" sjdfhk"));
-    }
-    
-    @Test
-    public void isStringPalauttaaTrueJosOnString() {
-        assertTrue(ExpParser.isString("\"klshdfoiwh\""));
-    }
     
     @Test
     public void isIntegerPalauttaaFalseJosEiInteger() {

@@ -6,19 +6,13 @@ public class LPair extends LValue {
     private LExp cdr;
     
     public LPair() {
-        super(LExpTypes.LPAIRTYPE, "NIL");
+        super(LExpTypes.LPAIRTYPE);
         car = new NIL();
         cdr = new NIL();
     }
     
     public LPair(LExp _car, LExp _cdr) {
-        super(LExpTypes.LPAIRTYPE, "");
-        car = _car;
-        cdr = _cdr;
-    }
-    
-    public LPair(String _body, LExp _car, LExp _cdr) {
-        super(LExpTypes.LPAIRTYPE, _body);
+        super(LExpTypes.LPAIRTYPE);
         car = _car;
         cdr = _cdr;
     }

@@ -55,6 +55,6 @@ public class ApplicationParser {
             
         }
         
-        return new LApplication(applicationBody, procedure, parameterValues);
+        return new LApplication(procedure, parameterValues);
     }
 }

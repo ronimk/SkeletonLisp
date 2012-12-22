@@ -1,13 +1,12 @@
 
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import java.util.ArrayList;
-
 import skeletonlisp.LExp.*;
 import skeletonlisp.ParserPckg.ApplicationParser;
 
@@ -44,22 +43,11 @@ public class ApplicationParserTest {
     }
     
     @Test
-    public void uudenApplicationinBodyOikea() {
-        try {
-            LExp app = ApplicationParser.makeNewApplication("(f 2)");
-            
-            assertEquals("(F 2)", app.getBody());
-        } catch (Exception e) {
-            assertTrue(false);
-        }
-    }
-    
-    @Test
     public void uudenApplicationinProcOikea() {
         try {
             LExp app = ApplicationParser.makeNewApplication("(f 2)");
             
-            assertEquals("<F:ID>", ((LApplication)app).getProcedure().toString());
+            assertEquals("<F (ID)>", ((LApplication)app).getProcedure().toString());
         } catch (Exception e) {
             assertTrue(false);
         }
@@ -71,9 +59,9 @@ public class ApplicationParserTest {
             LExp app = ApplicationParser.makeNewApplication("(f 2 't f)");
             
             ArrayList<LExp> vals = ((LApplication)app).getVals();
-            assertEquals("2 T F", vals.get(0).toString() + " " +
+            assertEquals("2 T <F (ID)>", vals.get(0).toString() + " " +
                                               vals.get(1).toString() + " " +
-                                              vals.get(2).getBody().toString());
+                                              vals.get(2).toString());
         } catch (Exception e) {
             assertTrue(false);
         }

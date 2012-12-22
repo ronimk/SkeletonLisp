@@ -7,8 +7,8 @@ public class LApplication extends LExp {
     private LExp procedure;
     private ArrayList<LExp> parameterValues;
     
-    public LApplication(String _body, LExp _procedure, ArrayList<LExp> _parameterValues) {
-        super(LExpTypes.LAPPLICATIONTYPE, _body);
+    public LApplication(LExp _procedure, ArrayList<LExp> _parameterValues) {
+        super(LExpTypes.LAPPLICATIONTYPE);
         procedure = _procedure;
         parameterValues = _parameterValues;
     }

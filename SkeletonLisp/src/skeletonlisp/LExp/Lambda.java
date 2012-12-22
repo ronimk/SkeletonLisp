@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class Lambda extends LExp {
     private ArrayList<LId> vars;
-    private boolean aListParameter;
     private ArrayList<LExp> lambdaBody;
+    private boolean aListParameter;
     
-    public Lambda(String _body, ArrayList<LId> _vars, ArrayList<LExp> _lambdaBody, boolean _aListParameter) {
-        super(LExpTypes.LAMBDATYPE, _body);
+    public Lambda(ArrayList<LId> _vars, ArrayList<LExp> _lambdaBody, boolean _aListParameter) {
+        super(LExpTypes.LAMBDATYPE);
         aListParameter = _aListParameter;
         vars = _vars;
         lambdaBody = _lambdaBody;
@@ -29,6 +29,6 @@ public class Lambda extends LExp {
     
     @Override
     public String toString() {
-        return "<ANONYMOUS PROCEDURE>";
+        return "<PROCEDURE>";
     }
 }

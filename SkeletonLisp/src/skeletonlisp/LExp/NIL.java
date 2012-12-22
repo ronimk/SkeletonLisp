@@ -3,7 +3,7 @@ package skeletonlisp.LExp;
 
 public class NIL extends LValue {
     public NIL() {
-        super(LExpTypes.NILTYPE, "NIL");
+        super(LExpTypes.NILTYPE);
     }
     
     @Override

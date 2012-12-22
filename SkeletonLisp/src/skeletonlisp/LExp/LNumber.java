@@ -12,10 +12,10 @@ public abstract class LNumber extends LValue {
     private LExpTypes numberType;
     private double numberVal;
     
-    public LNumber(LExpTypes _numberType, String _body) {
-        super(LExpTypes.LNUMBERTYPE, _body);
+    public LNumber(LExpTypes _numberType, double _numberVal) {
+        super(LExpTypes.LNUMBERTYPE);
         numberType = _numberType;
-        numberVal = Double.parseDouble(_body);
+        numberVal = _numberVal;
     }
     
     public double getNumberVal() {

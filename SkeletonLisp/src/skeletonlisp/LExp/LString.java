@@ -9,19 +9,19 @@ package skeletonlisp.LExp;
  * @author root
  */
 public class LString extends LValue {
-    private String value;
+    private String msg;
     
-    public LString(String _value) {
-        super(LExpTypes.LSTRINGTYPE, _value);
-        value = _value;
+    public LString(String _msg) {
+        super(LExpTypes.LSTRINGTYPE);
+        msg = _msg;
     }
     
     public String getString() {
-        return value;
+        return msg;
     }
     
     @Override
     public String toString() {
-        return value;
+        return msg;
     }
 }

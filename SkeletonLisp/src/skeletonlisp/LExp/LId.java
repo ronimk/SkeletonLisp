@@ -2,28 +2,30 @@
 package skeletonlisp.LExp;
 
 public class LId extends LExp {
-  
-    public LId(String _body) {
-        super(LExpTypes.LIDTYPE, _body);
+    private String id;
+    
+    public LId(String _id) {
+        super(LExpTypes.LIDTYPE);
+        id = _id.toUpperCase();
     }
     
     public String getId() {
-        return getBody();
+        return id;
     }
     
     @Override
     public boolean equals(Object o) {
         return (o.getClass() == this.getClass()) &&
-               (((LId) o).getId().equals(this.getId()));
+               (((LId) o).id.equals(this.id));
     }
     
     @Override
     public int hashCode() {
-        return getBody().hashCode();
+        return id.hashCode();
     }
     
     @Override
     public String toString() {
-        return "<" + getBody() + ":ID>";
+        return "<" + id + " (ID)>";
     }
 }

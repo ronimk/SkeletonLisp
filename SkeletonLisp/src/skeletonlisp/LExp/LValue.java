@@ -4,8 +4,8 @@ package skeletonlisp.LExp;
 public abstract class LValue extends LExp {
     private LExpTypes subtype;
     
-    public LValue(LExpTypes _subtype, String _body) {
-        super(LExpTypes.LVALUETYPE, _body);
+    public LValue(LExpTypes _subtype) {
+        super(LExpTypes.LVALUETYPE);
         subtype = _subtype;
     }
     

@@ -31,13 +31,7 @@ public class ExpParser {
     public static boolean isNIL(String exp) {
         return exp.toUpperCase().equals("NIL");
     }
-    
-    public static boolean isString(String exp) {
-        return exp.startsWith("\"") &&
-               exp.endsWith("\"") &&
-               (CharacterParser.numberOfCharactersC(exp, '"') == 2);
-    }
-    
+        
     public static boolean isInteger(String exp) {
         try {
             Integer.parseInt(exp);
@@ -56,6 +50,6 @@ public class ExpParser {
         }
         
         return true;
-    }   
+    }
 
 }

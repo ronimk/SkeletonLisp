@@ -316,6 +316,66 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			  jota pitäisi miettiä tarkemmin...
 			  (kts. Ongelmakohtia 6.)
 			  
+22.12 Lauantai:
+---------------
+
+4h:			* Bugeja ratkottu, ongelmakohtia myös. Toiminnallisuus viimeistelyä
+			  vaille valmis:
+
+					* Aikapulan ja tämänhetkisen riittämättömän kokemukseni
+					  vuoksi päätin rankata tulkin toiminnallisuuden
+					  Daniel Friedmanin kirjassa "The Little Schemer" luodun
+					  Scheme-tulkin toiminnallisuutta vastaavaksi.
+					  Syitä tähän lähinnä ovat:
+					  
+						* En ottanut huomioon alkaessani projektia, että
+						  Schemen Special Form:it vaativat niin radikaalisti
+						  erilaista lähestymistä kuin tavalliset primitiivi-
+						  proseduurit. Tämä taas viittaa siihen, että Scheme-
+						  kielen tuntemus ennen projektiin ryhtymistä oli
+						  kieltämättä puutteellinen, jotta sen pohjalta voisi
+						  täysin funktionaalisen Scheme-tulkin luoda.
+						  
+						* Java-koodin refaktorointi, dokumentointi, sekä
+						  ohjelman testaus tullee vaatimaan sen verran paljon
+						  työtä, että tässä vaiheessa erikoistoiminnallisuuksien
+						  lisääminen voisi pitkittää työtä niin paljon, että se
+						  ei valmistuisi ajoissa - puhumattakaan siitä, miten
+						  paljon sotkuisemmaksi saattaisivat näiden
+						  erikoistoiminnallisuuksien lisääminen tehdä koodista
+						  entistä sotkuisempaa. Ohjelmassa kun ei ollut alunpe-
+						  rinkään otettu huomioon Scheme-/LISP-kielen erikois-
+						  toiminnallisuuden vaatimuksia koodin rakenteeseen.
+						  
+						* Omalla tavallaan lopputulos on siis pettymys ja
+						  epäonnistuminen, sillä nyt esim let-lauseet jäävät
+						  kokonaan pois. vaikka ne Y-kombinaattoreilla
+						  voidaankin luoda pelkkien lambda-lauseiden avulla,
+						  tarvitsematta mitään makrojen kaltaisia syntaktisia
+						  kuorrutuksia, ei Y-kombinaattorien käyttö ole mitään
+						  maailman helpointa puuhaa. Myöskään kaikkea Schemen
+						  toiminnallisuuksia ei voi ilman Makroja ja Special
+						  Formeja toteuttaa ollenkaan.
+						     Toisaalta kuitenkin olen erittäin tyytyväinen,
+						  sillä aloittaessani työn, ei minulla ollut mitään
+						  käsitystä siitä, miten ikinä voisin päästä projek-
+						  tissa edes alkuun. Ja nyt kuitenkin kaiken pitäisi
+						  olla viimeistelyä vaille siinä kunnossa, että
+						  kaikki The Little Schemer-kirjan ohjelmat pystytään
+						  sillä ajamaan.
+						  
+			* Nyt kuitenkaan Evaluaattori ei ole millään tavalla tässä versiossa
+			  riippuvainen Parserista, mikä on aivan erinomaista,
+			  sillä nyt parseri voitaisiin kirjoittaa kokonaan uusiksi, ilman
+			  että Evaluaattorin toiminta muuttuu!
+			  
+			* Ensi viikolla vielä viimeiset primitiivit, ja sen jälkeen alkaa
+			  armoton testaus, dokumentointi ja refaktorointi.
+						  
+						 
+						  
+					  
+			  
  TODO
  ----
   Päivitä luokkakaavio Deadline II:ta varten!!! (se ei pakosti onnistu, sillä
@@ -326,15 +386,10 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
   Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
   
   19.12-23.12:
-  1) Poista LExp-luokan body-jäsenmuuttuja ja muokkaa muu ohjelma sellaiseksi,
-     että se toimii ilmankin...
-  2) Korjaa merkkijonobugi, testaa ohjelman kaikkea tähänastista toimintaa
-     merkkijonoilla, ja katso löytyykö uusia bugeja...
-  3) Luo tuki Cond-lauseiden evaluoimiselle
-  4) Lisää primitiivejä; tällä viikolla pitäisi saada kaikki primitiivien
-     käsittelijät valmiiksi.
+  4) Lisää primitiivejä; ensi viikolla täytyy saada kaikki primitiivit
+     koodattua.
   5) mieti miten if...else if...else, osioita voisi siivota parempaan
-     muotoon
+     muotoon - nyt vain joitain osia on siivottu: siivoa kaikki mahdollinen.
   6) Voisiko Exceptioneiden käsittelyä vielä parantaa erottelemalla erillaisia
      poikkeustyyppejä? Sitä on syytä miettiä...
      (21.12: Päätös alkaa luoda omia Exceptioneitä, oli ihan järkevä, sillä nyt
@@ -352,11 +407,6 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
  1. Parseri joutuu useaan otteeseen tekemään samaa työtä (esim. tarkistaa onko
  kyseessä sulkeiden sisällä oleva L-Lause. Nämä turhat tarkistukset ovat melko
  kömpelöitä.
- 
- 2. Tässä mallissa Evaluaattori joutuu vielä ainakin Lambda-lausekkeiden
-    bodien osalta ja cond-bodien osalta parseroimaan uudestaan samaa lausetta:
-    toki, näitä osia ei ole ennestään kovin kummoisesti parseroitu,
-    mutta tehdäänkö tässä kuitenkin vähän niinkuin tuplasti työtä?
     
 3. Evaluaattori on muuten varsin kiva, mutta sen ApplyPrimitive:stä taitaa
    tulla aivan turhan liian sotkuinen.
@@ -367,13 +417,10 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
    (kuten myös REPL)
 
 6. Pystyisikö evaluaattorin rekursiivista käyttäytymistä selkeyttää hieman...
+
+7. Nykyisellään ohjelma ei salli käyttäjän määritellä merkkijonoja.
+Merkkijonoja käyttää ainoastaan tulkki itse, omiin tarkoituksiinsa...
  
 Parseri näyttäisi tosiaan siis olevan (kuten jo ennakkoon otaksuinkin) se
 ehdottomasti haastavin osio.
 
-Bugeja
-------
-1. Jos välimerkkejä sisältävän merkkijonon syöttää osana monimutkaisempaa L-lausetta,
-   WordParser ei osaa erottaa merkkijonoa kokonaisuutena, vaan palauttaa sen yksittäisinä
-   sanoina... Täten merkkijonojen käyttö monimutkaisemmissa lauseissa aiheuttavat
-   tulostuksena täydellistä roskaa...

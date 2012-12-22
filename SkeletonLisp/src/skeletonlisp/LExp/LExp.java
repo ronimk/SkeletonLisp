@@ -3,11 +3,9 @@ package skeletonlisp.LExp;
 
 public abstract class LExp {
     private LExpTypes type;
-    private String body;
     
-    public LExp(LExpTypes _type, String _body) {
+    public LExp(LExpTypes _type) {
         type = _type;
-        body = _body.toUpperCase();
     }
     
     public LExpTypes getType() {
@@ -16,10 +14,6 @@ public abstract class LExp {
     
     public LExpTypes getSubType() {
         return type;
-    }
-    
-    public String getBody() {
-        return body;
     }
     
     @Override

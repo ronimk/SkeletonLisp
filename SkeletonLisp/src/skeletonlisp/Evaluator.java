@@ -91,7 +91,7 @@ public class Evaluator {
                 
             case LAMBDATYPE:        return exp;
                 
-            case LCONDTYPE:         return new LString ("COND NOT IMPLEMENTED YET");
+            case LCONDTYPE:         return evalCond((LCond) exp, env);
                 
             case LAPPLICATIONTYPE:  LApplication app = (LApplication) exp;
                                     return apply(app.getProcedure(), app.getVals(), env);
@@ -109,6 +109,23 @@ public class Evaluator {
         
         return vals;
     }
+    
+    private LExp evalCond(LCond condExp, Environment env) throws Exception {
+        ArrayList<CondCase> cases = condExp.getCases();
+        
+        LExp result = new LError("COND-EXPRESISON EVALUATION ERROR");
+        
+        for (int i=0; i<cases.size(); i++) {
+            CondCase currCase = cases.get(i);
+            
+            if (eval(currCase.getPredicate(), env).getSubType() != LExpTypes.NILTYPE) {
+                return eval(currCase.getResult(), env);
+            }
+        }
+        
+        return result;
+    }
+    
     
     private LExp apply(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
         LExpTypes type = procedure.getType();
@@ -140,9 +157,7 @@ public class Evaluator {
             ArrayList<LExp> listVals = new ArrayList<LExp>();
             
             newEnv.extendEnvironment(vars.get(0),
-                                     eval(new LApplication("(LIST " + paramVals + ")",
-                                          new LId("LIST"), paramVals),
-                                          env));
+                                     eval(new LApplication(new LId("LIST"), paramVals), env));
         } else {
             if (varSize != paramVals.size()) {
                 throw new LambdaApplicationException("ERROR EVALUATING A LAMBDA EXPRESSION: WRONG AMOUNT OF ARGUMENTS GIVEN");
@@ -167,7 +182,7 @@ public class Evaluator {
     }
         
     private LExp applyPrimitive(LId procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
-        String primitive = procedure.getBody();
+        String primitive = procedure.getId();
         
         if (primitive.equals("EXIT")) {
             exit.run();

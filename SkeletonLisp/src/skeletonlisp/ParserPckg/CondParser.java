@@ -2,13 +2,15 @@
 // Used to make LConds:
 //
 // The form of a cond is always
-// (cond (pred-1 res-1)
-//       (pred-2 res-2)
+// (cond (pred-1 result-1)
+//       (pred-2 result-2)
 //       ...
-//       (pred-n res-n)
+//       (pred-n result-n)
 //
-//  The use of "else" is optional, but highly recomended;
-//  if there is no else, and all the preds fail,
+//  The use of a default predicate 
+//  (('#t in SkeletonLisp)
+//  is optional, but highly recomended;
+//  if there is no default predicate, and all the predicates fail,
 //  the system signals an error.
 //  (so the input "(cond)" returns an error)
 //
@@ -21,27 +23,40 @@
 package skeletonlisp.ParserPckg;
 
 import java.util.ArrayList;
-import skeletonlisp.LExp.LCond;
+import skeletonlisp.LExp.*;
 
 public class CondParser {
     public static LCond makeANewCond(String exp) throws Exception {
-        String unwrappedExp = WordParser.unwrapParenthesizedWord(exp);
-        
-        ArrayList<String> cases = new ArrayList();
-        String condBody = WordParser.allButFirstWord(unwrappedExp);
-        
+        String condBody = WordParser.allButFirstWord(WordParser.unwrapParenthesizedWord(exp));
+
+        ArrayList<CondCase> cases = new ArrayList<CondCase>();
+                
         while (true) {
-            String nextCase = WordParser.firstWord(condBody);
+            String currBody = WordParser.firstWord(condBody);
             
-            if (nextCase.isEmpty()) {
+            LExp currPredicate;
+            LExp currResult;
+            
+            if (currBody.isEmpty()) {
                 break;
-            } else if (!WordParser.isParenthesizedWord(nextCase)) {
+            } else if (!WordParser.isParenthesizedWord(currBody)) {
                 throw new IllegalArgumentException("BAD SYNTAX IN " + exp);
             } else {
-                cases.add(nextCase);
+                currBody = WordParser.unwrapParenthesizedWord(currBody);
+
+                if (currBody.isEmpty() || !WordParser.thirdWord(currBody).isEmpty()) {
+                    throw new Exception("BAD SYNTAX IN" + exp);
+                }
+                
+                currPredicate = Parser.parseExpression(WordParser.firstWord(currBody));
+                
+                currResult = Parser.parseExpression(WordParser.secondWord(currBody));
+                
+                cases.add(new CondCase(currPredicate, currResult));
+                
                 condBody = WordParser.allButFirstWord(condBody);
             }
         }        
-        return new LCond(exp, cases);
+        return new LCond(cases);
     }
 }

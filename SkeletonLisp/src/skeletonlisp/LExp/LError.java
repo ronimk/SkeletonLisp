@@ -12,7 +12,7 @@ public class LError extends LValue {
     private String message;
     
     public LError(String _message) {
-        super(LExpTypes.LERRORTYPE, _message);
+        super(LExpTypes.LERRORTYPE);
         message = _message;
     }
     

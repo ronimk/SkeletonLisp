@@ -69,7 +69,7 @@ public class EnvironmentTest {
             globalEnvironment.extendEnvironment(new LId("f"), LambdaParser.makeANewLambda("(lambda (x) (+ x 2))"));
             
             localEnvironment = new Environment(globalEnvironment);
-            assertEquals("(LAMBDA (X) (+ X 2))", localEnvironment.getValueOf(new LId("f")).getBody());
+            assertEquals("<PROCEDURE>", localEnvironment.getValueOf(new LId("f")).toString());
             assertEquals(LExpTypes.LAMBDATYPE, localEnvironment.getValueOf(new LId("f")).getType());
         } catch (Exception e) {
             assertTrue(false);
