@@ -372,9 +372,41 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			* Ensi viikolla vielä viimeiset primitiivit, ja sen jälkeen alkaa
 			  armoton testaus, dokumentointi ja refaktorointi.
 						  
-						 
+23.12 Sunnuntai
+---------------
+
+		    * Integraatiotestausta - uusi ongelmakohta löydetty
+		      (Ongelmakohta 8.)
+		    * Seuraava ongelma löydetty myös:
+				definen kutsu muualla kuin globaalilla tasolla saattaa tällä
+				hetkellä hajoittaa koko environment-järjestelmän täysin, sillä
+				uusi ID bindataan aina VAIN globaaliin environmenttiin, eikä
+				sitä siis bindata välttämättä tällä hetkellä käytettävään
+				environmenttiin; jos siis tällä hetkellä käytettävä env on
+				jokin toinen kuin globaali env, ei bindausta tapahdu kuin vasta
+				sen jälkeen kun koko L-lause on evaluoitu!
+			  Ilmeiset, ja helpoimmat ratkaisut tämän bugin eliminoimiseksi:
+			  1) Ei sallita definen käyttöä muualla kuin globaalilla tasolla
+			  2) tehdään bindaus sekä Globaaliin enviin, että juuri käytettävään
+			     enviin
+					(saattaa siis olla, että bindaus joudutaan tekemään globaaliin
+					enviin kahdesti)
 						  
-					  
+			
+			Paras ratkaisu joka tapauksessa kummankin ongelman hoitoon on muuttaa
+			Environment-systeemin rakennetta niin, että GlobalEnvironment on
+			aivan erillinen oma ympäristö, ja paikalliset ympäristöt ovat taas
+			omia erinäisiä ympäristöjä. Tällöin myös ID:n evaluointiin on tehtävä
+			pieniä muutoksia, niin, että aina aluksi tarkistetaan, löytyykö
+			Id:n bindaus paikallisesta ympäristöstä, vasta sen jälkeen tarkis-
+			tetaan löytyykö se globaalista ympäristöstä, ja jos se ei löydy
+			kummastakaan, lopuksi tarkastetaan onko kyseessä primitiivi.
+			
+			Definen kohdalla on syytä pohtia, pitäisikö oikeasti paikallisista
+			ympäristöistä käsin luoda globaaleja muuttujia, mutta mikäli
+			tämä sallitaan, niin edellisen muutoksen pitäisi taata myös se että
+			kaikki define-lauseilla bindatut muuttujat menevät aina yhteiseen
+			globaaliin ympäristöön, ja ne toimivat aina kaikissa ympäristöissä.
 			  
  TODO
  ----
@@ -420,7 +452,34 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 
 7. Nykyisellään ohjelma ei salli käyttäjän määritellä merkkijonoja.
 Merkkijonoja käyttää ainoastaan tulkki itse, omiin tarkoituksiinsa...
- 
-Parseri näyttäisi tosiaan siis olevan (kuten jo ennakkoon otaksuinkin) se
-ehdottomasti haastavin osio.
 
+8. Tällä hetkellä Environmenttien käsittely ei toimi oikein.
+   Tulkki mahdollistaa mm. seuraavankaltaisen erittäin oudon
+   käyttäytymisen:
+   
+>> (define strange-fun1 (lambda (x) (strange-fun2)))
+<PROCEDURE>
+>> (define strange-fun2 (lambda () (+ x x)))
+>> (strange-fun2)
+<ERROR>: ID UNBOUND: <X (ID)>			OK
+<PROCEDURE>
+>> (strange-fun1 9)						EI OK!
+18									
+
+Ongelma johtuu siitä, että uudet environmentit luodaan AINA
+juuri tällä hetkellä käytettävien environmenttien päälle,
+mutta edellisessä tapauksessa tällainen toiminta ei ole
+mielekästä. Seuraavanlainen toiminta olisi mielekästä:
+
+>> (define non-strange-fun (lambda (x) ((lambda () (+ x x)))))
+<PROCEDURE>
+>> (non-strange-fun 9)
+18
+
+Sillä nyt uusi environment lauseetta (lambda () ...) käsiteltäessä
+kuuluukin rakentaa non-strange-fun-kutsun yhteydessä luodun environmentin
+päälle.
+
+Pitää siis tarkentaa se, milloin uusi environment luodaan juuri käytössä
+olevan env:in päälle, ja milloin käytetään globaalia enviä.
+Tätä varten pitää vielä kerrata Schemen semantiikkaa tältä osin tarkemmin. 
