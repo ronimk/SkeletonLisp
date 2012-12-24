@@ -71,12 +71,12 @@ public class PrimitiveApplier {
          
          LExp val = paramVal.get(0);
          
-         if (val.getSubType() != LExpTypes.LATOMTYPE ||
-             val.getSubType() != LExpTypes.LNUMBERTYPE) {
-             return new NIL();
+         if (val.getSubType() == LExpTypes.LATOMTYPE ||
+             val.getSubType() == LExpTypes.LNUMBERTYPE) {
+             return new LAtom("#t");
          }
          
-         return new LAtom("#t");
+         return new NIL();
      }
      
      public LExp car(ArrayList<LExp> paramVal) throws Exception {
