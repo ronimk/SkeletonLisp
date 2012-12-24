@@ -21,6 +21,21 @@ public class LAtom extends LValue {
     }
     
     @Override
+    public int hashCode() {
+        return atom.hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o.getClass() != this.getClass() ||
+                !atom.equals(((LAtom)o).atom)) {
+            return false;
+        }
+        
+        return true;   
+    }
+    
+    @Override
     public String toString() {
         return atom;
     }

@@ -122,10 +122,6 @@ public class CharacterParser {
             }
         }
         
-        if (newExp.charAt(0) == '.') {
-            newExp = "0" + newExp;
-        }
-        
         if (isSigned) {
             newExp = "-" + newExp;
         }

@@ -29,34 +29,19 @@ public class ExpParserTest {
     }
     
     @Test
-    public void isIntegerPalauttaaFalseJosEiInteger() {
-        assertFalse(ExpParser.isInteger("046.87"));
+    public void isNumberPalauttaaFalseJosEiInteger() {
+        assertFalse(ExpParser.isNumber("046.87"));
     }
     
     @Test
-    public void isIntegerPalattaaTrueKunOnKokonaisluku() {
-        assertTrue(ExpParser.isInteger("46"));
+    public void isNumberPalattaaTrueKunOnKokonaisluku() {
+        assertTrue(ExpParser.isNumber("46"));
     }
         
     @Test
-    public void isIntegerPalauttaaTrueNegatiivisillaLuvuilla() {
-        assertTrue(ExpParser.isInteger("-46"));
+    public void isNumberPalauttaaTrueNegatiivisillaLuvuilla() {
+        assertTrue(ExpParser.isNumber("-46"));
     }
-    
-    @Test
-    public void isDoublePalauttaaFalseKunEiDouble() {
-        assertFalse(ExpParser.isDouble("0123.8t7"));
-    }
-    
-    @Test
-    public void isDoublePalauttaaTrueKunOnDouble() {
-        assertTrue(ExpParser.isDouble("0123.87"));
-    }
-    @Test
-    public void isDoubleToimiiNegatiivisillaLuvuilla() {
-        assertTrue(ExpParser.isDouble("-123.87"));
-    }
-    
     
     @Test
     public void isIdPalauttaaFalseKunAtomiEiId() {

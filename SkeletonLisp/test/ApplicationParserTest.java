@@ -53,7 +53,7 @@ public class ApplicationParserTest {
         }
     }
     
-        @Test
+     @Test
     public void uudenApplicationinParametriArvotOikeat() {
         try {
             LExp app = ApplicationParser.makeNewApplication("(f 2 't f)");
@@ -82,11 +82,11 @@ public class ApplicationParserTest {
     @Test
     public void makeNewApplicationPalauttaaVirheenKunProseduurinaLuku() {
         try {
-            LExp app = ApplicationParser.makeNewApplication("(0.23 g h)");
+            LExp app = ApplicationParser.makeNewApplication("(23 g h)");
             
             assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
         } catch (Exception e) {
-            assertEquals("0.23 IS NOT A PROPER PROCEDURE", e.getMessage());
+            assertEquals("23 IS NOT A PROPER PROCEDURE", e.getMessage());
         }
     }
     

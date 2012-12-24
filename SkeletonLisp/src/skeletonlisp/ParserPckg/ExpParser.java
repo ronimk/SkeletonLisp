@@ -20,19 +20,20 @@ public class ExpParser {
                WordParser.isAtomicWord(exp);
     }
  
+    public static boolean isAtom(String exp) {
+        return isQuote(exp) &&
+               WordParser.isAtomicWord(exp.substring(1));
+    }
     
     public static boolean isQuote(String exp) {
         return exp.charAt(0) == '\'';
     }
     
-    public static boolean isEmptyList(String exp) {
-        return exp.equals("()");
-    }
     public static boolean isNIL(String exp) {
         return exp.toUpperCase().equals("NIL");
     }
         
-    public static boolean isInteger(String exp) {
+    public static boolean isNumber(String exp) {
         try {
             Integer.parseInt(exp);
         } catch (Exception e) {
@@ -41,15 +42,4 @@ public class ExpParser {
         
         return true;
     }
-    
-    public static boolean isDouble(String exp) {
-        try {
-            Double.parseDouble(exp);
-        } catch (Exception e) {
-            return false;
-        }
-        
-        return true;
-    }
-
 }

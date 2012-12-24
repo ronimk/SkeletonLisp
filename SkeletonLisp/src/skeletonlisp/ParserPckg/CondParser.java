@@ -40,7 +40,7 @@ public class CondParser {
             if (currBody.isEmpty()) {
                 break;
             } else if (!WordParser.isParenthesizedWord(currBody)) {
-                throw new IllegalArgumentException("BAD SYNTAX IN " + exp);
+                throw new Exception("BAD SYNTAX IN " + exp);
             } else {
                 currBody = WordParser.unwrapParenthesizedWord(currBody);
 

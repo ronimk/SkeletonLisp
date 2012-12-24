@@ -83,7 +83,7 @@ public class EnvironmentTest {
             
             localEnvironment = new Environment(globalEnvironment);
             
-            localEnvironment.extendEnvironment(new LId("g"), new LInt(4));
+            localEnvironment.extendEnvironment(new LId("g"), new LNumber(4));
             assertTrue(localEnvironment.containsId(new LId("g")));
             assertFalse(globalEnvironment.containsId(new LId("g")));
             
@@ -99,7 +99,7 @@ public class EnvironmentTest {
             
             localEnvironment = new Environment(globalEnvironment);
             
-            globalEnvironment.extendEnvironment(new LId("g"), new LInt(4));
+            globalEnvironment.extendEnvironment(new LId("g"), new LNumber(4));
             
             assertTrue(globalEnvironment.containsId(new LId("g")));
             assertFalse(localEnvironment.containsId(new LId("g")));

@@ -7,8 +7,7 @@ import skeletonlisp.ParserPckg.*;
 public class REPL {
     private Scanner reader = new Scanner(System.in);
     private boolean exit = false;
-    private Environment globalEnvironment = new Environment();
-    private Evaluator evaluator = new Evaluator(globalEnvironment, new Runnable () { @Override public void run() { exit(); }});
+    private Evaluator evaluator = new Evaluator(new Runnable () { @Override public void run() { exit(); }});
     
     public void run() {
         while (!exit) {
@@ -33,7 +32,7 @@ public class REPL {
     
     public LExp eval(LExp exp) {
         try {
-            return evaluator.eval(exp, globalEnvironment);
+            return evaluator.eval(exp, new Environment());
         } catch (Exception e) {
             return new LError(e.getMessage());
         }

@@ -407,19 +407,53 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			tämä sallitaan, niin edellisen muutoksen pitäisi taata myös se että
 			kaikki define-lauseilla bindatut muuttujat menevät aina yhteiseen
 			globaaliin ympäristöön, ja ne toimivat aina kaikissa ympäristöissä.
+
+~4 h:		Toiminnallisuus supistettu lopulliseen muotoonsa Daniel Friedmanin
+			The Little Schemer-kirjassa luoman LISP-kielen kaltaiseksi
+			(sekä AND, OR ja LIST -primitiivit). Tämä eliminoi aiemmat bugit ja
+			ongelmakohdat toiminnallisuuteen liittyen, sekä tekee ohjelmasta
+			helpommin viimeisteltävän.
+			On ihan turha lähteä luomaan ylimääräisiä primitiivejä Javalla
+			(esim. aiemmat vertailuoperaatiot <, =, > yms...) koska
+			ne voidaan koodata nyt SkeletonLisp-tulkin tarjoamalla kielellä
+			paljon yksinkertaisemmin ja helpommin.
+			Javalla myös environmettien hallinta aiemmassa versiossa kävi
+			käytännössä mahdottomaksi - johtuen siitä, että en ollut ottanut
+			huomioon kuinka erilaista toimivan Environment-systeemin toteutta-
+			minen Javalla onkaan: arvelin sen olevan hyvin yksinkertaista sen
+			jälkeen kuin Evaluaattorin toiminta on hoidettu kuntoon, mutta
+			osoittautuikin, että minun ymmärrykseni muuttujien näkyvyydestä
+			oli aivan liian rajallinen, jotta olisin voinut sallia monimutkai-
+			sempien lambda-lauseiden luomisen.
+			
+			Alkuperäinen tarkoitukseni oli siis luoda lambda-lauseita, joiden
+			sisällä voisi olla useampia runkoja:
+			(lambda (var-1 ... var-n) body-1 ... body-n)
+			mutta tämä osoittautui todella haastavaksi prosessiksi, joten
+			tässä vaiheessa koko Environment osio olisi koodattava uusiksi,
+			joten päädyin turvalliseen vaihtoehtoon tämän ajan puitteissa:
+			nyt lambda-lauseet ovat rajoitettu vain yhteen runkoon:
+			(lambda (var1 ... var-n) body)
+			myöskään listarakenteisia lambda-lauseita ei järjestelmä tue
+			(lambda lst-var body)
+			ihan vain sen vuoksi, että tällöin koodista tulee tältä osin
+			paljon selkeämpi.
+			
+			Rakenne myös muuttunut reippaasti. Esim. liukuluvuille ei
+			enää tukea ole (The Little Schemerin tapaan).
+
+24.12 Maanantai
+---------------
+			  
 			  
  TODO
  ----
-  Päivitä luokkakaavio Deadline II:ta varten!!! (se ei pakosti onnistu, sillä
-	en ole varma pääsenkö toimivan skannerin luo ennen DeadLine II:hta).
-  +,-,*,/ -laskuille: entä jos käyttäjä yrittää tehdä laskutoimituksen, jonka
-					  tulos ei mahdu Javan int-tai double-tyyppiseen lukuun?
-					  Jonkinlainen virheentarkistus oisi tällöin paikoillaan...
-  Pitäisikö osa parseri rakentaa kokonaan uusiksi? Tätä voinee pohtia...
-  
-  19.12-23.12:
-  4) Lisää primitiivejä; ensi viikolla täytyy saada kaikki primitiivit
-     koodattua.
+  Päivitä luokkakaaviot sekä muu dokumentaatio vastaamaan nykyistä tilaa.
+  Testaa vielä, että ohjelma toimii
+  Refaktoroi
+  Luo Sekvenssikaavioita
+  Luo käyttöohjeet
+
   5) mieti miten if...else if...else, osioita voisi siivota parempaan
      muotoon - nyt vain joitain osia on siivottu: siivoa kaikki mahdollinen.
   6) Voisiko Exceptioneiden käsittelyä vielä parantaa erottelemalla erillaisia
@@ -439,47 +473,10 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
  1. Parseri joutuu useaan otteeseen tekemään samaa työtä (esim. tarkistaa onko
  kyseessä sulkeiden sisällä oleva L-Lause. Nämä turhat tarkistukset ovat melko
  kömpelöitä.
-    
-3. Evaluaattori on muuten varsin kiva, mutta sen ApplyPrimitive:stä taitaa
-   tulla aivan turhan liian sotkuinen.
 
-5. PrimitiveApplier täytyy testata kunnolla seuraavaksi
+2. PrimitiveApplier täytyy testata kunnolla seuraavaksi
    (sitä ei ole vielä yksikkötestein testattu ollenkaan...)
    Muuten Evaluaattori on testattu vain integraatiotestauksella,
    (kuten myös REPL)
 
-6. Pystyisikö evaluaattorin rekursiivista käyttäytymistä selkeyttää hieman...
-
-7. Nykyisellään ohjelma ei salli käyttäjän määritellä merkkijonoja.
-Merkkijonoja käyttää ainoastaan tulkki itse, omiin tarkoituksiinsa...
-
-8. Tällä hetkellä Environmenttien käsittely ei toimi oikein.
-   Tulkki mahdollistaa mm. seuraavankaltaisen erittäin oudon
-   käyttäytymisen:
-   
->> (define strange-fun1 (lambda (x) (strange-fun2)))
-<PROCEDURE>
->> (define strange-fun2 (lambda () (+ x x)))
->> (strange-fun2)
-<ERROR>: ID UNBOUND: <X (ID)>			OK
-<PROCEDURE>
->> (strange-fun1 9)						EI OK!
-18									
-
-Ongelma johtuu siitä, että uudet environmentit luodaan AINA
-juuri tällä hetkellä käytettävien environmenttien päälle,
-mutta edellisessä tapauksessa tällainen toiminta ei ole
-mielekästä. Seuraavanlainen toiminta olisi mielekästä:
-
->> (define non-strange-fun (lambda (x) ((lambda () (+ x x)))))
-<PROCEDURE>
->> (non-strange-fun 9)
-18
-
-Sillä nyt uusi environment lauseetta (lambda () ...) käsiteltäessä
-kuuluukin rakentaa non-strange-fun-kutsun yhteydessä luodun environmentin
-päälle.
-
-Pitää siis tarkentaa se, milloin uusi environment luodaan juuri käytössä
-olevan env:in päälle, ja milloin käytetään globaalia enviä.
-Tätä varten pitää vielä kerrata Schemen semantiikkaa tältä osin tarkemmin. 
+3. Pystyisikö evaluaattorin rekursiivista käyttäytymistä selkeyttää hieman...

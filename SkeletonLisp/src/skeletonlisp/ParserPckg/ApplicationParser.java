@@ -35,7 +35,7 @@ public class ApplicationParser {
                                              + LExpTypes.LAPPLICATIONTYPE+ "|"
                                              + LExpTypes.LCONDTYPE + "|"
                                              + ")")) {
-            throw new IllegalArgumentException(proc + " IS NOT A PROPER PROCEDURE");
+            throw new Exception(proc + " IS NOT A PROPER PROCEDURE");
         }
         ArrayList<LExp> parameterValues = new ArrayList<LExp>();
         String vals = WordParser.allButFirstWord(unwrappedBody);

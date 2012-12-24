@@ -10,10 +10,10 @@ package skeletonlisp.ParserPckg;
  *   one left parenthese and one right parenthese)
  * 
  * -get the first, second or third word
- *  of an expression in a String form immediately
+ *  of an expression immediately
  * 
  * -get the rest of the words of an expression except the
- *  first, in a String form
+ *  first.
  *  
  * - All these can be combined to get any word we want
  *   in an expression.
@@ -22,8 +22,9 @@ package skeletonlisp.ParserPckg;
  *   quote
  * 
  *  And last, the class can be used to check whether an
- *  L-exressions is an atomic word. Basically all IDs, atoms,
- *  and numbers, #t and #f are atomic words.
+ *  L-exressions is an atomic word. Basically all IDs
+ *  and numbers are atomic words. Also, the body of an atom
+ *  is an atomic word: ['body]
  * 
  */
 
@@ -116,6 +117,7 @@ public class WordParser {
     }
     
     public static boolean isAtomicWord(String exp) {
+        
         for (int i=0; i<exp.length(); i++) {
             if (ParserConstants.reservedLetters.contains(exp.substring(i, i+1))) {
                 return false;

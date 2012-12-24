@@ -53,7 +53,7 @@ public class LExpTest {
         LId z = new LId("z");
         
         try{
-            uusiLambda = LambdaParser.makeANewLambda("(lambda (f x y z) (f x) y (f z))");
+            uusiLambda = LambdaParser.makeANewLambda("(lambda (f x y z) (f x y (f z)))");
         } catch (Exception e) { }
         
         //set up uusiPair
@@ -65,10 +65,7 @@ public class LExpTest {
         virhe  = new LError("virhe");
         
         // set up integ:
-        integ = new LInt(-678);
-        
-        // set up doub:
-        doub = new LDouble(-678.542);
+        integ = new LNumber(-678);
         
         // set up atomi:
         atomi = new LAtom("a");
@@ -209,57 +206,23 @@ public class LExpTest {
     
         
     @Test
-    public void uudenLIntinTyyppiOnOikea() {
+    public void uudenLNumberinTyyppiOnOikea() {
         assertEquals(LExpTypes.LVALUETYPE, integ.getType());
     }
     
     @Test
-    public void uudenLIntinSubTyyppiOnOikea() {
+    public void uudenLNumberinSubTyyppiOnOikea() {
         assertEquals(LExpTypes.LNUMBERTYPE, integ.getSubType());
     }
     
     @Test
-    public void uudenLIntinNumberTyyppiOnOikea() {
-        assertEquals(LExpTypes.LINTTYPE, ((LNumber)integ).getNumberType());
-    }
-    
-    @Test
-    public void uudenLIntinArvoOnOikea() {
-        assertEquals(-678, ((LInt)integ).getValue());
+    public void uudenLNumberinArvoOnOikea() {
+        assertEquals(-678, ((LNumber)integ).getNumberVal());
     }
     
     @Test
     public void uudenLIntintoStringToimii() {
         assertEquals("-678", integ.toString());
-    }
-    
-    @Test
-    public void uudenLDoublenTyyppiOnOikea() {
-
-        assertEquals(LExpTypes.LVALUETYPE, doub.getType());
-    }
-    
-    @Test
-    public void uudenLDoublenSubTyyppiOnOikea() {
-
-        assertEquals(LExpTypes.LNUMBERTYPE, doub.getSubType());
-    }
-    
-    @Test
-    public void uudenLDoublenNumberTyyppiOnOikea() {
-
-        assertEquals(LExpTypes.LDOUBLETYPE, ((LNumber)doub).getNumberType());
-    }
-    
-    
-    @Test
-    public void uudenLDoublenArvoOnOikea() {
-        assertTrue(Math.abs(((LDouble)doub).getValue() - (-678.542)) < 0.0001);
-    }
-    
-    @Test
-    public void uudenLDoublentoStringToimii() {
-        assertEquals("-678.542", doub.toString());
     }
     
     @Test

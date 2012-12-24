@@ -8,21 +8,20 @@ package skeletonlisp.LExp;
  *
  * @author rmkekkon
  */
-public abstract class LNumber extends LValue {
-    private LExpTypes numberType;
-    private double numberVal;
+public class LNumber extends LValue {
+    private int numberVal;
     
-    public LNumber(LExpTypes _numberType, double _numberVal) {
+    public LNumber(int _numberVal) {
         super(LExpTypes.LNUMBERTYPE);
-        numberType = _numberType;
         numberVal = _numberVal;
     }
     
-    public double getNumberVal() {
+    public int getNumberVal() {
         return numberVal;
     }
     
-    public LExpTypes getNumberType() {
-        return numberType;
+    @Override
+    public String toString() {
+        return String.valueOf(numberVal);
     }
 }
