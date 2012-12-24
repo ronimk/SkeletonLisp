@@ -69,7 +69,10 @@ public class PrimitiveApplier {
              throw new Exception("PROCEDURE ATOM? TAKES EXACTLY ONE PARAMETER");
          }
          
-         if (paramVal.get(0).getSubType() != LExpTypes.LATOMTYPE) {
+         LExp val = paramVal.get(0);
+         
+         if (val.getSubType() != LExpTypes.LATOMTYPE ||
+             val.getSubType() != LExpTypes.LNUMBERTYPE) {
              return new NIL();
          }
          
@@ -209,7 +212,7 @@ public class PrimitiveApplier {
          public LExp sub1(ArrayList<LExp> paramVal) throws Exception{
         if (paramVal.size() != 1 ||
             paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-            throw new Exception("PROCEDURE ADD1 TAKES EXACTLY ONE NUMBER PARAMETER");
+            throw new Exception("PROCEDURE SUB1 TAKES EXACTLY ONE NUMBER PARAMETER");
         }
         
         return new LNumber(((LNumber)paramVal.get(0)).getNumberVal() - 1);
