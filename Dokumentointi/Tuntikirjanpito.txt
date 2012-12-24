@@ -444,7 +444,28 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 
 24.12 Maanantai
 ---------------
+~ 2h:		* Toiminnallisuuden viimeistelyä. Tämän pohjalta voi jo luoda
+			  luotettavat käyttöohjeet kielen toiminnallisuudesta.
+			  Vaatii seuraavaksi testausta, refaktorointia ja dokumentoinnin
+			  päivitystä. Sitten homma alkaa olla paketissa.
+			
+			* Testauksen osalta suoritetaan lisää yksikkötestejä, sekä
+			  integraatiotestaus, jossa ainakin suurin osa
+			  "The Little Schemer"-kirjan koodista käännetään SL-kielelle, ja
+			  katsotaan toimiiko koodi tulkkiin kirjoitettuna.
+			
+			* Refaktoroinnissa pyritään eliminoimaan raksaita if-else -lauseita
+			  sekä tekemään evaluaattorista hieman selkeämpi, mutta algoritmi-
+			  siin osiin lienee vaikea puuttua vielä tässä vaiheessa, sillä
+			  oma kokemuksenpuute tulee siinä vastaan. Myös koodin yleistä
+			  ulkoasua (mm. muuttujien nimiä, yms) käydään läpi ja parannetaan,
+			  aina kun tarvetta.
 			  
+			* Tämän jälkeen suoritetaan Dokumentation viimeistely, jossa luodaan
+			  mm. sekvenssikaaviot ja JavaDocsit, sekä käyttöohjeet tulkille.
+			  
+			* Sen jälkeen toivottavasti ei enää ikinä tarvitse Javalla tehdä
+			  yhtään mitään.
 			  
  TODO
  ----
