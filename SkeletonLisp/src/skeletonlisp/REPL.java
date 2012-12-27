@@ -32,7 +32,7 @@ public class REPL {
     
     public LExp eval(LExp exp) {
         try {
-            return evaluator.eval(exp, new Environment());
+            return evaluator.eval(exp);
         } catch (Exception e) {
             return new LError(e.getMessage());
         }

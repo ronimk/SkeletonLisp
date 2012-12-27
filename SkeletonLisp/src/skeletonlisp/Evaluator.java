@@ -77,44 +77,40 @@ public class Evaluator {
         exit = _exit;
     }
     
-    public LExp eval(LExp exp, Environment env) throws Exception {
+    public LExp eval(LExp exp) throws Exception {
         switch (exp.getType()) {
             case LVALUETYPE:        return exp;
                 
-            case LIDTYPE:           LExp val = lookupIdInLocalEnv((LId) exp, env);
+            case LIDTYPE:           LExp val = lookupIdInGlobalEnv((LId) exp);
                                     if (val != null) {
                                         return val;
                                     } else {
-                                        val = lookupIdInGlobalEnv((LId) exp);
-                                        if (val != null) {
-                                            return val;
-                                        } else {
-                                            return primitiveApplier.lookupPrimitive((LId) exp);
-                                        }
+                                        return primitiveApplier.lookupPrimitive((LId) exp);
                                     }
+                                    
                 
             case LAMBDATYPE:        return exp;
                 
-            case LCONDTYPE:         return evalCond((LCond) exp, env);
+            case LCONDTYPE:         return evalCond((LCond) exp);
                 
             case LAPPLICATIONTYPE:  LApplication app = (LApplication) exp;
-                                    return apply(app.getProcedure(), app.getVals(), env);
+                                    return apply(app.getProcedure(), app.getVals());
                 
             default:                throw new Exception("SYNTAX ERROR");
         }
     }
     
-    public ArrayList<LExp> evalParamVals(ArrayList<LExp> params, Environment env) throws Exception {
+    public ArrayList<LExp> evalParamVals(ArrayList<LExp> params) throws Exception {
         ArrayList<LExp> vals = new ArrayList<LExp>();
         
         for (int i=0; i<params.size(); i++) {
-            vals.add(eval(params.get(i), env));
+            vals.add(eval(params.get(i)));
         }
         
         return vals;
     }
     
-    private LExp evalCond(LCond condExp, Environment env) throws Exception {
+    private LExp evalCond(LCond condExp) throws Exception {
         ArrayList<CondCase> cases = condExp.getCases();
         
         LExp result = new LError("COND-EXPRESISON EVALUATION ERROR");
@@ -122,8 +118,8 @@ public class Evaluator {
         for (int i=0; i<cases.size(); i++) {
             CondCase currCase = cases.get(i);
             
-            if (eval(currCase.getPredicate(), env).getSubType() != LExpTypes.NILTYPE) {
-                return eval(currCase.getResult(), env);
+            if (eval(currCase.getPredicate()).getSubType() != LExpTypes.NILTYPE) {
+                return eval(currCase.getResult());
             }
         }
         
@@ -131,99 +127,141 @@ public class Evaluator {
     }
     
     
-    private LExp apply(LExp procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
+    private LExp apply(LExp procedure, ArrayList<LExp> paramVals) throws Exception {
         LExpTypes type = procedure.getType();
         
         switch (procedure.getType()) {
-            case LAMBDATYPE :           return applyLambda((Lambda)procedure, paramVals,env);
+            case LAMBDATYPE :           return applyLambda((Lambda)procedure, evalParamVals(paramVals));
                 
-            case LCONDTYPE :            return apply(eval(procedure, env), paramVals, env);
+            case LCONDTYPE :            return apply(eval(procedure), paramVals);
                 
-            case LAPPLICATIONTYPE :     return apply(eval(procedure, env), paramVals, env);
+            case LAPPLICATIONTYPE :     return apply(eval(procedure), paramVals);
                 
-            case LIDTYPE :              LExp procVal = lookupIdInLocalEnv((LId) procedure, env);
+            case LIDTYPE :              LExp procVal = lookupIdInGlobalEnv((LId) procedure);
                                         if (procVal != null) {
-                                            return apply(procVal, paramVals, env);
+                                                return apply(procVal, paramVals);
                                         } else {
-                                            procVal = lookupIdInGlobalEnv((LId) procedure);
-                                            if (procVal != null) {
-                                                if (procVal.getType() == LExpTypes.LAMBDATYPE) {
-                                                    return apply(procVal, evalParamVals(paramVals, env), new Environment());
-                                                } else {
-                                                    return apply(procVal, paramVals, env);
-                                                }
-                                            } else {
-                                                return applyPrimitive((LId)procedure, paramVals, env);
-                                            }
+                                            return applyPrimitive((LId)procedure, paramVals);
                                         }
+                                        
                 
             default:                     throw new Exception("NOT A PROPER APPLICATION: " + procedure);
         }
     }
     
-    private LExp applyLambda(Lambda procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
+    private LExp applyLambda(Lambda procedure, ArrayList<LExp> evaledVals) throws Exception {
         LExp lambdaBody = procedure.getLambdaBody();
         ArrayList<LId> vars = procedure.getVars();
         int varSize = vars.size();
         
-        Environment newEnv = new Environment(env);
-        
-        if (varSize != paramVals.size()) {
+        if (varSize != evaledVals.size()) {
             throw new Exception("ERROR EVALUATING A LAMBDA EXPRESSION: WRONG AMOUNT OF ARGUMENTS GIVEN");
         }
+        
+        Lambda transformedLambda = new Lambda(vars, transformLambdaBody(lambdaBody, vars, evaledVals));
+        
+        
+        return eval(transformedLambda.getLambdaBody());
+    }
+    
+    private LExp transformLambdaBody(LExp body, ArrayList<LId> vars, ArrayList<LExp> vals) {
+        
+        switch(body.getType()) {
+            case LIDTYPE:       if (vars.contains((LId) body)) {
+                                    int i = vars.indexOf((LId) body);
+                                    return vals.get(i);
+                                } else {
+                                    return body;
+                                }
             
-        for (int i=0; i<varSize; i++) {
-            newEnv.extendEnvironment(vars.get(i), eval(paramVals.get(i), env));
+            case LAMBDATYPE:    Lambda transformableLambda = (Lambda) body;
+                                ArrayList<LId> lambdaVars = transformableLambda.getVars();
+                                for (int i=0; i<vars.size(); i++) {
+                                    if (lambdaVars.contains(vars.get(i))) {
+                                        vars.remove(i);
+                                        vals.remove(i);
+                                    }
+                                }
+                                return new Lambda(lambdaVars, transformLambdaBody(transformableLambda.getLambdaBody(), vars, vals));
+                
+            case LAPPLICATIONTYPE:
+                            LApplication transformableApp = (LApplication) body;
+                            LExp newProcedure = transformLambdaBody(transformableApp.getProcedure(), (ArrayList<LId>)vars.clone(), (ArrayList<LExp>)vals.clone());
+                            ArrayList<LExp> appVals = transformableApp.getVals();
+                            ArrayList<LExp> newVals = new ArrayList<LExp>();
+                            
+                            for (int i=0; i<appVals.size(); i++) {
+                                newVals.add(transformLambdaBody(appVals.get(i), (ArrayList<LId>)vars.clone(), (ArrayList<LExp>)vals.clone()));
+                            }
+                            
+                            return new LApplication(newProcedure, newVals);
+                
+            case LCONDTYPE: LCond transformableCond = (LCond) body;
+                            ArrayList<CondCase> condCases = transformableCond.getCases();
+                            ArrayList<CondCase> newCases = new ArrayList<CondCase>();
+                          
+                            for (int i=0; i<condCases.size(); i++) {
+                                CondCase currCase = condCases.get(i);
+                                CondCase newCase = new CondCase(transformLambdaBody(currCase.getPredicate(), (ArrayList<LId>)vars.clone(), (ArrayList<LExp>)vals.clone()),
+                                                                transformLambdaBody(currCase.getResult(), (ArrayList<LId>)vars.clone(), (ArrayList<LExp>)vals.clone()));
+                                
+                                newCases.add(newCase);
+                            }
+                
+                            return new LCond(newCases);
+                
+            default:            return body;
         }
-        
-        
-        return eval(lambdaBody, newEnv);
     }
         
-    private LExp applyPrimitive(LId procedure, ArrayList<LExp> paramVals, Environment env) throws Exception {
+    private LExp applyPrimitive(LId procedure, ArrayList<LExp> paramVals) throws Exception {
         String primitive = procedure.getId();
         
         if (primitive.equals("EXIT")) {
             exit.run();
             return new LString("Farewell:\n\t\"I suppose I should learn Lisp,\n\t but it seems so foreign.\"\n\t(Paul Graham, 1983)");
         } else if (primitive.equals("ADD1")) {
-            return primitiveApplier.add1(evalParamVals(paramVals, env));
+            return primitiveApplier.add1(evalParamVals(paramVals));
         } else if (primitive.equals("AND")) {
-            return primitiveApplier.and(paramVals, this, env);
+            return primitiveApplier.and(paramVals, this);
         } else if (primitive.equals("ATOM?")) {
-            return primitiveApplier.atomPredicate(evalParamVals(paramVals, env));
+            return primitiveApplier.atomPredicate(evalParamVals(paramVals));
         } else if (primitive.equals("CAR")) {
-            return primitiveApplier.car(evalParamVals(paramVals, env));
+            return primitiveApplier.car(evalParamVals(paramVals));
         } else if (primitive.equals("CDR")) {
-            return primitiveApplier.cdr(evalParamVals(paramVals, env));
+            return primitiveApplier.cdr(evalParamVals(paramVals));
         } else if (primitive.equals("CONS")) {
-            return primitiveApplier.cons(paramVals, this, env);
+            return primitiveApplier.cons(paramVals, this);
         } else if (primitive.equals("DEFINE")) {
-            return primitiveApplier.defineGlobally(paramVals, globalEnvironment, this, env);
+            return primitiveApplier.defineGlobally(paramVals, globalEnvironment, this);
         } else if (primitive.equals("EQ?")) {
-            return primitiveApplier.eqPredicate(evalParamVals(paramVals, env));
+            return primitiveApplier.eqPredicate(evalParamVals(paramVals));
         } else if (primitive.equals("LIST")) {
-            return primitiveApplier.list(paramVals, this, env);
+            return primitiveApplier.list(paramVals, this);
+        } else if (primitive.equals("NEGATIVE?")) {
+            return primitiveApplier.negativePredicate(evalParamVals(paramVals));
+        } else if (primitive.equals("NOT")) {
+            return primitiveApplier.not(evalParamVals(paramVals));
         } else if (primitive.equals("NULL?")) {
-            return primitiveApplier.nullPredicate(evalParamVals(paramVals, env));
+            return primitiveApplier.nullPredicate(evalParamVals(paramVals));
         } else if (primitive.equals("NUMBER?")) {
-            return primitiveApplier.numberPredicate(evalParamVals(paramVals, env));   
+            return primitiveApplier.numberPredicate(evalParamVals(paramVals));   
         } else if (primitive.equals("OR")) {
-            return primitiveApplier.or(paramVals, this, env);
+            return primitiveApplier.or(paramVals, this);
+        } else if (primitive.equals("PAIR?")) {
+            return primitiveApplier.pairPredicate(evalParamVals(paramVals));
+        } else if (primitive.equals("POSITIVE?")) {
+            return primitiveApplier.positivePredicate(evalParamVals(paramVals));
         } else if (primitive.equals("SUB1")) {
-            return primitiveApplier.sub1(evalParamVals(paramVals, env));
+            return primitiveApplier.sub1(evalParamVals(paramVals));
         } else if (primitive.equals("ZERO?")) {
-            return primitiveApplier.zeroPredicate(evalParamVals(paramVals, env));
+            return primitiveApplier.zeroPredicate(evalParamVals(paramVals));
         }
         
         throw new Exception("ID UNBOUND: " + procedure);        
     }
     
-    private LExp lookupIdInLocalEnv(LId id, Environment env) {
-        return env.getValueOf(id);
-    }
-    
     private LExp lookupIdInGlobalEnv(LId id) {
-        return lookupIdInLocalEnv(id, globalEnvironment);
+        return globalEnvironment.getValueOf(id);
     }
 }

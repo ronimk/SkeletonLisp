@@ -11,12 +11,13 @@
 //  (('#t in SkeletonLisp)
 //  is optional, but highly recomended;
 //  if there is no default predicate, and all the predicates fail,
-//  the system signals an error.
+//  the system signals an exception.
 //  (so the input "(cond)" returns an error)
 //
-// As for parsing, all we need to do now that we know the
+// As for parsing, all we need to do, now that we know the
 // expression starts with (cond...
-// is to check whether all it's other words are Parenthesized,
+// is to check whether all it's other words are Parenthesized, And that
+// they contain exactly two sub-words.
 // if so, we create a new LCond from all the data
 // if not, we throw an exception
 //
@@ -45,7 +46,7 @@ public class CondParser {
                 currBody = WordParser.unwrapParenthesizedWord(currBody);
 
                 if (currBody.isEmpty() || !WordParser.thirdWord(currBody).isEmpty()) {
-                    throw new Exception("BAD SYNTAX IN" + exp);
+                    throw new Exception("BAD SYNTAX IN " + exp);
                 }
                 
                 currPredicate = Parser.parseExpression(WordParser.firstWord(currBody));

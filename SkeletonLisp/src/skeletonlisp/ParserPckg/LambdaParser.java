@@ -20,7 +20,7 @@ public class LambdaParser {
         try {          
             return new Lambda(makeVarList(varsWord), lambdaBody(unwrappedLambdaExp));
             } catch (Exception e) {
-                throw new Exception(e.getMessage() + ": " + exp);
+                throw new Exception(e.getMessage());
         }
     }
     
@@ -34,7 +34,7 @@ public class LambdaParser {
             if (nextVar.isEmpty()) { 
                 break;
             } else if (!ExpParser.isId(nextVar)) {
-                throw new Exception("ILLEGAL PARAMETER DECLARATION " + nextVar);
+                throw new Exception("ILLEGAL LAMBDA PARAMETER DECLARATION " + nextVar);
             } else {
                 varList.add(new LId(nextVar));
                 
@@ -50,7 +50,7 @@ public class LambdaParser {
         
         if (body.isEmpty() ||
             !WordParser.allButFirstWord(body).isEmpty()) {
-            throw new Exception("BAND SYNTAX IN LAMBDA PROCEDURE");
+            throw new Exception("BAD SYNTAX IN LAMBDA BODY");
         } else {
             LExp lambdaBody = Parser.parseExpression(body);
 

@@ -27,9 +27,13 @@ public class PrimitiveApplier {
         primitives.add(new LId("EQ?"));
         primitives.add(new LId("EXIT"));
         primitives.add(new LId("LIST"));
+        primitives.add(new LId("NEGATIVE?"));
+        primitives.add(new LId("NOT"));
         primitives.add(new LId("NULL?"));
         primitives.add(new LId("NUMBER?"));
         primitives.add(new LId("OR"));
+        primitives.add(new LId("PAIR?"));
+        primitives.add(new LId("POSITIVE?"));
         primitives.add(new LId("SUB1"));
         primitives.add(new LId("ZERO?"));
     }
@@ -45,17 +49,17 @@ public class PrimitiveApplier {
     public LExp add1(ArrayList<LExp> paramVal) throws Exception{
         if (paramVal.size() != 1 ||
             paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-            throw new Exception("PROCEDURE ADD1 TAKES EXACTLY ONE NUMBER PARAMETER");
+            throw new Exception("PRIMITIVE ADD1 TAKES EXACTLY ONE NUMBER PARAMETER");
         }
         
         return new LNumber(((LNumber)paramVal.get(0)).getNumberVal() + 1);
     }
      
-     public LExp and(ArrayList<LExp> params, Evaluator evaluator, Environment env) throws Exception {
-         LExp returnVal = new LAtom("#t");
+     public LExp and(ArrayList<LExp> params, Evaluator evaluator) throws Exception {
+         LExp returnVal = new LAtom("#T");
          
          for(int i=0; i<params.size(); i++) {
-             returnVal = evaluator.eval(params.get(i), env);
+             returnVal = evaluator.eval(params.get(i));
              if (returnVal.getSubType() == LExpTypes.NILTYPE) {
                  return new NIL();
              }
@@ -66,51 +70,51 @@ public class PrimitiveApplier {
      
      public LExp atomPredicate(ArrayList<LExp> paramVal) throws Exception {
          if (paramVal.size() != 1) {
-             throw new Exception("PROCEDURE ATOM? TAKES EXACTLY ONE PARAMETER");
+             throw new Exception("PRIMITIVE ATOM? TAKES EXACTLY ONE PARAMETER");
          }
          
          LExp val = paramVal.get(0);
          
          if (val.getSubType() == LExpTypes.LATOMTYPE ||
              val.getSubType() == LExpTypes.LNUMBERTYPE) {
-             return new LAtom("#t");
+             return new LAtom("#T");
          }
          
          return new NIL();
      }
      
      public LExp car(ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1 &&
+         if (paramVal.size() != 1 ||
              paramVal.get(0).getSubType() != LExpTypes.LPAIRTYPE) {
-             throw new Exception("CAR TAKES ONE PAIR AS A PARAMETER");
+             throw new Exception("PRIMITIVE CAR TAKES ONE NON-EMPTY PAIR AS A PARAMETER");
          }
          
          return ((LPair) paramVal.get(0)).getCar();      
      }
      
           public LExp cdr(ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1 &&
+         if (paramVal.size() != 1 ||
              paramVal.get(0).getSubType() != LExpTypes.LPAIRTYPE) {
-             throw new Exception("CAR TAKES ONE PAIR AS A PARAMETER");
+             throw new Exception("PRIMITIVE CDR TAKES ONE NON-EMPTY PAIR AS A PARAMETER");
          }
          
          return ((LPair) paramVal.get(0)).getCdr();      
      }
      
-     public LExp cons(ArrayList<LExp> params, Evaluator evaluator, Environment env) throws Exception {
+     public LExp cons(ArrayList<LExp> params, Evaluator evaluator) throws Exception {
          if (params.size() != 2) {
-             throw new Exception("CONS TAKES EXACTLY TWO PARAMETERS");
+             throw new Exception("PRIMITIVE CONS TAKES EXACTLY TWO PARAMETERS");
          }
          
-         LExp val0 = evaluator.eval(params.get(0), env);
-         LExp val1 = evaluator.eval(params.get(1), env);
+         LExp val0 = evaluator.eval(params.get(0));
+         LExp val1 = evaluator.eval(params.get(1));
          
          return new LPair(val0, val1);
      }
      
-     public LExp defineGlobally(ArrayList<LExp> params, Environment globalEnv, Evaluator evaluator, Environment currentEnv) throws Exception {
+     public LExp defineGlobally(ArrayList<LExp> params, Environment globalEnv, Evaluator evaluator) throws Exception {
          if (params.size() != 2) {
-             throw new Exception("PROCEDURE DEFINE TAKES EXACTLY TWO PARAMETERS");
+             throw new Exception("PRIMITIVE DEFINE TAKES EXACTLY TWO PARAMETERS");
          }
          
          LExp var = params.get(0);
@@ -119,7 +123,7 @@ public class PrimitiveApplier {
              throw new Exception("ONLY IDENTIFIERS CAN BE DEFINED");
          }
          
-         LExp val = evaluator.eval(params.get(1), currentEnv);
+         LExp val = evaluator.eval(params.get(1));
 
          globalEnv.extendEnvironment((LId)var, val);
          
@@ -128,7 +132,7 @@ public class PrimitiveApplier {
      
      public LExp eqPredicate(ArrayList<LExp> paramVals) throws Exception {
          if (paramVals.size() != 2) {
-             throw new Exception("PROCEDURE EQ? TAKES EXACTLY TWO PARAMETERS");   
+             throw new Exception("PRIMITIVE EQ? TAKES EXACTLY TWO PARAMETERS");   
          }
          
          LExp val1 = paramVals.get(0);
@@ -136,17 +140,17 @@ public class PrimitiveApplier {
          
          if (val1.getSubType() != LExpTypes.LATOMTYPE ||
              val2.getSubType() != LExpTypes.LATOMTYPE) {
-             throw new Exception("BOTH PARAMETERS TO PROCEDURE EQ? MUST BE ATOMS!");
+             throw new Exception("BOTH PARAMETERS TO PRIMITIVE EQ? MUST BE NON-NUMERIC ATOMS");
          }
          
          if (!val1.equals(val2)) {
              return new NIL();
          }
          
-         return new LAtom("#t");
+         return new LAtom("#T");
      }
      
-     public LExp list(ArrayList<LExp> params, Evaluator evaluator, Environment env) throws Exception {
+     public LExp list(ArrayList<LExp> params, Evaluator evaluator) throws Exception {
          if (params.isEmpty()) {
              return new NIL();
          }
@@ -160,7 +164,7 @@ public class PrimitiveApplier {
              currPair = nextPair;
              LExp currCar;
              
-             currCar = evaluator.eval(params.get(i), env);
+             currCar = evaluator.eval(params.get(i));
 
              
              currPair.setCar(currCar);
@@ -173,13 +177,38 @@ public class PrimitiveApplier {
          return resultPair;
      }
      
+     public LExp negativePredicate (ArrayList<LExp> paramVal) throws Exception {
+         if (paramVal.size() != 1 ||
+             paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
+             throw new Exception("PRIMITIVE NEGATIVE? TAKES EXACTLY ONE NUMBER PARAMETER");
+         }
+         
+         if (((LNumber) paramVal.get(0)).getNumberVal() < 0) {
+             return new LAtom("#T");
+         } else {
+             return new NIL();
+         }
+     }
+     
+     public LExp not (ArrayList<LExp> paramVal) throws Exception {
+         if (paramVal.size() != 1) {
+             throw new Exception("PRIMITIVE NOT TAKES EXACTLY ONE PARAMETER");
+         }
+         
+         if (paramVal.get(0).getSubType() == LExpTypes.NILTYPE) {
+             return new LAtom("#T");
+         } else {
+             return new NIL();
+         }
+     }
+     
      public LExp nullPredicate(ArrayList<LExp> params) throws Exception {
          if (params.size() != 1) {
-             throw new Exception("PROCEDURE NULL TAKES? EXACTLY ONE PARAMETER");   
+             throw new Exception("PRIMITIVE NULL TAKES? EXACTLY ONE PARAMETER");   
          }
          
          if (params.get(0).getSubType() == LExpTypes.NILTYPE) {
-             return new LAtom("#t");
+             return new LAtom("#T");
          } else {
              return new NIL();
          }
@@ -187,20 +216,20 @@ public class PrimitiveApplier {
      
      public LExp numberPredicate(ArrayList<LExp> paramVal) throws Exception {
          if (paramVal.size() != 1) {
-             throw new Exception("PROCEDURE NUMBER? TAKES EXACTLY ONE PARAMETER");
+             throw new Exception("PRIMITIVE NUMBER? TAKES EXACTLY ONE PARAMETER");
          }
          
          if (paramVal.get(0).getSubType() == LExpTypes.LNUMBERTYPE) {
-             return new LAtom("#t");
+             return new LAtom("#T");
          } else {
              return new NIL();
          }
      }
      
-     public LExp or(ArrayList<LExp> params, Evaluator evaluator, Environment env) throws Exception {
+     public LExp or(ArrayList<LExp> params, Evaluator evaluator) throws Exception {
          
          for(int i=0; i<params.size(); i++) {
-             LExp returnVal = evaluator.eval(params.get(i), env);
+             LExp returnVal = evaluator.eval(params.get(i));
              if (returnVal.getSubType() != LExpTypes.NILTYPE) {
                  return returnVal;
              }
@@ -208,24 +237,51 @@ public class PrimitiveApplier {
          
          return new NIL();
      }
+     public LExp pairPredicate(ArrayList<LExp> paramVal) throws Exception {
+         if (paramVal.size() != 1) {
+             throw new Exception("PRIMITIVE PAIR? TAKES EXACTLY ONE PARAMETER");
+         }
+         
+         if (paramVal.get(0).getSubType() == LExpTypes.LPAIRTYPE) {
+             return new LAtom("#T");
+         } else {
+             return new NIL();
+         }
+     }
      
-         public LExp sub1(ArrayList<LExp> paramVal) throws Exception{
+     public LExp positivePredicate (ArrayList<LExp> paramVal) throws Exception {
+         if (paramVal.size() != 1 ||
+             paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
+             throw new Exception("PRIMITIVE POSITIVE? TAKES EXACTLY ONE NUMBER PARAMETER");
+         }
+         
+         if (((LNumber) paramVal.get(0)).getNumberVal() > 0) {
+             return new LAtom("#T");
+         } else {
+             return new NIL();
+         }
+     }
+     
+     public LExp sub1(ArrayList<LExp> paramVal) throws Exception{
         if (paramVal.size() != 1 ||
             paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-            throw new Exception("PROCEDURE SUB1 TAKES EXACTLY ONE NUMBER PARAMETER");
+            throw new Exception("PRIMITIVE SUB1 TAKES EXACTLY ONE NUMBER PARAMETER");
         }
         
         return new LNumber(((LNumber)paramVal.get(0)).getNumberVal() - 1);
     }
          
     public LExp zeroPredicate(ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1 ||
-             paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-             throw new Exception("PROCEDURE ZERO? TAKES EXACTLY ONE NUMBER");
+         if (paramVal.size() != 1){
+             
+             throw new Exception("PRIMITIVE ZERO? TAKES EXACTLY ONE PARAMETER");
+         }
+         if (paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
+            throw new Exception("PRIMITIVE ZERO? TAKES ONLY NUMBERS");
          }
          
          if (((LNumber)paramVal.get(0)).getNumberVal() == 0) {
-             return new LAtom("#t");
+             return new LAtom("#T");
          } else {
              return new NIL();
          }

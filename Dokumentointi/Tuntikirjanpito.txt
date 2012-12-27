@@ -449,24 +449,96 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			  Vaatii seuraavaksi testausta, refaktorointia ja dokumentoinnin
 			  päivitystä. Sitten homma alkaa olla paketissa.
 			
-			* Testauksen osalta suoritetaan lisää yksikkötestejä, sekä
+			  Testauksen osalta suoritetaan lisää yksikkötestejä, sekä
 			  integraatiotestaus, jossa ainakin suurin osa
 			  "The Little Schemer"-kirjan koodista käännetään SL-kielelle, ja
 			  katsotaan toimiiko koodi tulkkiin kirjoitettuna.
 			
-			* Refaktoroinnissa pyritään eliminoimaan raksaita if-else -lauseita
+			  Refaktoroinnissa pyritään eliminoimaan raksaita if-else -lauseita
 			  sekä tekemään evaluaattorista hieman selkeämpi, mutta algoritmi-
 			  siin osiin lienee vaikea puuttua vielä tässä vaiheessa, sillä
 			  oma kokemuksenpuute tulee siinä vastaan. Myös koodin yleistä
 			  ulkoasua (mm. muuttujien nimiä, yms) käydään läpi ja parannetaan,
 			  aina kun tarvetta.
 			  
-			* Tämän jälkeen suoritetaan Dokumentation viimeistely, jossa luodaan
+			  Tämän jälkeen suoritetaan Dokumentation viimeistely, jossa luodaan
 			  mm. sekvenssikaaviot ja JavaDocsit, sekä käyttöohjeet tulkille.
 			  
-			* Sen jälkeen toivottavasti ei enää ikinä tarvitse Javalla tehdä
+			  Sen jälkeen toivottavasti ei enää ikinä tarvitse Javalla tehdä
 			  yhtään mitään.
 			  
+26.-27.12
+---------
+
+~12h:		  * Ankaraa integraatiotestausta: tarkoituksenmukainen toiminta
+			    luotettavaa ja varmaa - ohjelma kykenee jopa evaluoimaan
+			    Y-kombinaattoreita (tätä testattu The Little Lisper-kirjan
+			    esimerkillä, jossa luodaan listan alkioiden määrän laskeva
+			    length-funktio Y-kombinaattorin avulla.)
+			  
+			  * Ongelmakohtia korjattu melko lailla: esimerkiksi paikallisista
+			    ympäristöistä tuli loppupeleissä erittäin vaikeasti hallittavia,
+			    johtuen hyvin pitkälti niiden heikosta suunnittelusta, jossa ei
+			    oltu otettu huomioon kaikkia yksityiskohtaisia kriteerejä
+			    paikallisten muuttujien arvojen oikeaoppiseen evaluointiin.
+				Uuteen versioon Evaluaattorista paikalliset muuttujien
+				käisttelyssä otin apua Daniel Friedmanin "The Essentials Of
+				Programming Languages" -kirjasta, jossa muistaakseni toisessa
+				painoksessa kolmannessa kappaleessa käydään läpi lambda-lauseiden
+				muuttujien korvaamista muuttujille annetuilla arvoilla. Lähtien
+				siitä yksinkertaisesta ajatuksesta, että kaikki kyseisen
+				lambda-lauseen sisällä olevat muuttujat korvataan arvoilla,
+				mikäli:
+					* lambda-lause määrittelee kyseisen muuttujan itse
+					   (esim. lauseessa (lambda (x y) (triple-plus x y z))
+					    lambda määrittelee muuttujat x ja y, mutta ei muuttujaa
+					    z - siispä vain x ja y ovat mahdollista korvata.)
+					* muuttuja on vapaa, eli sitä ei ole sidottu minkään toisen
+					  lauseen kautta lambda-rungon sisällä:
+					  (esim. lauseessa
+					    ((lambda (x y)
+					       (+ ((lambda (y)
+								(+ x (* y y))) x)
+							  (+ 2 y))) 1 2)
+					   viimeinen y tulee korvata luvulla 2, mutta lauseen
+					   (+ x (* y y)) sisältämiä muuttujia y ei saa korvata,
+					   sillä ne on sidottu lausetta ympäröivään (lambda (y) ...)
+					   lauseeseen.
+					   Kaikki x:t taas saa, ja tulee korvata lauseen sisällä).
+				Tämä on mahdollista, sen vuoksi, että SkeletonLisp ei salli
+				paikallisten muuttujien arvojen uudelleenmäärittelyä sen jäl-
+				keen kun ne on kerran määritelty joihinkin arvoihin.
+				(SL ei sisällä set!, set-car!, set-cdr! -muuttujia, joiden
+				avulla voisi lambda-lauseiden muuttujille antaa kesken kaiken
+				uusia arvoja.)
+				
+				Tämän muutoksen pitäisi myös kaiken järjen mukaan varmistaa,
+				ettei milloinkaan mikään muuttuja voi saada väärää arvoa;
+				(tämä ongelma esiintyi edellisessä paikallisympäristöihin
+				pohjautuvassa evaluoinnissa sen vuoksi, että paikallisympä-
+				ristöjen käsittelyssä oli puutteita, ja toisaalta näiden puut-
+				teiden korjaaminen ilman ympäristörakenteen täydellistä muutta-
+				mista olisi tehnyt evaluaattorista liian sekavaa, jotta koodia
+				olisi voinut ymmärtää.
+				 
+				Lisäksi lambdamuuttujien evaluointitavan vaihtaminen teki
+				muusta evaluaattorista entistä selkeämpää, sillä ei tarvitse
+				enää huolehtia ollenkaan paikallisympäristöiden oikeaoppisesta
+				kopioimisesta ja alustamisesta. Muutama if...else -lause
+				eliminoitui siten aivan kokonaan ja evaluaattori on nyt paljon
+				hienomman näköinen.
+				
+				Tietysti miinuspuolena on se, että mukaan tuli yksi
+				uusi puhtaasti rekursiivinen metodi: transformLambdaBody(),
+				joka ei ehkä ensi silmäyksellä ole maailman selkein, sillä
+				sen täytyy tehdä kaikki tämä raskas muuttujien muuntamis-
+				operaatio.
+				
+				
+			*   Käyttöohjeiden kirjoittaminen alkanut myös ja pari uutta yksik-
+				kötestiä tehty. Koodia hieman putsattu, ja nyt tulkki sisältänee
+				kaikki ne primitiivit, jotka lopullinenkin versio tulee sisäl-
+				tämään.
  TODO
  ----
   Päivitä luokkakaaviot sekä muu dokumentaatio vastaamaan nykyistä tilaa.
