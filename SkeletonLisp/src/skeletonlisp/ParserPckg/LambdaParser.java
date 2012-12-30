@@ -17,11 +17,7 @@ public class LambdaParser {
             throw new Exception("BAD SYNTAX IN THE VARIABLE PART: " + exp);
         }
               
-        try {          
             return new Lambda(makeVarList(varsWord), lambdaBody(unwrappedLambdaExp));
-            } catch (Exception e) {
-                throw new Exception(e.getMessage());
-        }
     }
     
     private static ArrayList<LId> makeVarList(String lambdaVars) throws Exception {
@@ -33,11 +29,14 @@ public class LambdaParser {
             
             if (nextVar.isEmpty()) { 
                 break;
-            } else if (!ExpParser.isId(nextVar)) {
+            }
+            
+            LExp var = Parser.parseExpression(nextVar);
+            
+            if (var.getSubType() != LExpTypes.LIDTYPE) {
                 throw new Exception("ILLEGAL LAMBDA PARAMETER DECLARATION " + nextVar);
             } else {
-                varList.add(new LId(nextVar));
-                
+                varList.add((LId)var);                
                 vars = WordParser.allButFirstWord(vars);
             }            
         }

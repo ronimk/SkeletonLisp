@@ -60,11 +60,20 @@ public class CondParserTest {
     }
 
     @Test
-    public void CondParserHeittaaPoikkeuksenKunTokaYksiCondCaseIlmanSulkeita() {
+    public void CondParserHeittaaPoikkeuksenKunEiEkaaCaseOsiota() {
         try {
-            assertEquals("FALSE", CondParser.makeANewCond("(cond ((< x y) x) '#t (lambda x y)").toString());
+            assertEquals("FALSE", CondParser.makeANewCond("(cond () ('#t '#t))").toString());
         } catch (Exception e) {
-            assertEquals("BAD SYNTAX IN (cond ((< x y) x) '#t (lambda x y)", e.getMessage());
+            assertEquals("BAD SYNTAX IN (cond () ('#t '#t))", e.getMessage());
+        }
+    }
+    
+    @Test
+    public void CondParserHeittaaPoikkeuksenKunEiEkaaResultOsiota() {
+        try {
+            assertEquals("FALSE", CondParser.makeANewCond("(cond ((< x y)) ('#t '#t))").toString());
+        } catch (Exception e) {
+            assertEquals("BAD SYNTAX IN (cond ((< x y)) ('#t '#t))", e.getMessage());
         }
     }
 }

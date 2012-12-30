@@ -45,7 +45,8 @@ public class CondParser {
             } else {
                 currBody = WordParser.unwrapParenthesizedWord(currBody);
 
-                if (currBody.isEmpty() || !WordParser.thirdWord(currBody).isEmpty()) {
+                if (WordParser.secondWord(currBody).isEmpty() ||
+                    !WordParser.thirdWord(currBody).isEmpty()) {
                     throw new Exception("BAD SYNTAX IN " + exp);
                 }
                 

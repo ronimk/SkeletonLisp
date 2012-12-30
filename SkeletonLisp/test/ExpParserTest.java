@@ -44,6 +44,51 @@ public class ExpParserTest {
     }
     
     @Test
+    public void isQuotePalauttaaTrueKunOnQuote() {
+        assertTrue(ExpParser.isQuote("'testi"));
+    }
+    
+    @Test
+    public void isQuotePalauttaaFalseKunOnId() {
+        assertFalse(ExpParser.isQuote("testi"));
+    }
+    
+    @Test
+    public void isAtomPalauttaaTrueKunOnAtomi() {
+        assertTrue(ExpParser.isAtom("'atomi"));
+    }
+    
+    @Test
+    public void isAtomPalauttaaFalseKunOnMoniSanainen() {
+        assertFalse(ExpParser.isAtom("'joukko 'atomeja 'yhdessa"));
+    }
+    
+    @Test
+    public void isAtomPalauttaaFalseKunTyhjaMjono() {
+        assertFalse(ExpParser.isAtom(""));
+    }
+        
+    @Test
+    public void isAtomPalauttaaFalseKunId() {
+        assertFalse(ExpParser.isAtom("atomi"));
+    }
+    
+    @Test
+    public void isAtomPalauttaaFalseKunOnNumero() {
+        assertFalse(ExpParser.isAtom("986"));
+    }
+    
+    @Test
+    public void isAtomPalauttaaFalseKunQuoteSulkeidenKanssa() {
+        assertFalse(ExpParser.isAtom("'(not-atom)"));
+    }
+    
+    @Test
+    public void isIdPalauttaaFalseKunTyhjaMjono() {
+        assertFalse(ExpParser.isId(""));
+    }
+    
+    @Test
     public void isIdPalauttaaFalseKunAtomiEiId() {
         assertFalse(ExpParser.isId("34ft"));
     }
@@ -65,12 +110,16 @@ public class ExpParserTest {
     
     @Test
     public void isIdPalauttaaTrueKunOnId() {
-        assertTrue(ExpParser.isId("AtOm1cSequence"));
+        assertTrue(ExpParser.isId("AtOm1c-$equen@e"));
     }
+    
     
     @Test
     public void isNILPalauttaaFalseKunEiNil() {
         assertFalse(ExpParser.isNIL("not-nil"));
+        assertFalse(ExpParser.isNIL("(app)"));
+        assertFalse(ExpParser.isNIL("1"));
+        assertFalse(ExpParser.isNIL("'atom"));
     }
     
     @Test
@@ -84,12 +133,28 @@ public class ExpParserTest {
     }
     
     @Test
-    public void isCondPalauttaaTrueKunProseduuriOnCond() {
+    public void isCondPalauttaaTrueKunAlkaaCondilla() {
         assertTrue(ExpParser.isCond("(cond ((> x 6) 1) ((= x 6) 0) (else -1))"));
     }
     
     @Test
-    public void isCondPalauttaaFalseKunProseduuriEiOleCond() {
+    public void isCondPalauttaaFalseKunEiAlaCondilla() {
         assertFalse(ExpParser.isCond("(add ((> x 6) 1) ((= x 6) 0) (else -1))"));
+    }
+    
+    @Test
+    public void isApplicationPalauttaaTrueKunOnApplication() {
+        assertTrue(ExpParser.isApplication("(add1 2)"));
+        assertTrue(ExpParser.isApplication("(add1 (add1 2))"));
+        assertTrue(ExpParser.isApplication("((lambda (x) (add1 x)) 6)"));
+        assertTrue(ExpParser.isApplication("((cond ((< 5 1) sub1) ('#T add1)) 5)"));
+    }
+    
+    @Test
+    public void isApplicationPalauttaaFalseKunEiOleApplication() {
+        assertFalse(ExpParser.isApplication("(lambda (x) (add1 x)))"));
+        assertFalse(ExpParser.isApplication("idjkh"));
+        assertFalse(ExpParser.isApplication("'idjkh"));
+        assertFalse(ExpParser.isApplication("(cond ((< 5 1) sub1) ('#T add1))"));
     }
 }

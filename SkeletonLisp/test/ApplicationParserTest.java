@@ -73,10 +73,20 @@ public class ApplicationParserTest {
             LExp app = ApplicationParser.makeNewApplication("(f)");
             
             assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
+            assertTrue(((LApplication) app).getVals().isEmpty());
         } catch (Exception e) {
             assertTrue(false);
+        } 
+    }
+    
+    @Test
+    public void makeNewApplicationPalauttaaVirheenKunTyhjäLista() {
+        try {
+            LExp app = ApplicationParser.makeNewApplication(("()"));
+            assertTrue(false);
+        } catch (Exception e) {
+            assertEquals(" IS NOT A PROPER PROCEDURE", e.getMessage());
         }
-        
     }
     
     @Test
@@ -91,11 +101,11 @@ public class ApplicationParserTest {
     }
     
     @Test
-    public void makeNewApplicationToimiiKunProseduurinaLambda() {
+    public void makeNewApplicationToimiiKunProseduurinaLambdaLause() {
         try {
             LExp app = ApplicationParser.makeNewApplication("((lambda (f x) (* (f x) 2)) g 4)");
             
-            assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
+            assertEquals(LExpTypes.LAMBDATYPE, ((LApplication) app).getProcedure().getType());
         } catch (Exception e) {
             assertTrue(false);
         }
@@ -107,6 +117,7 @@ public class ApplicationParserTest {
             LExp app = ApplicationParser.makeNewApplication("((f 6) g 4)");
             
             assertEquals(LExpTypes.LAPPLICATIONTYPE, app.getType());
+            assertEquals(LExpTypes.LAPPLICATIONTYPE, ((LApplication) app).getProcedure().getType());
         } catch (Exception e) {
             assertTrue(false);
         }

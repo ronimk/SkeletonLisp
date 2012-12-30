@@ -539,6 +539,22 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 				kötestiä tehty. Koodia hieman putsattu, ja nyt tulkki sisältänee
 				kaikki ne primitiivit, jotka lopullinenkin versio tulee sisäl-
 				tämään.
+				
+28.12 - 30.12:
+--------------
+~ 8h:		*   Käyttöopasta aloitettu. Viimeinen, tärkein osio vielä puuttuu.
+			*   Poikkeuksellista toimintaa testattu niin yksikkötestein
+			    kuin integraatiotesteinkin. Lisää yksikkötestejä siis luotu.
+			    Parserin logiikkaa parannettu: nyt mikään Labda-, Cond- ja
+			    Application-parser ei itse yritä parseroida osasanojaan, vaan
+			    delegon in Parser-luokan parseExpression()-metodille.
+			    Tämä oli aiemmin ongelma lähinnä LambdaParserissa.
+			    Mutta nyt voidaan taata se, että isApplicationin esimerkiksi
+			    ei tarvitse miettiä sitä, saako se parametrikseen sulkeistetun
+			    sanan vai ei, sillä Parserin parseExpression()- ja
+			    parseSemantically-metodit ovat ainoita, jotka isApplicationia
+			    käyttävät varmasti, ja ne pitävät huolen siitä, että
+			    isApplication saa oikeanmuotoisen lauseen.
  TODO
  ----
   Päivitä luokkakaaviot sekä muu dokumentaatio vastaamaan nykyistä tilaa.

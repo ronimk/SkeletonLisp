@@ -14,6 +14,7 @@ public class LExpTest {
     LExp nil;
     LExp id;
     LExp app;
+    LExp cond;
     LExp uusiLambda;
     LExp uusiPair;
     LExp virhe;
@@ -45,6 +46,12 @@ public class LExpTest {
         vals.add(new LId("x"));
         vals.add(new LId("y"));
         app = new LApplication(new LId("+"), vals);
+        
+        // set-up cond:
+        ArrayList<CondCase> cases = new ArrayList<CondCase>();
+        cases.add(new CondCase(new NIL(), new LAtom("FALSE")));
+        cases.add(new CondCase(new LAtom("#T"), new LAtom("TRUE")));
+        cond = new LCond(cases);
         
         // set up uusiLambda:
         LId f = new LId("f");
@@ -254,5 +261,30 @@ public class LExpTest {
     @Test
     public void uudenStringintoStringMetodiToimii() {
         assertEquals("test my parser, please", mJono.toString());
+    }
+    
+    @Test
+    public void uudenCondinTyyppiOikea() {               
+        assertEquals(LExpTypes.LCONDTYPE, cond.getType());
+    }
+    
+    @Test
+    public void uudenCondinEkaPredikaattiOikea() {        
+        assertEquals("NIL", ((LCond) cond).getCases().get(0).getPredicate().toString());
+    }
+    
+    @Test
+    public void uudenCondinEkaResultOikea() {        
+        assertEquals("FALSE", ((LCond) cond).getCases().get(0).getResult().toString());
+    }
+    
+        @Test
+    public void uudenCondinTokaPredikaattiOikea() {        
+        assertEquals("#T", ((LCond) cond).getCases().get(1).getPredicate().toString());
+    }
+    
+    @Test
+    public void uudenCondinTokaResultOikea() {        
+        assertEquals("TRUE", ((LCond) cond).getCases().get(1).getResult().toString());
     }
 }
