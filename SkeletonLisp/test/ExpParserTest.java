@@ -79,6 +79,11 @@ public class ExpParserTest {
     }
     
     @Test
+    public void isAtomPalauttaaFalseKunOnNumerollaAlkava() {
+        assertFalse(ExpParser.isAtom("'9Atom"));
+    }
+    
+    @Test
     public void isAtomPalauttaaFalseKunQuoteSulkeidenKanssa() {
         assertFalse(ExpParser.isAtom("'(not-atom)"));
     }
@@ -89,7 +94,7 @@ public class ExpParserTest {
     }
     
     @Test
-    public void isIdPalauttaaFalseKunAtomiEiId() {
+    public void isIdPalauttaaFalseKunEiId() {
         assertFalse(ExpParser.isId("34ft"));
     }
     
@@ -153,8 +158,6 @@ public class ExpParserTest {
     @Test
     public void isApplicationPalauttaaFalseKunEiOleApplication() {
         assertFalse(ExpParser.isApplication("(lambda (x) (add1 x)))"));
-        assertFalse(ExpParser.isApplication("idjkh"));
-        assertFalse(ExpParser.isApplication("'idjkh"));
         assertFalse(ExpParser.isApplication("(cond ((< 5 1) sub1) ('#T add1))"));
     }
 }

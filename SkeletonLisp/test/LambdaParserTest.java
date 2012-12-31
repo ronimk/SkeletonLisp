@@ -47,7 +47,16 @@ public class LambdaParserTest {
     }
     
     @Test
-    public void lambdaParserHeittaaPoikkeuksenKunBodyVirheellinenLambdaExp() {
+    public void lambdaParserPalauttaaPoikkeuksenKunLambdaLauseessaUseampiBodyOsio() {
+        try {
+            assertEquals("FALSE", LambdaParser.makeANewLambda("(lambda (x y) (add1 x) (add1 y))").toString());
+        } catch (Exception e) {
+            assertEquals("BAD SYNTAX IN LAMBDA BODY", e.getMessage());
+        }
+    }
+    
+    @Test
+    public void lambdaParserHeittaaPoikkeuksenKunMuuttujaOsioVirheellinenLambdaExp() {
         try {
             assertEquals("FALSE", LambdaParser.makeANewLambda("(lambda (x) (lambda x x))").toString());
         } catch (Exception e) {
@@ -60,7 +69,7 @@ public class LambdaParserTest {
         try {
             assertEquals("FALSE", LambdaParser.makeANewLambda("(lambda (x y z (cons 6 'a)) x)"));
         } catch (Exception e) {
-            assertEquals("ILLEGAL LAMBDA PARAMETER DECLARATION (cons 6 'a)", e.getMessage());
+            assertEquals("ILLEGAL LAMBDA VARIABLE DECLARATION (cons 6 'a)", e.getMessage());
         }
     }
 }

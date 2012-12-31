@@ -101,6 +101,61 @@ public class ApplicationParserTest {
     }
     
     @Test
+    public void makeNewApplicationPalauttaaVirheenKunValueEiKorrektiLambdaLause() {
+        try {
+            LExp app = ApplicationParser.makeNewApplication("(f (lambda) h)");
+            
+            assertFalse(true);
+        } catch (Exception e) {
+            assertEquals("BAD SYNTAX IN THE VARIABLE PART: (lambda)", e.getMessage());
+        }
+    }
+    
+    @Test
+    public void makeNewApplicationPalauttaaVirheenKunValueEiKorrektiAtomi() {
+        try {
+            LExp app = ApplicationParser.makeNewApplication("(f '1Atomi h)");
+            
+            assertFalse(true);
+        } catch (Exception e) {
+            assertEquals("SYNTAX ERROR IN '1Atomi", e.getMessage());
+        }
+    }
+    
+    @Test
+    public void makeNewApplicationPalauttaaVirheenKunValueEiKorrektiId() {
+        try {
+            LExp app = ApplicationParser.makeNewApplication("(f 1ID h)");
+            
+            assertFalse(true);
+        } catch (Exception e) {
+            assertEquals("SYNTAX ERROR IN 1ID", e.getMessage());
+        }
+    }
+    
+    @Test
+    public void makeNewApplicationPalauttaaVirheenKunValueEiKorrektiApplikaatio() {
+        try {
+            LExp app = ApplicationParser.makeNewApplication("(f (4 t) h)");
+            
+            assertFalse(true);
+        } catch (Exception e) {
+            assertEquals("4 IS NOT A PROPER PROCEDURE", e.getMessage());
+        }
+    }
+    
+    @Test
+    public void makeNewApplicationPalauttaaVirheenKunValueEiKorrektiCondLause() {
+        try {
+            LExp app = ApplicationParser.makeNewApplication("(f (cond '#T 5) h)");
+            
+            assertFalse(true);
+        } catch (Exception e) {
+            assertEquals("BAD SYNTAX IN (cond '#T 5)", e.getMessage());
+        }
+    }
+    
+    @Test
     public void makeNewApplicationToimiiKunProseduurinaLambdaLause() {
         try {
             LExp app = ApplicationParser.makeNewApplication("((lambda (f x) (* (f x) 2)) g 4)");

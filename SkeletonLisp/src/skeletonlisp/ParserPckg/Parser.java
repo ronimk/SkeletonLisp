@@ -20,24 +20,20 @@ public class Parser {
             }  else if (ExpParser.isId(formalExp)) {
                 return new LId(formalExp);
             }  else {
-                throw new Exception("SYNTAX ERROR IN: " + formalExp);
+                throw new Exception("SYNTAX ERROR IN " + formalExp);
             }
         } else if (ExpParser.isAtom(formalExp)) {
             return new LAtom(WordParser.withoutBeginningQuote(formalExp));
         } else if (WordParser.isParenthesizedWord(formalExp)) {
             if (ExpParser.isLambda(formalExp)) {
-                    return LambdaParser.makeANewLambda(formalExp);
+                return LambdaParser.makeANewLambda(formalExp);
             } else if (ExpParser.isCond(formalExp)) {
-                    return CondParser.makeANewCond(formalExp);
-            } else {
-                try {        
-                    return ApplicationParser.makeNewApplication(formalExp);
-                } catch (Exception e) {
-                    throw new Exception(e.getMessage() + " IN: " + formalExp);
-                }
+                return CondParser.makeANewCond(formalExp);
+            } else {       
+                return ApplicationParser.makeNewApplication(formalExp);
             }
         } else {
-            throw new Exception("SYNTAX ERROR IN  " + formalExp);
+            throw new Exception("SYNTAX ERROR IN " + formalExp);
         } 
     }
         

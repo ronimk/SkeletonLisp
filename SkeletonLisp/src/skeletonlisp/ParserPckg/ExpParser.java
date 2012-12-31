@@ -38,7 +38,7 @@ public class ExpParser {
         }
         
         return isQuote(exp) &&
-               WordParser.isAtomicWord(exp.substring(1));
+               isId(exp.substring(1));
     }
     
     public static boolean isQuote(String exp) {

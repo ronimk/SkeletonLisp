@@ -555,37 +555,28 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			    parseSemantically-metodit ovat ainoita, jotka isApplicationia
 			    käyttävät varmasti, ja ne pitävät huolen siitä, että
 			    isApplication saa oikeanmuotoisen lauseen.
+			    
+31.12 Maanantai
+---------------
+
+~2h 		*  Viimeiset yksikkötestit hoidettu
+			*  Testausdokumentti kirjoitettu
+
  TODO
  ----
   Päivitä luokkakaaviot sekä muu dokumentaatio vastaamaan nykyistä tilaa.
-  Testaa vielä, että ohjelma toimii
   Refaktoroi
   Luo Sekvenssikaavioita
   Luo käyttöohjeet
+  Luo testausdokumentti
 
   5) mieti miten if...else if...else, osioita voisi siivota parempaan
      muotoon - nyt vain joitain osia on siivottu: siivoa kaikki mahdollinen.
-  6) Voisiko Exceptioneiden käsittelyä vielä parantaa erottelemalla erillaisia
-     poikkeustyyppejä? Sitä on syytä miettiä...
-     (21.12: Päätös alkaa luoda omia Exceptioneitä, oli ihan järkevä, sillä nyt
-      niiden avulla voidaan hallita järkevämmin poikkeuksellista toimintaa.
-      Tässä vaiheessa tosin voisi miettiä, miten näitä voisi parhaalla tavalla
-      hyödyntää: esim. voisiko parserille luoda omia ParserExceptioneitä, joiden
-      avulla Read pystyisi lopulta palauttamaan kustomoidun virhetekstin, joka
-      ei olisi riippuvainen siitä, mitä kaikissa eri parserointivaiheissa on
-      tapahtunut...)
      
-  7) voisiko applyLambdaa parannella jotenkin vieläkin selkeämmäksi?
- 
  Ongelmakohtia
  -------------
  1. Parseri joutuu useaan otteeseen tekemään samaa työtä (esim. tarkistaa onko
  kyseessä sulkeiden sisällä oleva L-Lause. Nämä turhat tarkistukset ovat melko
  kömpelöitä.
-
-2. PrimitiveApplier täytyy testata kunnolla seuraavaksi
-   (sitä ei ole vielä yksikkötestein testattu ollenkaan...)
-   Muuten Evaluaattori on testattu vain integraatiotestauksella,
-   (kuten myös REPL)
 
 3. Pystyisikö evaluaattorin rekursiivista käyttäytymistä selkeyttää hieman...

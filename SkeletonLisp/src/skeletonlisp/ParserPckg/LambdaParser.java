@@ -34,7 +34,7 @@ public class LambdaParser {
             LExp var = Parser.parseExpression(nextVar);
             
             if (var.getSubType() != LExpTypes.LIDTYPE) {
-                throw new Exception("ILLEGAL LAMBDA PARAMETER DECLARATION " + nextVar);
+                throw new Exception("ILLEGAL LAMBDA VARIABLE DECLARATION " + nextVar);
             } else {
                 varList.add((LId)var);                
                 vars = WordParser.allButFirstWord(vars);
