@@ -382,7 +382,7 @@ public class Evaluator {
      * binding of an LId in globalEnvironment
      * <p>
      * @param id an LId whose binding is to be returned
-     * @return returns the binding of id in globalEnvironment. If there is no binding for id, null is returned instead.
+     * @return returns the binding of id in globalEnvironment. If there is no binding for id, null is returned.
      */
     private LExp lookupIdInGlobalEnv(LId id) {
         return globalEnvironment.getValueOf(id);

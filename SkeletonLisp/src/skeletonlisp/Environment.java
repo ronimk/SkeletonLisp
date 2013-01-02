@@ -24,8 +24,8 @@ public class Environment {
     private HashMap<LId, LExp> associations;
     
     /**
-     * the default constructor for Environment
-     * initializes associations to an empty HashMap.
+     * the constructor for Environment
+     * initializes the associations HashMap.
      */
     public Environment() {
         associations = new HashMap<LId, LExp>();
@@ -50,7 +50,7 @@ public class Environment {
     
     /**
      * method used to check whether a binding exists
-     * in an environment for the desired 
+     * in an environment for the desired key
      * <p>
      * @param key the desired ID
      * @return true if a binding for the key exists, otherwise false

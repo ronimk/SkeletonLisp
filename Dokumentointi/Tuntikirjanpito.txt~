@@ -1,0 +1,584 @@
+30.11 Perjantai
+-------------
+
+60 min: Tutustuttu harjoitustyön vaatimuksiin,
+        rakennettu pohja aihemäärittelylle ja aloitettu tuntikirjanpito.
+        
+1.12 Lauantai
+------------
+
+3h: Asennettu tarvittavat ohjelmistot Git:n käyttöön ja tutustuttu GitHubiin.
+
+15 min: Luokkakaavion eka versio valmis
+
+60 min: Id-tyyppisen LExpression JUnit-testit laadittu, sekä koodia kirjoitettu
+        sen verran, että ID-testit läpäisty. Application-tyyppisen LExpression
+        JUnit-testit laadittu, sekä koodia kirjoitettu sen verran, että
+        ID-testit läpäisty.
+
+2.12 Sunnuntai
+--------------
+
+~1h: toString-metodien lisäys hoidettu, L-lauseiden arvon helppoa tulostusta
+     varten REPL:in print()-metodissa. Lambda-tyyppisten lauseiden JUnit-testit
+     ja koodi hoidettu: testit läpäisty.
+
+~2h: Lisätty Pair-LExp, JUnit-testattu, aloitettu Parserin rakentaminen, ja
+     ekat parser-testit läpäisty. Lisää LExp-testejä on tarkoitus tuottaa stten
+     vaiheessa kun toimiva read()/parse on valmis ja tähänastiset lauseet on
+     testattu 'in vivo'.
+
+3.12 Maanantai
+--------------
+
+~1h: Luotu testiohjelma, joka testaa tällä hetkellä Parseria. REPL siis
+     sisältää yksinkertaisen read()-vaiheen, ja Parser sisältää tällä hetkellä
+     käyttäjän syötteet karkeasti LExp-muotoon parsaavan toiminnallisuuden.
+     
+4.12 Tiistai
+------------
+
+~30 min: ensimmäinen testiREPL valmis, Luotu uusi L-lausetyyppi - error.
+         Luokkakaaviota ei tältä osin vielä päivitetty...
+~10 min: refaktoroitu testiREPLIä.
+
+7.12 Perjantai:
+-------------
+
+~40 min: reader() ja Parser ovat nyt selkeästi erotettu toisistaan, ja niillä
+         on selkeästi omat tehtävät. Ainoa overlap näiden välillä on siinä,
+         koska reader() tietää, että syötteen luku tulee lopettaa... Tätä
+         varten readerin täytyy tehdä pikkuriikkisen parserointia itse. Muuten
+         kaiken syötteiden parseroinnin hoitaa Parser-luokka.
+         Muutama uusi ParserTesti toteutettu ja läpäisty.
+         
+~1h:     lisätty uusia "arvotyyppisiä" L-lauseita, rakennettu parseria. Parseri
+		 on tosin vielä hyvin kaoottisesti organisoitu, mutta nyt se kuitenkin
+		 osaa jo erotella joitakin käyttäjän syöttämiä L-lauseita ja niiden
+		 perusteella luoda sopivia arvoja evaluoitavaksi.
+		 Evaluaattori on vieläkin käytännössä olematon.
+		 
+		 
+8.12 Lauantai:
+--------------
+~6h:     Reippaalla kädellä refaktoroitu Parseria, Muutettu muutamien
+		 LExp-toimitaa.
+         
+9.12 Sunnuntai:
+---------------
+~5h:     Lisää refaktorointia ja Parserin rakennusta. Parseri jaettu useampaan
+         pienempään osaan.
+         Myös mm. Pair-tyyppien toString() metodi toimii tässä versiossa
+         siten kuten listoja ja pareja tulisi Scheme-tulkilla näyttää.
+         Luokkakaaviot menevät melko lailla uusiksi ensi viikon aikana,
+         ja todennäköisesti myös parseria joutuu vielä melko lailla hiomaan.
+         Se on vain tällä hetkellä täynnä kaikenlaista turhaa ja kömpelöä.
+         Olisi pitänyt rakentaa heti aluksi tuo WordParser-koodi, koska se
+         helpottaa huomattavasti LISP/Sheme-lauseiden manipuloimista...
+         Parseri osaa tällä hetkellä parseroida atomilauseita, sekä
+         lambda-lauseita.
+         
+11.12 Tiistai
+-------------
+~4h:	 Parserin viimeistely käynnistynyt, vaatii vielä testausta niin yksikkö-
+		 testauksen, kuin integraatiotestauksenkin muodossa lisää. Bugeja parse-
+		 rista karsittu pois. Käytännössä kuitenkin parserin toiminnallisuus
+		 valmis. Ja nyt näyttää jo huomattavasti siistimmältäkin.
+		 
+12.12 Keskiviikko
+-----------------
+~1,5h:   Parserin viimeistely jatkuu... WordParser-luokan FirstWord näyttää
+		 hieman ongelmatapaukselta. Ja ParserConstantsin ReservedFirstLetters
+		 pitänee muuttaa ReservedLetters:ksi; eli siis, esim. sulkeita ei
+		 sanan sisällä saa käyttää ollenkaan. Tämä on melko tärkeää ohjelman
+		 myöhemmän toiminnan kannalta lauseiden evaluointivaiheessa...
+ 
+ 13.12 Torstai
+ -------------
+ ~3h:	 * Muutamia virheitä vielä ratkastu parserista, pari jäi jäljelle, mitä
+		   pitää vielä hoitaa: Numeroille (kokonaisluvut ja liukuluvut) pitää
+		   sallia myös negatiivisten arvojen parserointi. Ja Application täytyy
+		   vielä testata silloin kun funktiona toimii monimutkaisempi lause
+		   (lambda, tai toinen applikaatio).
+		 * Nyt LExp-paketti sisältää kaikki L-lausetyypit.
+		 * Parseriin pitää kirjoittaa vielä tuki Cond-lauseiden luomiselle.
+		 * Testejä myös tehty muutama lisää.
+		 * Koodia alettu kommentoimaan paremmin
+		 * LExpin osalta luokkakaavio piirretty uusiksi; se pitää vielä
+		   skannata.
+ 
+ 14.12 Perjantai
+ ---------------
+ ~4h:    * Parseria vielä vähän siistitty.
+         * Environment luotu: käytännössä Environment on vain HashMap-Olio,
+           joka varastoi tunnisteita ja niihin sidottja arvoja
+           (yhdellä tunnisteella voi olla yksi arvo) ja kontrolloi arvojen
+           hakua, etsintää sekä uusien arvojen lisäämistä.
+         * Evaluaattorin luominen aloitettu.
+         * Luokkakaaviota päivitetty myös ohjelman toiminnallisten osien
+           kohdalta; jälleen täytyy skannata ne koneelle.
+         * Kun evaluaattori on valmis, alkaa laajempi integraatiotestaus,
+           ja kun kaikki on saatu toimimaan kunnolla, Parseri refaktoroidaan
+           vielä kerran paremmaksi, niiltä osin mitä pystyy, ja dokumentoinnit
+           laitetaan kuntoon, ja sitten jos vielä jää aikaa, mietitään, voiko/eh-
+           tiikö ohjelmaan lisätä laajempia toiminnallisuuksia.
+           (kuten set! proseduurin sekä tiedostosta ohjelmakoodin luvun).
+           
+15.12 Lauantai
+--------------
+
+~1,5h:	 * Evaluaattorin rakennus edistynyt hieman.
+
+16.12 Sunnuntai
+---------------
+
+20 min:   * Aihemäärittely ja toiminnallisuus päivitetty
+1h:		  * Nyt atomit toimivat järkevästi: ne eivät voi sisältää
+			merkkejä, jotka voisivat sekoittaa parserin toimintaa
+			(lähinnä sulkumerkit, tyhjä merkki, ja '\').
+		  * Lisäksi jotain pientä hienosäätöä evaluaattorin rakenteeseen,
+		    ennen kuin varsinainen "raskas työ" alkaa...
+		    
+17.12 Maanantai
+---------------
+~4h:	  * Siivottu vielä vähän parseria, ja rakenettu Evaluaattorin oikeasti
+		    toimiva ensimmäinen versio: evaluaattori osaa nyt laskea
+		    +, -, / ja * -laskuja puhtailla numeroilla sekä monimutkaisempia
+		    +,-,*,/ -operaatioita sisältäviä +, -, *, / -laskuja.
+           
+18.12 Tiistai
+-------------
+~5h:	* uusi ongelmakohta havaittu (4 + 5)
+	* Tyyppien tyyppimääritelmät muutettu Stringeistä Enumeiksi
+	  (Eli; LExp sisältää nyt jäsenmuuttujan String type sijaan
+		jäsenmuuttujan LExpTypes type, ja LExpTypes on
+		ENUM).
+	* Lisäksi tyyppimääritelmiä parannettu niin, että nyt kaikki
+	  LIntit ja LDoublet ovat hierarkkisesti kantatyyppiä
+          LValue, subTyyppiä LNumber, ja numerotyyppiä LInt/LDouble
+	* Lisää primitiivifunktioita (nyt SkeletonLisp sisältää seuraavat
+	  primitiivit: (+, -, /, *, <, <=, =, >=), jotka on määritelty
+	  R4RS-standardin mukaisiksi
+	  (TODO: Tarkista vielä, että näin oo, eikä huolimattomuudessa ole
+		unohtunut esim. jonkun vertailuoperaattorin default-arvoja
+		kun niitä kutsutaan ilman parametreja...)
+		
+19.12 Keskiviikko
+-----------------
+n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
+			  kaikki Deadline II:n jutut kohdillaan... Paitsi se luokkakaavio,
+			  jota en saanut millään skannattua ja päivitettyä nykyiselle
+			  mallilleen...
+			* TODO-listaa päivitetty
+			
+20.12 Torstai
+-------------
+~5h:		* Kone kaatui kriittisellä hetkellä ja n. 3 tunnint työ piti tehdä
+		  uusiksi.
+		* Exceptionien käsittely on nyt huomattavasti järkevämpää
+		  (katso kuitenkin TODO)
+		* Evaluaattori alkaa vihdoin toimia niinkuin sen pitäisikin,
+		  (edelleenkin kuitenkin lambdat ja condit jää evaluoimatta)
+		* primitiivejä lisää: abs ja ekat Special Form-primitiivit
+		  (AND ja OR).
+		* Definekin toimi jossain vaiheessa ennen koneen kaatumista,
+		  mutta nyt se ei ole enää ollenkaan vaikea juttu, joten sen saanee
+		  nopeasti hoidettua.
+
+~1h:		* applyLambda on toiminnallisuudeltaan valmis; se kykenee mm.
+		  evaluoimaan seuraavan lambda-lauseen:
+		  ((lambda (x) ((lambda (y) (+ x y 3)) x)) 7)
+		  oikeaan arvoon 17.
+		* lambda-lauseiden muuttujien mahdollisuus olla joko
+		  tavallisia parametrimuuttujia TAI listamuuttujia, tekee tosin
+		  metodista hieman ärsyttävän näköisen... Tätä olisi syytä
+		  joko refaktoroida, tai sitten poistaa listamuuttujaominaisuus
+		  kokonaan.
+		  listamuuttuja on siis lambda-lauseissa muotoa:
+		  x: ((lambda x body) 'a 'b 'c)
+		  joka voisi muuttaa seuraavaan kuvitteelliseen lambda+let-muotoon:
+		  ((lambda (x y z)
+		     (let ((x) (list x y z))
+			body))
+		   'a 'b 'c)
+
+~5min:		* applyLambdassa() havaittu pieni bugi: kun kyseessä on listamuuttuja
+		  niin eihän suinkaan parametreina annettuja arvoja etukäteen
+		  evaluoida, vaan ne laitetaan uudeen list-applikaatioon sellaisenaan
+		  ja list-applikaation evaluointivaiheessa ne vasta evaluoidaan.
+		  tämä jo selkeytti metodia huomattavasti. Nyt homman pitäisi toimia
+		  paljon paremmin!
+
+~15min:		* primitiivi define lisätty: nyt esim lause:
+		  ((lambda (x y) ((lambda (z) (define t (+ z x y))) (* x y))) 5 7)
+		  evaluoidaan luvuksi 47 ((5*7) + 5 + 7) ja tämän jälkeen
+		  globaaliin ympäristöön on ilmestynyt ID T=47'
+
+~2h:		* Integraatiotestauksella löytyi melko vakava ja ongelmallinen virhe, jota
+		  metsästettiin puolitoista tuntia. Virhe oli kaikessa lyhykäisyydessään seuraava
+		  (Tässä suoraan tulkin syöte/tulosteparit:
+		  >> (define t (lambda (x) (+ x 2)))	OK
+		     <ANONYMOUS PROCEDURE>		OK
+		  >> (t (+ 8 3))			OK
+		     13					VIELÄKIN AIVAN FINE
+		  >> (t '#t)				PITÄISI TUOTTAA VIRHE
+		     ID UNBOUND: T			VIRHE ON AIVAN ROSKAA!!!
+
+		  Tämä johtui siis siitä, että applyLambda ei itse käsitellyt niitä poikkeuksia
+		  mitenkään, joita eval():in kutsu komennolla:
+		  returnVal = eval(lambdaBody.get(i), newEnv);
+		  tuotti, vaan heitti ne autuaan tietämättömänä eteenpäin, jolloin käy niin, että
+		  se apply():n instannsi, joka alunperin yritti hakea T:tä senhetkisestä ympäristöstä,
+		  ja joka T:n sieltä löysi, ja joka apply():asi taas eteenpäin evaluoiden ensin
+		  T:n bindaaman arvon, lopulta yritti T:tä muuttaa primitiiviproseduuriksi siinä
+		  vaiheessa kun se sai tiedon, että T:tä vastaavaa arvoa ei voitukaan evaluoida...
+		  Ratkaisu:
+		  Luo oma LambdaEvaluationException, jonka applyLambda heittää aina kun sille selviää,
+		  että kyseistä lambda ei voidakaan evaluoida, ja laita sitten apply() vastaavasti
+		  käsittelemään tämä tilanne. Nyt:
+		  >> (define t (lambda (x) (+ x 2)))	OK
+		     <ANONYMOUS PROCEDURE>		OK
+		  >> (t (+ 8 3))			OK
+		     13					VIELÄKIN AIVAN FINE
+		  >> (t '#t)				PITÄISI TUOTTAA VIRHE
+		     <ERROR>: PROCEDURE + EVALUATES ONLY TO NUMBERS
+
+		  Ja virheilmoitus toimii niin kuin sen pitääkin!
+
+21.12 Perjanta
+--------------
+
+~40min:		* Oletettavaa oli, että eilinen ongelma ilmeni myös silloin kun yritti tehdä jotain
+			  seuraavankaltaista LValueilla:
+			  >> (define t 0)
+			  0
+			  >> (t 9)
+			  <ERROR>: UNBOUND ID T
+			  
+			  nyt ongelma on sen suhteen myös korjattu. Define tosin kaipaa vielä lisätestausta,
+			  muidenkin L-lauseiden yhteydessä kuin vain Lambdojen ja LValueitten...
+			  
+			* EXIT primitiivin toiminnallisuus lisätty.
+			
+			* Pari uutta Exception-luokkaa lisätty.
+			  (kts. TODO - kohta 6)
+			  (LambdaEvaluationExceptionin nimi muutettu myös järkevämmäksi:
+			   LambdaApplicationException - sillä kyseiset poikkeukset tapah-
+			   tuvat nimenomaan Lambda lauseiden apply()-vaiheessa, eikä suinkaan
+			   eval()-vaiheessa
+			  (vrt.
+			      eval((lambda (x) x)) 				=> <ANONYMOUS PROCEDURE>
+			      eval(((lambda (x) x) 'IDENTITY)) 	=> IDENTITY
+			   )
+			   
+~2h:		* Uusia primitiivejä: LIST ja PAIR.
+			* Törmätty uuteen bugiin parserissa - Korjataan pikimmiten
+			  (kts. bugeja 1)
+			* Uusi Exception: ApplyPrimitiveException
+			* apply()-rutiinia parannettu:
+			  jos appllikaatio sisältää ensimmäisenä IDn -
+			  vaikkapa (f 0) - sen tulkinta pitäisi tästä lähtien
+			  toimia aina: eli poikkeus heitetään REPL:ille aina mikäli
+			  f ei ole bindattu primitiiviin tai lambda-lauseeseen taikka
+			  sellaiseen cond-lauseeseen, jonka tuloksena on joko
+			  primitiiviproseduuri tai lambda-lause.
+			* Tässä vaiheessa on jo pakko myöntää, että LExp-abstraktiluokan
+			  String body-jäsenmuuttuja on aivan turha kaiken muun kuin
+			  testauksen kannalta. Se on pakko repiä jo pois ja ohjelmaa
+			  täytyy sopeuttaa tähän uuteen muutokseen.
+			  Tämä tosin vaatii hieman tylsää työtä, mutta sen pyrin
+			  tekemään ensi viikon alusta.
+
+1h:			* Muutama ongelmakohta havaittu ja korjattu: primitiivien
+			  käsittely on nyt huomattavasti parempaa; tulkki ymmärtää nyt,
+			  jos käyttäjä syöttää
+			  >> CONS
+			  <CONS:ID>
+			  Tämä mahdollistaa mm. seuraavanlaisia L-lauseita:
+			  (((lambda () +)) 3 4) => (+ 3 4) => 3 + 4 => 8
+			  Aiemmin tämä olisi tuottanut poikkeuksen (UnboundIDException)
+			  Syynä tälle oli se, että applikaation
+			  ((lambda () +)) evaluoinnin yhteydessä lambda-bodya (+) ei osattu
+			  oikein evaluoida, koska tulkki ei ymmärtänyt aiemmin primitiivejä.
+			  Siispä lopullinen tulos oli UnboundIDException...
+			  
+			  Suurin ongelma tässä vaiheessa kuitenkin evaluaattorissa on se,
+			  että se on luonteeltaan rekursiivinen ihan pelkästään LISP-kielen
+			  syntaksin ja semantiikan rekursiivisen luonteen vuoksi; Java ei
+			  taas rekursiivista ohjelmointia juurikaan tue, enkä tässä vaiheessa
+			  keksi mitään parempaakaan keinoa rakentaa evaluaattoria kuin se,
+			  mihin olen Schemelläkin tottunut: rekursioon.
+			  
+			  Tämä sekava rakenne on ongelmallista oikeastaan juurikin
+			  poikkeustilanteiden hallinnan kannalta: mitkä poikkeustilanteet
+			  vaikuttavat mihinkin lauseisiin, ja mitä poikkeustilanteita
+			  tulisi sallia... Tämä on vaikein hallittava asia evaluaattorissa,
+			  jota pitäisi miettiä tarkemmin...
+			  (kts. Ongelmakohtia 6.)
+			  
+22.12 Lauantai:
+---------------
+
+4h:			* Bugeja ratkottu, ongelmakohtia myös. Toiminnallisuus viimeistelyä
+			  vaille valmis:
+
+					* Aikapulan ja tämänhetkisen riittämättömän kokemukseni
+					  vuoksi päätin rankata tulkin toiminnallisuuden
+					  Daniel Friedmanin kirjassa "The Little Schemer" luodun
+					  Scheme-tulkin toiminnallisuutta vastaavaksi.
+					  Syitä tähän lähinnä ovat:
+					  
+						* En ottanut huomioon alkaessani projektia, että
+						  Schemen Special Form:it vaativat niin radikaalisti
+						  erilaista lähestymistä kuin tavalliset primitiivi-
+						  proseduurit. Tämä taas viittaa siihen, että Scheme-
+						  kielen tuntemus ennen projektiin ryhtymistä oli
+						  kieltämättä puutteellinen, jotta sen pohjalta voisi
+						  täysin funktionaalisen Scheme-tulkin luoda.
+						  
+						* Java-koodin refaktorointi, dokumentointi, sekä
+						  ohjelman testaus tullee vaatimaan sen verran paljon
+						  työtä, että tässä vaiheessa erikoistoiminnallisuuksien
+						  lisääminen voisi pitkittää työtä niin paljon, että se
+						  ei valmistuisi ajoissa - puhumattakaan siitä, miten
+						  paljon sotkuisemmaksi saattaisivat näiden
+						  erikoistoiminnallisuuksien lisääminen tehdä koodista
+						  entistä sotkuisempaa. Ohjelmassa kun ei ollut alunpe-
+						  rinkään otettu huomioon Scheme-/LISP-kielen erikois-
+						  toiminnallisuuden vaatimuksia koodin rakenteeseen.
+						  
+						* Omalla tavallaan lopputulos on siis pettymys ja
+						  epäonnistuminen, sillä nyt esim let-lauseet jäävät
+						  kokonaan pois. vaikka ne Y-kombinaattoreilla
+						  voidaankin luoda pelkkien lambda-lauseiden avulla,
+						  tarvitsematta mitään makrojen kaltaisia syntaktisia
+						  kuorrutuksia, ei Y-kombinaattorien käyttö ole mitään
+						  maailman helpointa puuhaa. Myöskään kaikkea Schemen
+						  toiminnallisuuksia ei voi ilman Makroja ja Special
+						  Formeja toteuttaa ollenkaan.
+						     Toisaalta kuitenkin olen erittäin tyytyväinen,
+						  sillä aloittaessani työn, ei minulla ollut mitään
+						  käsitystä siitä, miten ikinä voisin päästä projek-
+						  tissa edes alkuun. Ja nyt kuitenkin kaiken pitäisi
+						  olla viimeistelyä vaille siinä kunnossa, että
+						  kaikki The Little Schemer-kirjan ohjelmat pystytään
+						  sillä ajamaan.
+						  
+			* Nyt kuitenkaan Evaluaattori ei ole millään tavalla tässä versiossa
+			  riippuvainen Parserista, mikä on aivan erinomaista,
+			  sillä nyt parseri voitaisiin kirjoittaa kokonaan uusiksi, ilman
+			  että Evaluaattorin toiminta muuttuu!
+			  
+			* Ensi viikolla vielä viimeiset primitiivit, ja sen jälkeen alkaa
+			  armoton testaus, dokumentointi ja refaktorointi.
+						  
+23.12 Sunnuntai
+---------------
+
+		    * Integraatiotestausta - uusi ongelmakohta löydetty
+		      (Ongelmakohta 8.)
+		    * Seuraava ongelma löydetty myös:
+				definen kutsu muualla kuin globaalilla tasolla saattaa tällä
+				hetkellä hajoittaa koko environment-järjestelmän täysin, sillä
+				uusi ID bindataan aina VAIN globaaliin environmenttiin, eikä
+				sitä siis bindata välttämättä tällä hetkellä käytettävään
+				environmenttiin; jos siis tällä hetkellä käytettävä env on
+				jokin toinen kuin globaali env, ei bindausta tapahdu kuin vasta
+				sen jälkeen kun koko L-lause on evaluoitu!
+			  Ilmeiset, ja helpoimmat ratkaisut tämän bugin eliminoimiseksi:
+			  1) Ei sallita definen käyttöä muualla kuin globaalilla tasolla
+			  2) tehdään bindaus sekä Globaaliin enviin, että juuri käytettävään
+			     enviin
+					(saattaa siis olla, että bindaus joudutaan tekemään globaaliin
+					enviin kahdesti)
+						  
+			
+			Paras ratkaisu joka tapauksessa kummankin ongelman hoitoon on muuttaa
+			Environment-systeemin rakennetta niin, että GlobalEnvironment on
+			aivan erillinen oma ympäristö, ja paikalliset ympäristöt ovat taas
+			omia erinäisiä ympäristöjä. Tällöin myös ID:n evaluointiin on tehtävä
+			pieniä muutoksia, niin, että aina aluksi tarkistetaan, löytyykö
+			Id:n bindaus paikallisesta ympäristöstä, vasta sen jälkeen tarkis-
+			tetaan löytyykö se globaalista ympäristöstä, ja jos se ei löydy
+			kummastakaan, lopuksi tarkastetaan onko kyseessä primitiivi.
+			
+			Definen kohdalla on syytä pohtia, pitäisikö oikeasti paikallisista
+			ympäristöistä käsin luoda globaaleja muuttujia, mutta mikäli
+			tämä sallitaan, niin edellisen muutoksen pitäisi taata myös se että
+			kaikki define-lauseilla bindatut muuttujat menevät aina yhteiseen
+			globaaliin ympäristöön, ja ne toimivat aina kaikissa ympäristöissä.
+
+~4 h:		Toiminnallisuus supistettu lopulliseen muotoonsa Daniel Friedmanin
+			The Little Schemer-kirjassa luoman LISP-kielen kaltaiseksi
+			(sekä AND, OR ja LIST -primitiivit). Tämä eliminoi aiemmat bugit ja
+			ongelmakohdat toiminnallisuuteen liittyen, sekä tekee ohjelmasta
+			helpommin viimeisteltävän.
+			On ihan turha lähteä luomaan ylimääräisiä primitiivejä Javalla
+			(esim. aiemmat vertailuoperaatiot <, =, > yms...) koska
+			ne voidaan koodata nyt SkeletonLisp-tulkin tarjoamalla kielellä
+			paljon yksinkertaisemmin ja helpommin.
+			Javalla myös environmettien hallinta aiemmassa versiossa kävi
+			käytännössä mahdottomaksi - johtuen siitä, että en ollut ottanut
+			huomioon kuinka erilaista toimivan Environment-systeemin toteutta-
+			minen Javalla onkaan: arvelin sen olevan hyvin yksinkertaista sen
+			jälkeen kuin Evaluaattorin toiminta on hoidettu kuntoon, mutta
+			osoittautuikin, että minun ymmärrykseni muuttujien näkyvyydestä
+			oli aivan liian rajallinen, jotta olisin voinut sallia monimutkai-
+			sempien lambda-lauseiden luomisen.
+			
+			Alkuperäinen tarkoitukseni oli siis luoda lambda-lauseita, joiden
+			sisällä voisi olla useampia runkoja:
+			(lambda (var-1 ... var-n) body-1 ... body-n)
+			mutta tämä osoittautui todella haastavaksi prosessiksi, joten
+			tässä vaiheessa koko Environment osio olisi koodattava uusiksi,
+			joten päädyin turvalliseen vaihtoehtoon tämän ajan puitteissa:
+			nyt lambda-lauseet ovat rajoitettu vain yhteen runkoon:
+			(lambda (var1 ... var-n) body)
+			myöskään listarakenteisia lambda-lauseita ei järjestelmä tue
+			(lambda lst-var body)
+			ihan vain sen vuoksi, että tällöin koodista tulee tältä osin
+			paljon selkeämpi.
+			
+			Rakenne myös muuttunut reippaasti. Esim. liukuluvuille ei
+			enää tukea ole (The Little Schemerin tapaan).
+
+24.12 Maanantai
+---------------
+~ 2h:		* Toiminnallisuuden viimeistelyä. Tämän pohjalta voi jo luoda
+			  luotettavat käyttöohjeet kielen toiminnallisuudesta.
+			  Vaatii seuraavaksi testausta, refaktorointia ja dokumentoinnin
+			  päivitystä. Sitten homma alkaa olla paketissa.
+			
+			  Testauksen osalta suoritetaan lisää yksikkötestejä, sekä
+			  integraatiotestaus, jossa ainakin suurin osa
+			  "The Little Schemer"-kirjan koodista käännetään SL-kielelle, ja
+			  katsotaan toimiiko koodi tulkkiin kirjoitettuna.
+			
+			  Refaktoroinnissa pyritään eliminoimaan raksaita if-else -lauseita
+			  sekä tekemään evaluaattorista hieman selkeämpi, mutta algoritmi-
+			  siin osiin lienee vaikea puuttua vielä tässä vaiheessa, sillä
+			  oma kokemuksenpuute tulee siinä vastaan. Myös koodin yleistä
+			  ulkoasua (mm. muuttujien nimiä, yms) käydään läpi ja parannetaan,
+			  aina kun tarvetta.
+			  
+			  Tämän jälkeen suoritetaan Dokumentation viimeistely, jossa luodaan
+			  mm. sekvenssikaaviot ja JavaDocsit, sekä käyttöohjeet tulkille.
+			  
+			  Sen jälkeen toivottavasti ei enää ikinä tarvitse Javalla tehdä
+			  yhtään mitään.
+			  
+26.-27.12
+---------
+
+~12h:		  * Ankaraa integraatiotestausta: tarkoituksenmukainen toiminta
+			    luotettavaa ja varmaa - ohjelma kykenee jopa evaluoimaan
+			    Y-kombinaattoreita (tätä testattu The Little Lisper-kirjan
+			    esimerkillä, jossa luodaan listan alkioiden määrän laskeva
+			    length-funktio Y-kombinaattorin avulla.)
+			  
+			  * Ongelmakohtia korjattu melko lailla: esimerkiksi paikallisista
+			    ympäristöistä tuli loppupeleissä erittäin vaikeasti hallittavia,
+			    johtuen hyvin pitkälti niiden heikosta suunnittelusta, jossa ei
+			    oltu otettu huomioon kaikkia yksityiskohtaisia kriteerejä
+			    paikallisten muuttujien arvojen oikeaoppiseen evaluointiin.
+				Uuteen versioon Evaluaattorista paikalliset muuttujien
+				käisttelyssä otin apua Daniel Friedmanin "The Essentials Of
+				Programming Languages" -kirjasta, jossa muistaakseni toisessa
+				painoksessa kolmannessa kappaleessa käydään läpi lambda-lauseiden
+				muuttujien korvaamista muuttujille annetuilla arvoilla. Lähtien
+				siitä yksinkertaisesta ajatuksesta, että kaikki kyseisen
+				lambda-lauseen sisällä olevat muuttujat korvataan arvoilla,
+				mikäli:
+					* lambda-lause määrittelee kyseisen muuttujan itse
+					   (esim. lauseessa (lambda (x y) (triple-plus x y z))
+					    lambda määrittelee muuttujat x ja y, mutta ei muuttujaa
+					    z - siispä vain x ja y ovat mahdollista korvata.)
+					* muuttuja on vapaa, eli sitä ei ole sidottu minkään toisen
+					  lauseen kautta lambda-rungon sisällä:
+					  (esim. lauseessa
+					    ((lambda (x y)
+					       (+ ((lambda (y)
+								(+ x (* y y))) x)
+							  (+ 2 y))) 1 2)
+					   viimeinen y tulee korvata luvulla 2, mutta lauseen
+					   (+ x (* y y)) sisältämiä muuttujia y ei saa korvata,
+					   sillä ne on sidottu lausetta ympäröivään (lambda (y) ...)
+					   lauseeseen.
+					   Kaikki x:t taas saa, ja tulee korvata lauseen sisällä).
+				Tämä on mahdollista, sen vuoksi, että SkeletonLisp ei salli
+				paikallisten muuttujien arvojen uudelleenmäärittelyä sen jäl-
+				keen kun ne on kerran määritelty joihinkin arvoihin.
+				(SL ei sisällä set!, set-car!, set-cdr! -muuttujia, joiden
+				avulla voisi lambda-lauseiden muuttujille antaa kesken kaiken
+				uusia arvoja.)
+				
+				Tämän muutoksen pitäisi myös kaiken järjen mukaan varmistaa,
+				ettei milloinkaan mikään muuttuja voi saada väärää arvoa;
+				(tämä ongelma esiintyi edellisessä paikallisympäristöihin
+				pohjautuvassa evaluoinnissa sen vuoksi, että paikallisympä-
+				ristöjen käsittelyssä oli puutteita, ja toisaalta näiden puut-
+				teiden korjaaminen ilman ympäristörakenteen täydellistä muutta-
+				mista olisi tehnyt evaluaattorista liian sekavaa, jotta koodia
+				olisi voinut ymmärtää.
+				 
+				Lisäksi lambdamuuttujien evaluointitavan vaihtaminen teki
+				muusta evaluaattorista entistä selkeämpää, sillä ei tarvitse
+				enää huolehtia ollenkaan paikallisympäristöiden oikeaoppisesta
+				kopioimisesta ja alustamisesta. Muutama if...else -lause
+				eliminoitui siten aivan kokonaan ja evaluaattori on nyt paljon
+				hienomman näköinen.
+				
+				Tietysti miinuspuolena on se, että mukaan tuli yksi
+				uusi puhtaasti rekursiivinen metodi: transformLambdaBody(),
+				joka ei ehkä ensi silmäyksellä ole maailman selkein, sillä
+				sen täytyy tehdä kaikki tämä raskas muuttujien muuntamis-
+				operaatio.
+				
+				
+			*   Käyttöohjeiden kirjoittaminen alkanut myös ja pari uutta yksik-
+				kötestiä tehty. Koodia hieman putsattu, ja nyt tulkki sisältänee
+				kaikki ne primitiivit, jotka lopullinenkin versio tulee sisäl-
+				tämään.
+				
+28.12 - 30.12:
+--------------
+~ 8h:		*   Käyttöopasta aloitettu. Viimeinen, tärkein osio vielä puuttuu.
+			*   Poikkeuksellista toimintaa testattu niin yksikkötestein
+			    kuin integraatiotesteinkin. Lisää yksikkötestejä siis luotu.
+			    Parserin logiikkaa parannettu: nyt mikään Labda-, Cond- ja
+			    Application-parser ei itse yritä parseroida osasanojaan, vaan
+			    delegon in Parser-luokan parseExpression()-metodille.
+			    Tämä oli aiemmin ongelma lähinnä LambdaParserissa.
+			    Mutta nyt voidaan taata se, että isApplicationin esimerkiksi
+			    ei tarvitse miettiä sitä, saako se parametrikseen sulkeistetun
+			    sanan vai ei, sillä Parserin parseExpression()- ja
+			    parseSemantically-metodit ovat ainoita, jotka isApplicationia
+			    käyttävät varmasti, ja ne pitävät huolen siitä, että
+			    isApplication saa oikeanmuotoisen lauseen.
+			    
+31.12 Maanantai
+---------------
+
+~2h 		*  Viimeiset yksikkötestit hoidettu
+			*  Testausdokumentti kirjoitettu
+			
+1.12 Tiistai
+------------
+
+3h			* Dokumentointia lisää, testausta, yms...
+
+ TODO
+ ----
+  Luo käyttöohjeet
+  Luo JavaDocsit
+
+  5) mieti miten if...else if...else, osioita voisi siivota parempaan
+     muotoon - nyt vain joitain osia on siivottu: siivoa kaikki mahdollinen.
+     
+ Ongelmakohtia
+ -------------
+ 1. Parseri joutuu useaan otteeseen tekemään samaa työtä (esim. tarkistaa onko
+ kyseessä sulkeiden sisällä oleva L-Lause. Nämä turhat tarkistukset ovat melko
+ kömpelöitä.
+
+3. Pystyisikö evaluaattorin rekursiivista käyttäytymistä selkeyttää hieman...

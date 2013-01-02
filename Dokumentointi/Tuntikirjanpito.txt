@@ -567,6 +567,10 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 
 3h			* Dokumentointia lisää, testausta, yms...
 
+2.12 Keskiviikko
+----------------
+~2h:			* JavaDocseja tehty jonkin verran 
+
  TODO
  ----
   Luo käyttöohjeet
