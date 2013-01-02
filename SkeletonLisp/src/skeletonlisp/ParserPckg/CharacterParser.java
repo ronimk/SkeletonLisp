@@ -1,3 +1,7 @@
+// CharacterParser is used to manipulate individual characters of
+// the user input. The main methods have to do with counting
+// the amount of parentheses, both "(" and ")", and also to 
+// remove unnecessary spaces in an input
 
 package skeletonlisp.ParserPckg;
 

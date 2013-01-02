@@ -2,22 +2,22 @@
 // Used to make LConds:
 //
 // The form of a cond is always
-// (cond (pred-1 result-1)
-//       (pred-2 result-2)
+// (COND (PRED-1 RESULT-1)
+//       (PRED-2 RESULT-2)
 //       ...
-//       (pred-n result-n)
+//       (PRED-n RESULT-n)
 //
 //  The use of a default predicate 
-//  (('#t in SkeletonLisp)
+//  ('#T in SkeletonLisp)
 //  is optional, but highly recomended;
 //  if there is no default predicate, and all the predicates fail,
 //  the system signals an exception.
-//  (so the input "(cond)" returns an error)
+//  (so the input "(COND)" throws an exception)
 //
 // As for parsing, all we need to do, now that we know the
-// expression starts with (cond...
+// expression starts with (COND ...
 // is to check whether all it's other words are Parenthesized, And that
-// they contain exactly two sub-words.
+// they contain exactly two sub-words, that are proper L-expressions
 // if so, we create a new LCond from all the data
 // if not, we throw an exception
 //

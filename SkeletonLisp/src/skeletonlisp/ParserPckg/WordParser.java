@@ -94,26 +94,13 @@ public class WordParser {
     }
     
     public static boolean isParenthesizedWord(String exp) {       
-        if (!exp.startsWith("(")) {
+        if (!exp.startsWith("(") ||
+            !exp.endsWith(")")) {
             return false;
         }
         
-        int leftParentheseDifference = 1;
-        
-        for (int i=1; i<exp.length(); i++) {
-            char ch = exp.charAt(i);
-            
-            if (ch == '(') {
-                leftParentheseDifference++;
-            } else if (ch == ')') {
-                leftParentheseDifference--;
-                if (leftParentheseDifference == 0) {
-                    return i == exp.length() - 1;
-                }
-            }
-        }
-        
-        return false;
+        return (CharacterParser.numberOfLeftParentheses(exp) -
+               CharacterParser.numberOfRightParentheses(exp)) == 0;
     }
     
     public static boolean isAtomicWord(String exp) {

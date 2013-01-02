@@ -1,3 +1,15 @@
+//
+// LambdaParser parses Lambda-expressions, and it returns
+// a new Lambda if it succeeds in parsing, or it throws an
+// exception if it fails.
+//
+// makeANewLambda() is the public method. It first checks
+// whether the variable part is in a correct form "(VAR-1 ... VAR-N)"
+// if so, it then tries to parse the variable-part and the lambda-body
+// and forms a new Lambda if it succeeds,
+// otherwise, an exception is thrown.
+// 
+//
 
 package skeletonlisp.ParserPckg;
 

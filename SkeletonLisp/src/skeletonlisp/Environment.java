@@ -1,39 +1,80 @@
 
 package skeletonlisp;
 
+/**
+ * 
+ * Environment is basically a HashMap-pair of IDs and their value bindings.
+ * it is used to create global variables, or to change the binding of
+ * an existing global variable.
+ * <p>
+ * Once bound in an environment, a global variable cannot be unbound in
+ * that particular environment.
+ * 
+ */
+
 import java.util.*;
 import java.util.Map.Entry;
 import skeletonlisp.LExp.*;
 
 public class Environment {
+    /**
+     * associations holds all the ID - value -bindings
+     * in an environment.
+     */
     private HashMap<LId, LExp> associations;
     
+    /**
+     * the default constructor for Environment
+     * initializes associations to an empty HashMap.
+     */
     public Environment() {
         associations = new HashMap<LId, LExp>();
     }
     
-    public Environment(Environment clone) {
-        associations = new HashMap<LId, LExp>();
-        for (Iterator<Entry<LId, LExp>> it = clone.associations.entrySet().iterator(); it.hasNext();) {
-            Map.Entry<LId, LExp> i = it.next();
-            
-            associations.put(i.getKey(), i.getValue());
-        }
-    }
-    
+    /**
+     * method used to extend an environment
+     * with an ID - value -pair
+     * <p>
+     * @param key       The ID to be bound
+     * @param binding   The value that the ID is to be bound to
+     * <p>
+     * if key is an ID that was previously unbound, a new entry
+     * is created for the key-binding -pair in associations,
+     * otherwise the existing binding of key is changed to the
+     * desired new binding.
+     * 
+     */
     public void extendEnvironment(LId key, LExp binding) {
         associations.put(key, binding);
     }
     
-    public boolean containsId(LId id) {
-        return associations.containsKey(id);
+    /**
+     * method used to check whether a binding exists
+     * in an environment for the desired 
+     * <p>
+     * @param key the desired ID
+     * @return true if a binding for the key exists, otherwise false
+     */
+    public boolean containsId(LId key) {
+        return associations.containsKey(key);
     }
     
-    public LExp getValueOf(LId id) {
-        return associations.get(id);
+    /**
+     * method used to get the value of a bound ID
+     * <p>
+     * @param key the bound ID
+     * @return returns the binding for the key, if such exists, otherwise null
+     * 
+     */
+    public LExp getValueOf(LId key) {
+        return associations.get(key);
     }
     
-    // FOR testig purpouses only:
+    /**
+     * For testing purposes only
+     * <p>
+     * @return returns the associations HashMap
+     */
     public HashMap<LId, LExp> getAssociations() {
         return associations;
     }

@@ -3,9 +3,9 @@
 //
 // Applications are always either one of forms
 // 1) (LId val-1 val-2 ...  val-n)
-// 2) ((lambda params body) val-1 val-2 ... val-n)
-// 3) (LApplication val-1, val-2 ... val-n)
-// 4) (LCond val-1, val-2, ... val-n)
+// 2) (Lambda val-1 ... val-n)
+// 3) (LApplication val-1 ... val-n)
+// 4) (LCond val-1 ... val-n)
 //
 // Therefore, when parsing for the procedure part, we have to check
 // whether it is an Id, a Cond or a Lambda expression or another
@@ -13,10 +13,10 @@
 //
 // Afterwards we parse the values of the application -
 // which can be any proper L-Expression, and
-// glue all together to form a new Application to return
+// glue it all together to form a new Application to return.
 //
 // if either the procedure part, or any of the value parts
-// are not proper, we throw an exception.
+// are not proper L-expressions, we throw an exception.
 
 package skeletonlisp.ParserPckg;
 

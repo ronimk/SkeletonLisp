@@ -561,14 +561,16 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 
 ~2h 		*  Viimeiset yksikkötestit hoidettu
 			*  Testausdokumentti kirjoitettu
+			
+1.12 Tiistai
+------------
+
+3h			* Dokumentointia lisää, testausta, yms...
 
  TODO
  ----
-  Päivitä luokkakaaviot sekä muu dokumentaatio vastaamaan nykyistä tilaa.
-  Refaktoroi
-  Luo Sekvenssikaavioita
   Luo käyttöohjeet
-  Luo testausdokumentti
+  Luo JavaDocsit
 
   5) mieti miten if...else if...else, osioita voisi siivota parempaan
      muotoon - nyt vain joitain osia on siivottu: siivoa kaikki mahdollinen.

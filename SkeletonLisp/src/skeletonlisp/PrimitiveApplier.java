@@ -1,16 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+// The PrimitiveApplier is used to  evaluate applications whose
+// procedure is a primitive.
+//
+// PrimitiveApplier consists mostly of the algorithmic methods for
+// each of the SkeletonLisp's primitive keywords. The Evaluator's
+// applyPrimitive-method check's the keyword of the primitive
+// application and then delegates the work to the approppriate
+// algorithmic method, which produces the result of the
+// application for the given parameters.
+//
+// PrimitiveApplier also has a method called lookupPrimitive(),
+// that can be used to check whether a given keyword is a primitive or not.
+
 package skeletonlisp;
 
 import java.util.ArrayList;
 import skeletonlisp.LExp.*;
-;
-/**
- *
- * @author rmkekkon
- */
+
 public class PrimitiveApplier {
     private ArrayList<LExp> primitives;
     
