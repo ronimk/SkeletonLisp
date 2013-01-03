@@ -1,32 +1,38 @@
-//
-// Used to make LConds:
-//
-// The form of a cond is always
-// (COND (PRED-1 RESULT-1)
-//       (PRED-2 RESULT-2)
-//       ...
-//       (PRED-n RESULT-n)
-//
-//  The use of a default predicate 
-//  ('#T in SkeletonLisp)
-//  is optional, but highly recomended;
-//  if there is no default predicate, and all the predicates fail,
-//  the system signals an exception.
-//  (so the input "(COND)" throws an exception)
-//
-// As for parsing, all we need to do, now that we know the
-// expression starts with (COND ...
-// is to check whether all it's other words are Parenthesized, And that
-// they contain exactly two sub-words, that are proper L-expressions
-// if so, we create a new LCond from all the data
-// if not, we throw an exception
-//
+
 package skeletonlisp.ParserPckg;
 
 import java.util.ArrayList;
 import skeletonlisp.LExp.*;
 
+/**
+ * 
+ * @author Roni Kekkonen
+ * <p>
+ * CondParser is used to make Cond expressions. Cond expressions consist of
+ * zero or more CondCases. CondCases consist of one predicate expression and
+ * one result expression. Both the predicate and result can be any proper
+ * SkeletonLisp expression.
+ * <p>
+ * Thus the form of a Cond expression is:
+ * <p>
+ * (COND (PRED-1 RESULT-1)
+ * <br />
+ *       (PRED-2 RESULT-2)
+ * <br />
+ *       ...
+ * <br />
+ *       (PRED-n RESULT-n)
+ */
 public class CondParser {
+    /**
+     * The method makeANewCond parses a String into an LCond.
+     * <p>
+     * @param exp           the Cond expression to be parsed, in a String form
+     * @return              returns a new LCond that matches the semantic of the String representation.
+     * @throws Exception    an Exception is thrown if exp is not a syntactically correct Cond-expression,
+     *                      or if, for some reason, any of the predicates or the results cannot be parsed
+     *                      into proper SkeletonLisp expressions.
+     */
     public static LCond makeANewCond(String exp) throws Exception {
         String condBody = WordParser.allButFirstWord(WordParser.unwrapParenthesizedWord(exp));
 

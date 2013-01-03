@@ -32,10 +32,10 @@ public class WordParser {
     
     public static String firstWord(String exp) {
         if (exp == null || exp.isEmpty()) {
-            return ParserConstants.emptyString;
+            return ParserConstants.EMPTYSTRING;
         }
         
-        String word = ParserConstants.emptyString;
+        String word = ParserConstants.EMPTYSTRING;
         int numOfLeftParenthesesSoFar = 0;
     
         for (int i=0; i<exp.length(); i++) {
@@ -65,7 +65,7 @@ public class WordParser {
         if (len < exp.length()) {
             return exp.substring(len+1);
         } else {
-            return ParserConstants.emptyString;
+            return ParserConstants.EMPTYSTRING;
         }
     }
    
@@ -79,7 +79,7 @@ public class WordParser {
 
     public static String unwrapParenthesizedWord(String exp) {
         if (exp == null || exp.length()<3) {
-            return ParserConstants.emptyString;
+            return ParserConstants.EMPTYSTRING;
         } else {
             return exp.substring(1, exp.length()-1);
         }
@@ -106,7 +106,7 @@ public class WordParser {
     public static boolean isAtomicWord(String exp) {
         
         for (int i=0; i<exp.length(); i++) {
-            if (ParserConstants.reservedLetters.contains(exp.substring(i, i+1))) {
+            if (ParserConstants.RESERVEDLETTERS.contains(exp.substring(i, i+1))) {
                 return false;
             }
         }

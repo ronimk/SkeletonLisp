@@ -1,6 +1,9 @@
 
 package skeletonlisp;
 
+import java.util.ArrayList;
+import skeletonlisp.LExp.*;
+
 /**
  * @author Roni Kekkonen
  * 
@@ -8,10 +11,6 @@ package skeletonlisp;
  * their values.
  * 
  */
-import java.util.ArrayList;
-import skeletonlisp.LExp.*;
-
-
 public class Evaluator {
     /**
      * all global definitions are stored in the globalEnvironment

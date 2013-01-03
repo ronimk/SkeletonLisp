@@ -24,6 +24,7 @@ public class CondCase extends LExp {
     /**
      * The constructor for CondCase. The constructor requires
      * for each cond-case to have a proper predicate and result.
+     * The type of CondCase is initialized with CONDCASETYPE.
      * <p>
      * @param _predicate the predicate for a cond-case
      * @param _result the result for a cond-case

@@ -1,19 +1,4 @@
 
-// Used to make new Applications
-//
-// Applications are always either one of forms
-// 1) (LId val-1 val-2 ...  val-n)
-// 2) (Lambda val-1 ... val-n)
-// 3) (LApplication val-1 ... val-n)
-// 4) (LCond val-1 ... val-n)
-//
-// Therefore, when parsing for the procedure part, we have to check
-// whether it is an Id, a Cond or a Lambda expression or another
-// Application inside this application...
-//
-// Afterwards we parse the values of the application -
-// which can be any proper L-Expression, and
-// glue it all together to form a new Application to return.
 //
 // if either the procedure part, or any of the value parts
 // are not proper L-expressions, we throw an exception.
@@ -23,8 +8,37 @@ package skeletonlisp.ParserPckg;
 import java.util.ArrayList;
 import skeletonlisp.LExp.*;
 
+/**
+ * 
+ * @author Roni Kekkonen
+ * 
+ * ApplicationParser is used to make new LApplications.
+ * <p>
+ * 
+ */
 public class ApplicationParser {
     
+    /**
+     * The method makeANewApplication() parses a String given to it, into an
+     * LApplication.
+     * <p>
+     * All aplications have a procedure part and zero or more parameters.
+     * Both the procedure part and each parameter have to be parsed, and
+     * then combined together to form an application.
+     * <p>
+     * The procedure can be a Lambda-expression, a Cond-expression, an ID
+     * or another Application.
+     * <p>
+     * The parameters can be any other expression. COND and LAMBDA, however,
+     * cannot be given as parameters to a procedure, because they are
+     * Special Forms that do not have a first-class-citizen rights.
+     * <p>
+     * @param applicationBody   The String representation of an application
+     * @return      Returns a new LApplication that matches the semantic of the String representation.
+     * @throws Exception    An Exception is thrown if either the procedure part is not of proper type or if,
+     *                      for some reason, one of the parts cannot be parsed into proper SkeletonLisp
+     *                      expressions
+     */
     public static LApplication makeNewApplication(String applicationBody) throws Exception {
         String unwrappedBody = WordParser.unwrapParenthesizedWord(applicationBody);
         String proc = WordParser.firstWord(unwrappedBody);

@@ -22,6 +22,8 @@ public class LAtom extends LValue {
      * The constructor for atoms requires the atom to be initialized to
      * a String value
      * <p>
+     * The type of an atom is LATOMTYPE
+     * <p>
      * @param _atom the String value that represents an atom
      */
     public LAtom(String _atom) {

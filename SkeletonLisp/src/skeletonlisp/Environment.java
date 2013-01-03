@@ -1,8 +1,13 @@
 
 package skeletonlisp;
 
+import java.util.*;
+import java.util.Map.Entry;
+import skeletonlisp.LExp.*;
+
 /**
- * 
+ *
+ * @author Roni Kekkonen
  * Environment is basically a HashMap-pair of IDs and their value bindings.
  * it is used to create global variables, or to change the binding of
  * an existing global variable.
@@ -11,10 +16,6 @@ package skeletonlisp;
  * that particular environment.
  * 
  */
-
-import java.util.*;
-import java.util.Map.Entry;
-import skeletonlisp.LExp.*;
 
 public class Environment {
     /**

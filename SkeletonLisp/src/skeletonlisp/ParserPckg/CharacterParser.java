@@ -1,11 +1,23 @@
-// CharacterParser is used to manipulate individual characters of
-// the user input. The main methods have to do with counting
-// the amount of parentheses, both "(" and ")", and also to 
-// remove unnecessary spaces in an input
 
 package skeletonlisp.ParserPckg;
 
+/**
+ * 
+ * @author Roni Kekkonen
+ * 
+ * CharacterParser is used to manipulate individual characters of the
+ * user's input.
+ * 
+ */
 public class CharacterParser {
+    /**
+     * The method numberOfCharactersC counts all the characters that equal C
+     * in an input, and returns the result.
+     * <p>
+     * @param s     the String whose characters we want to count.
+     * @param c     the character we want to count.
+     * @return      the amount of characters c in String s.
+     */
     public static int numberOfCharactersC(String s, char c) {
         int n = 0;
         
@@ -18,28 +30,72 @@ public class CharacterParser {
         return n;
     }
     
+    /**
+     * The method numberOfLeftParentheses counts the number of all '('-characters
+     * in a String given to it.
+     * <p>
+     * @param s     the String whose '('-characters we want to count.
+     * @return      returns the amount of '('-characters in String s
+     */
     public static int numberOfLeftParentheses(String s) {
         return numberOfCharactersC(s, '(');
     }
     
+    /**
+     * The method numberOfRightParentheses counts the number of all ')'-characters
+     * in a String given to it.
+     * <p>
+     * @param s     the String whose ')'-characters we want to count.
+     * @return      returns the amount of ')'-characters in String s
+     */
     public static int numberOfRightParentheses(String s) {
         return numberOfCharactersC(s, ')');
     }
     
+    /**
+     * The method hasLessRightParentheses checks whether a String has less
+     * of ')'-characters in it than '('-characters.
+     * <p>
+     * @param s     the String we want to perform the comparison to
+     * @return      returns true if the amount of ')'-characters is less than
+     *              the amount of '('-characters.
+     */
     public static boolean hasLessRightParentheses(String s) {
         return numberOfRightParentheses(s) < numberOfLeftParentheses(s);
     }
     
+        /**
+     * The method hasLessLeftParentheses checks whether a String has less
+     * of ()'-characters in it than ')'-characters.
+     * <p>
+     * @param s     the String we want to perform the comparison to
+     * @return      returns true if the amount of '('-characters is less than
+     *              the amount of ')'-characters.
+     */
     public static boolean hasLessLeftParentheses(String s) {
         return numberOfLeftParentheses(s) < numberOfRightParentheses(s);
     }
 
+    /**
+     * The method removeAdditionalSpaces removes all the spaces that are unnecessary
+     * from the point of the view of the interpreter.
+     * <p>
+     * @param exp       the untrimmed String
+     * @return          returns a new String equaling exp, but with all the unnecessary spaces removed.
+     */
     public static String removeAdditionalSpaces(String exp) {
         return removeSpacesBeforeRightParentheses(removeSpacesAfterLeftParentheses(removeSpaceSequences(exp.trim())));
     }
     
+    /**
+     * The method removeSpaceSequences removes all the extra spaces in sequences
+     * of two or more spaces and leaves only one of the spaces intact.
+     * <p>
+     * @param exp   the String to be trimmed
+     * @return      returns a new String equaling exp, but with all the extra spaces in space sequences removed.
+     */
     public static String removeSpaceSequences(String exp) {
-        String newExp = ParserConstants.emptyString;
+        String newExp = ParserConstants.EMPTYSTRING;
         
         boolean prevCharWasASpace = false;
         
@@ -67,8 +123,16 @@ public class CharacterParser {
         return newExp;
     }
     
+    /**
+     * The method removeSpacesAfterLeftParentheses removes the extra space
+     * after every '('-character in a String, if necessary
+     * <p>
+     * @param exp       the string to be trimmed
+     * @return          returns a new String equaling exp, but with the extra space
+     *                  removed after every '('-character.
+     */
     public static String removeSpacesAfterLeftParentheses(String exp) {
-        String newExp = ParserConstants.emptyString;
+        String newExp = ParserConstants.EMPTYSTRING;
         boolean prevCharWasAnLP = false;
         
         for (int i=0; i<exp.length(); i++) {
@@ -89,8 +153,16 @@ public class CharacterParser {
         return newExp;
     }
     
+    /**
+     * The method removeSpacesABeforeRightParentheses removes the extra space
+     * before every ')'-character in a String, if necessary
+     * <p>
+     * @param exp       the string to be trimmed
+     * @return          returns a new String equaling exp, but with the extra space
+     *                  removed before every ')'-character.
+     */
     public static String removeSpacesBeforeRightParentheses(String exp) {
-        String newExp = ParserConstants.emptyString;
+        String newExp = ParserConstants.EMPTYSTRING;
         
         for (int i=0; i<exp.length(); i++) {
             char ch = exp.charAt(i);
@@ -105,6 +177,14 @@ public class CharacterParser {
     return newExp;
     }
     
+    /**
+     * The method remove LeadingZeroes removes all the zeroes in an
+     * LNumber that precede any non-zero digit in said number.
+     * <p>
+     * @param exp   the String representation of the number to be trimmed
+     * @return      returns a new String equaling exp, but with all the leading zeroes
+     *              removed. If exp contains nothing but zeroes, then "0" is returned.
+     */
     public static String removeLeadingZeroes(String exp) {
         boolean isSigned = false;
         String newExp;

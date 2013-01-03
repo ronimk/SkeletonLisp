@@ -1,6 +1,9 @@
 
 package skeletonlisp;
 
+import java.util.ArrayList;
+import skeletonlisp.LExp.*;
+
 /**
  * 
  * @author Roni Kekkonen
@@ -16,10 +19,6 @@ package skeletonlisp;
  * their parameter in a list form.
  * 
  */
-
-import java.util.ArrayList;
-import skeletonlisp.LExp.*;
-
 public class PrimitiveApplier {
     /**
      * the container for all the primitive keywords in SkeletonLisp.

@@ -25,6 +25,8 @@ public class LApplication extends LExp {
      * The constructor requires for all LApplications to have a
      * procedure and a list of parameter values.
      * <p>
+     * The type of an application is LAPPLICATIONTYPE
+     * <p>
      * @param _procedure            the procedure of an application
      * @param _parameterValues      the list of parameter values of an application
      */

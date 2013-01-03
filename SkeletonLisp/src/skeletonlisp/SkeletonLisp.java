@@ -1,6 +1,8 @@
 
 package skeletonlisp;
 
+import skeletonlisp.ParserPckg.CharacterParser;
+
 /**
  * 
  * @author Roni Kekkonen
@@ -8,8 +10,6 @@ package skeletonlisp;
  * The runnable main class of SkeletonLisp, the interpreter.
  * 
  */
-
-import skeletonlisp.ParserPckg.CharacterParser;
 
 public class SkeletonLisp {
 
