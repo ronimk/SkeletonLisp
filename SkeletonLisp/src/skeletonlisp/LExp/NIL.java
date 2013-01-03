@@ -2,11 +2,10 @@
 package skeletonlisp.LExp;
 
 /**
- * 
- * @author Roni Kekkonen
- * 
  * The NIL class is the dataStructural representation of
  * SkeletonLisp's NIL
+ * <p>
+ * @author Roni Kekkonen
  */
 public class NIL extends LValue {
     /**

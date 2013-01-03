@@ -2,12 +2,10 @@
 package skeletonlisp.LExp;
 
 /**
- * 
- * @author Roni Kekkonen
- * 
  * The class LPair is the data-structural representation of
  * SkeletonLisp's pairs.
- * 
+ * <p>
+ * @author Roni Kekkonen
  */
 public class LPair extends LValue {
     

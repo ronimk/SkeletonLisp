@@ -2,11 +2,10 @@
 package skeletonlisp.ParserPckg;
 
 /**
- * 
- * @author Roni Kekkonen
- * 
  * CharacterParser is used to manipulate individual characters of the
  * user's input.
+ * <p>
+ * @author Roni Kekkonen
  * 
  */
 public class CharacterParser {

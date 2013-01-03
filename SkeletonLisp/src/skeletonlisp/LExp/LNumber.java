@@ -2,13 +2,12 @@
 package skeletonlisp.LExp;
 
 /**
- *
- * @author Roni Kekkonen
- * <p>
  * LNumber is the data-structural representation of
  * SkeletonLisp integers.
  * <p>
  * SkeletonLisp only recognizes integers by default.
+ * <p>
+ * @author Roni Kekkonen
  */
 public class LNumber extends LValue {
     

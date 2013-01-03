@@ -2,14 +2,12 @@
 package skeletonlisp.LExp;
 
 /**
- *
- * @author Roni Kekkonen
- * 
  * The LString class is the data-structural representation of
  * SkeletonLisp's strings.
  * <p>
  * However only the interpreter uses strings.
- * 
+ * <p>
+ * @author Roni Kekkonen
  */
 public class LString extends LValue {
     /**

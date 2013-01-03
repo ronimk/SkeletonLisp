@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import skeletonlisp.LExp.*;
 
 /**
- * 
- * @author Roni Kekkonen
- * <p>
  * CondParser is used to make Cond expressions. Cond expressions consist of
  * zero or more CondCases. CondCases consist of one predicate expression and
  * one result expression. Both the predicate and result can be any proper
@@ -22,6 +19,8 @@ import skeletonlisp.LExp.*;
  *       ...
  * <br />
  *       (PRED-n RESULT-n)
+ * <p>
+ * @author Roni Kekkonen
  */
 public class CondParser {
     /**

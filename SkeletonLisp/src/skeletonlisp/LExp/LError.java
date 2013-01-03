@@ -2,12 +2,11 @@
 package skeletonlisp.LExp;
 
 /**
- *  
- * @author Roni Kekkonen
- * 
  * LError contains the data-structural representation of
  * SkeletonLisp's error expressions. However, only the interpreter
  * really uses error expressions.
+ * <p>
+ * @author Roni Kekkonen
  */
 public class LError extends LValue {
     private String message;

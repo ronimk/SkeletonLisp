@@ -2,12 +2,11 @@
 package skeletonlisp.LExp;
 
 /**
- * 
- * @author Roni Kekkonen
- * 
  * LExp is the abstract data-structural representation of a generic
  * SkeletonLisp expression, from which all the different actual
  * SkeletonLisp expressions are derived.
+ * <p>
+ * @author Roni Kekkonen
  */
 public abstract class LExp {
     private LExpTypes type;

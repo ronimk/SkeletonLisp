@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import skeletonlisp.LExp.*;
 
 /**
- * 
- * @author Roni Kekkonen
- * 
+ *  
  * PrimitiveApplier is used to  evaluate applications whose
  * procedure is a primitive.
  * <p>
@@ -17,7 +15,8 @@ import skeletonlisp.LExp.*;
  * Since all the parameters of an application are given in a list form,
  * even primitives like ADD1 and SUB1, that take only one argument, get
  * their parameter in a list form.
- * 
+ * <p>
+ * @author Roni Kekkonen
  */
 public class PrimitiveApplier {
     /**

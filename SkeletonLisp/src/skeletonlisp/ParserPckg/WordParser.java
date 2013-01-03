@@ -2,11 +2,10 @@
 package skeletonlisp.ParserPckg;
 
 /**
- *
- * @author Roni Kekkonen
- * <p>
  * WordParser parses individual words of String representation of
  * a SkeletonLisp expression.
+ * <p>
+ * @author Roni Kekkonen
  */
 
 public class WordParser {

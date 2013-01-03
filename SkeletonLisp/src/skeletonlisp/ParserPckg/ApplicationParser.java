@@ -1,20 +1,13 @@
 
-//
-// if either the procedure part, or any of the value parts
-// are not proper L-expressions, we throw an exception.
-
 package skeletonlisp.ParserPckg;
 
 import java.util.ArrayList;
 import skeletonlisp.LExp.*;
 
 /**
- * 
- * @author Roni Kekkonen
- * 
  * ApplicationParser is used to make new LApplications.
  * <p>
- * 
+ * @author Roni Kekkonen
  */
 public class ApplicationParser {
     

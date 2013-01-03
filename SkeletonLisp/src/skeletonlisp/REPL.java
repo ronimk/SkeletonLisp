@@ -6,11 +6,10 @@ import skeletonlisp.ParserPckg.*;
 
 /**
  * 
- * @author Roni Kekkonen
- * 
  * REPL is the interface of the SkeletonLisp interpreter. It handles all the logistical requirements
  * of SkeletonLisp's read-evaluate-print-loop.
- * 
+ * <p>
+ * @author Roni Kekkonen
  */
 
 public class REPL {

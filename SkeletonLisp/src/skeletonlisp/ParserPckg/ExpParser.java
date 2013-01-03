@@ -2,10 +2,9 @@
 package skeletonlisp.ParserPckg;
 
 /**
- * 
- * @author Roni Kekkonen
- * 
  * ExpParser determines the type of an expression.
+ * <p>
+ * @author Roni Kekkonen
  * 
  */
 public class ExpParser {

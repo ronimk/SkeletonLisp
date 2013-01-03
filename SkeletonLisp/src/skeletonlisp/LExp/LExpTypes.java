@@ -2,11 +2,10 @@
 package skeletonlisp.LExp;
 
 /**
- * 
- * @author Roni Kekkonen
- * 
  * An enum containing all the types of every legal
  * SkeletonLisp expression
+ * <p>
+ * @author Roni Kekkonen
  */
 
 public enum LExpTypes {

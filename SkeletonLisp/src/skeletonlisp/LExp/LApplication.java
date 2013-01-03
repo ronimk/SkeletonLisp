@@ -1,16 +1,17 @@
 
 package skeletonlisp.LExp;
 
+import java.util.ArrayList;
+
 /**
  * LApplication is the data-structural representation of
  * SkeletonLisp applications.
+ * <p>
+ * @author  Roni Kekkonen
  */
-
-import java.util.ArrayList;
-
 public class LApplication extends LExp {
     /**
-     * this is where the procedure of an application is stored.
+     * contains the procedure of an application.
      */
     private LExp procedure;
     

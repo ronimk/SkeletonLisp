@@ -4,11 +4,11 @@ package skeletonlisp.LExp;
 import java.util.ArrayList;
 
 /**
- *
- * @author Roni Kekkonen
- * 
  * Lambda is the data-structural representation of
  * SkeletonLisp's lambda-expressions.
+ * <p>
+ * @author Roni Kekkonen
+ * 
  */
 
 public class Lambda extends LExp {

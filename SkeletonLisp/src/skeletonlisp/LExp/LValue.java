@@ -2,14 +2,13 @@
 package skeletonlisp.LExp;
 
 /**
- * 
- * @author Roni Kekkonen
- * <p>
  * The LValue class is the abstract data-structure that defines all
  * SkeletonLisp's value expressions.
  * <p>
  * The value expressions of SkeletonLisp are
  * LAtom, LError, LId, LNumber, LPair, and NIL
+ * <p>
+ * @author Roni Kekkonen
  * 
  */
 public abstract class LValue extends LExp {

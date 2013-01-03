@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import skeletonlisp.LExp.*;
 
 /**
- * 
- * @author Roni Kekkonen
- * <p>
  * LambdaParser is used to parse lambda-expressions.
  * <p>
  * Lambda expressions consist of three parts:
@@ -22,6 +19,9 @@ import skeletonlisp.LExp.*;
  * <br />
  * (LAMBDA (VAR-1 ... VAR-N) BODY)
  * <br />
+ * <p>
+ * 
+ * @author Roni Kekkonen
  */
 
 public class LambdaParser {

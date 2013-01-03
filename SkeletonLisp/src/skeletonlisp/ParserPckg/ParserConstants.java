@@ -2,10 +2,11 @@
 package skeletonlisp.ParserPckg;
 
 /**
+ * ParserConstants contains all the constants the Parser needs.
+ * <p>
  * 
  * @author Roni Kekkonen
- * <p>
- * ParserConstants contains all the constants the Parser needs.
+ *
  */
 public class ParserConstants {
     

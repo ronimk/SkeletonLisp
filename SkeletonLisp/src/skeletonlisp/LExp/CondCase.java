@@ -1,6 +1,5 @@
 
 package skeletonlisp.LExp;
-import java.util.ArrayList;
 
 /**
  * CondCase is used for Cond-expressions, it holds one
@@ -8,6 +7,8 @@ import java.util.ArrayList;
  * whose predicate evaluates to something other than NIL in
  * an LCond (cond-expression) is returned when evaluating the
  * LCond.
+ * <p>
+ * @author Roni Kekkonen
  */
 
 public class CondCase extends LExp {

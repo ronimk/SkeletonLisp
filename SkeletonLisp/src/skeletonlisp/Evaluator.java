@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import skeletonlisp.LExp.*;
 
 /**
- * @author Roni Kekkonen
- * 
  * evaluator is used to transform user input L-expressions into
  * their values.
+ * <p>
+ * @author Roni Kekkonen
  * 
  */
 public class Evaluator {

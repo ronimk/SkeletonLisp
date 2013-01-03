@@ -7,14 +7,14 @@ import skeletonlisp.LExp.*;
 
 /**
  *
- * @author Roni Kekkonen
  * Environment is basically a HashMap-pair of IDs and their value bindings.
  * it is used to create global variables, or to change the binding of
  * an existing global variable.
  * <p>
  * Once bound in an environment, a global variable cannot be unbound in
  * that particular environment.
- * 
+ * <p>
+ * @author Roni Kekkonen
  */
 
 public class Environment {

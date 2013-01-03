@@ -3,11 +3,11 @@ package skeletonlisp.LExp;
 import java.util.ArrayList;
 
 /**
- * 
- * @author Roni Kekkonen
- * 
+ *
  * The data-structural representation of
  * SkeletonLisp's Cond-expressions.
+ * <p>
+ * @author Roni Kekkonen
  * 
  */
 

@@ -2,10 +2,9 @@
 package skeletonlisp.LExp;
 
 /**
- * 
- * @author Roni Kekkonen
- * 
  * The data-structural representation of SkeletonLisp's IDs
+ * <p>
+ * @author Roni Kekkonen
  * 
  */
 public class LId extends LExp {

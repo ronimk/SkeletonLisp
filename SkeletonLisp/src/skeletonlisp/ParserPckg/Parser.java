@@ -4,11 +4,10 @@ package skeletonlisp.ParserPckg;
 import skeletonlisp.LExp.*;
 
 /**
- * 
- * @author Roni Kekkonen
- * <p>
  * Parser is the main class used for parsing user input into
  * proper SkeletonLisp expressions.
+ * <p>
+ * @author Roni Kekkonen
  */
 public class Parser {   
     /**

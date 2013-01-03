@@ -3,12 +3,10 @@
 package skeletonlisp.LExp;
 
 /**
- *
- * @author Roni Kekkonen
- * 
- *
  * The data-structural representation of
- * SkeletonLisp's atoms
+ * SkeletonLisp's atoms.
+ * <p>
+ * @author Roni Kekkonen
  *
  */
 public class LAtom extends LValue {
