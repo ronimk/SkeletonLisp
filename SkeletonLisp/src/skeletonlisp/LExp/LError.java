@@ -16,7 +16,7 @@ public class LError extends LValue {
      * The constructor requires for every LErrors to be initialized
      * with an error message.
      * <p>
-     * The type of an error is LERRORTYPE
+     * The type of an error is LVALUETYPE and the subtype is LERRORTYPE
      * <p>
      * @param _message      the message of the error expression. 
      */

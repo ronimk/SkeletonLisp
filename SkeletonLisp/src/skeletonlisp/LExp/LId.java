@@ -15,7 +15,7 @@ public class LId extends LExp {
      * The constructor requires for every ID to be initialized
      * with a symbol in a String-form
      * <p>
-     * Tye type of a SkeletonLisp ID is LIDTYPE
+     * Tye type of a SkeletonLisp ID is LVALUETYPE and the subtype is LIDTYPE
      * <p>
      * @param _id   the String representation of a SkeletonLisp ID.
      */
