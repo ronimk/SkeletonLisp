@@ -42,13 +42,11 @@ public class LambdaParser {
         String unwrappedLambdaExp = WordParser.unwrapParenthesizedWord(exp);
         String varsWord = WordParser.secondWord(unwrappedLambdaExp);
                       
-        if (WordParser.isParenthesizedWord(varsWord)) {
-            varsWord = WordParser.unwrapParenthesizedWord(varsWord);
-        } else {
-            throw new Exception("BAD SYNTAX IN THE VARIABLE PART: " + exp);
+        if (!WordParser.isParenthesizedWord(varsWord)) {
+            throw new Exception("BAD SYNTAX IN THE VARIABLE PART: " + exp);   
         }
-              
-            return new Lambda(makeVarList(varsWord), lambdaBody(unwrappedLambdaExp));
+ 
+        return new Lambda(makeVarList(WordParser.unwrapParenthesizedWord(varsWord)), lambdaBody(unwrappedLambdaExp));
     }
     
     /**
@@ -59,9 +57,10 @@ public class LambdaParser {
      *                      String representation of a lambda expression.
      * @return              returns a new ArrayList containing all the variables
      *                      in the order given.
-     * @throws Exception    An exception is thrown if either, for some reason, any
+     * @throws Exception    An exception is thrown if, for some reason, any
      *                      of the variables cannot be parsed, or any of the variables
-     *                      are not IDs.
+     *                      are not IDs, or if the same variable appears more than once
+     *                      in the variable list.
      */
     private static ArrayList<LId> makeVarList(String lambdaVars) throws Exception {
         String vars = lambdaVars;
@@ -76,12 +75,14 @@ public class LambdaParser {
             
             LExp var = Parser.parseExpression(nextVar);
             
-            if (var.getSubType() != LExpTypes.LIDTYPE) {
+            if (var.getSubType() != LExpTypes.LIDTYPE ||
+                varList.contains(var)) {
                 throw new Exception("ILLEGAL LAMBDA VARIABLE DECLARATION " + nextVar);
-            } else {
-                varList.add((LId)var);                
-                vars = WordParser.allButFirstWord(vars);
-            }            
+            }
+            
+            varList.add((LId)var);                
+            vars = WordParser.allButFirstWord(vars);
+                        
         }
         
         return varList;
@@ -101,10 +102,9 @@ public class LambdaParser {
         if (body.isEmpty() ||
             !WordParser.allButFirstWord(body).isEmpty()) {
             throw new Exception("BAD SYNTAX IN LAMBDA BODY");
-        } else {
-            LExp lambdaBody = Parser.parseExpression(body);
-
-            return lambdaBody;
         }
+        
+        LExp lambdaBody = Parser.parseExpression(body);
+        return lambdaBody;
     }    
 }

@@ -562,19 +562,32 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 ~2h 		*  Viimeiset yksikkötestit hoidettu
 			*  Testausdokumentti kirjoitettu
 			
-1.12 Tiistai
+1.1 Tiistai
 ------------
 
 3h			* Dokumentointia lisää, testausta, yms...
 
-2.12 Keskiviikko
+2.1 Keskiviikko
 ----------------
-~2h:			* JavaDocseja tehty jonkin verran 
+~2h:		* JavaDocseja tehty jonkin verran 
+
+3.1-4.1
+-------
+~3h			* JavaDocsit suht valmiina
+			* Muutama integraatiotesti tehty ja havaittu paha virhe, mikä myös
+			  korjattu: lambda-lauseiden luonnin yhteydessä ei oltu huomioitu
+			  sitä, että käyttäjä saattaisi vahingossa tai tahallaan laittaa
+			  samannimisiä muuttujia lambda-muuttujiksi. Tämä sekoittaisi
+			  lauseiden evaluoinnin täysin. Nyt tämä on korjattu, Lambda-lause
+			  ei ole korrekti, mikäli sillä on täsmälleen samanmuotoisia ID:itä
+			  enemmän kuin yksi per ID.
+			* Itse koodin ulkoasuun en ole vieläkään ollenkaan tyytyväinen,
+			  ensi viikolla alkaa viimeinen refaktorointivaihe...
 
  TODO
  ----
   Luo käyttöohjeet
-  Luo JavaDocsit
+  Refaktoroi koodia
 
   5) mieti miten if...else if...else, osioita voisi siivota parempaan
      muotoon - nyt vain joitain osia on siivottu: siivoa kaikki mahdollinen.
