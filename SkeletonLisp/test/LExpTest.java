@@ -132,14 +132,14 @@ public class LExpTest {
     
     @Test
     public void uudenApplicationinarvotOikeita() {        
-        ArrayList<LExp> appVals = ((LApplication) app).getVals(); 
+        ArrayList<LExp> appVals = ((LApplication) app).getArgs(); 
         assertEquals("<X (ID)>", appVals.get(0).toString());
         assertEquals("<Y (ID)>", appVals.get(1).toString());
     }
     
     @Test
     public void applicationinToStringMetodiToimii() {      
-        ArrayList<LExp> appVals = ((LApplication) app).getVals();
+        ArrayList<LExp> appVals = ((LApplication) app).getArgs();
         assertEquals("<APPLICATION>", ((LApplication) app).toString());
     }
     

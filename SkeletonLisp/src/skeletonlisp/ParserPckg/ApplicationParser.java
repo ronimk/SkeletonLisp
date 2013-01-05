@@ -15,15 +15,15 @@ public class ApplicationParser {
      * The method makeANewApplication() parses a String given to it, into an
      * LApplication.
      * <p>
-     * All aplications have a procedure part and zero or more parameters.
-     * Both the procedure part and each parameter have to be parsed, and
+     * All aplications have a procedure part and zero or more arguments.
+     * Both the procedure part and each argument have to be parsed, and
      * then combined together to form an application.
      * <p>
      * The procedure can be a Lambda-expression, a Cond-expression, an ID
      * or another Application.
      * <p>
-     * The parameters can be any other expression. COND and LAMBDA, however,
-     * cannot be given as parameters to a procedure, because they are
+     * The arguments can be any other expression. COND and LAMBDA, however,
+     * cannot be given as arguments to a procedure, because they are
      * Special Forms that do not have a first-class-citizen rights.
      * <p>
      * @param applicationBody   The String representation of an application
@@ -44,24 +44,24 @@ public class ApplicationParser {
                                              + ")")) {
             throw new Exception(proc + " IS NOT A PROPER PROCEDURE");
         }
-        ArrayList<LExp> parameterValues = new ArrayList<LExp>();
-        String vals = WordParser.allButFirstWord(unwrappedBody);
+        ArrayList<LExp> arguments = new ArrayList<LExp>();
+        String args = WordParser.allButFirstWord(unwrappedBody);
         
         while (true) {
-            String first = WordParser.firstWord(vals);
+            String first = WordParser.firstWord(args);
             
             if (first.isEmpty()) {
                 break;
             }
                 
-            LExp nextExp = Parser.parseExpression(first);
+            LExp nextArg = Parser.parseExpression(first);
                 
             
-            parameterValues.add(nextExp);
-            vals = WordParser.allButFirstWord(vals);
+            arguments.add(nextArg);
+            args = WordParser.allButFirstWord(args);
             
         }
         
-        return new LApplication(procedure, parameterValues);
+        return new LApplication(procedure, arguments);
     }
 }

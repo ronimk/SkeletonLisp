@@ -84,33 +84,33 @@ public class Evaluator {
             case LCONDTYPE:         return evalCond((LCond) exp);
                 
             case LAPPLICATIONTYPE:  LApplication app = (LApplication) exp;
-                                    return apply(app.getProcedure(), app.getVals());
+                                    return apply(app.getProcedure(), app.getArgs());
                 
             default:                throw new Exception("SYNTAX ERROR");
         }
     }
     
     /**
-     * evalParams is used to evaluate the parameters of an application
+     * evalArgs is used to evaluate the arguments of an application
      * when necessary.
      * <p>
      * There are a few primitives (AND and OR) that are Special Forms,
-     * and require their parameters to not be evaluated beforehand.
+     * and require their arguments to not be evaluated beforehand.
      * Otherwise, with any other primitive, or with a lambda, a cond,
      * or another application as the procedure part of an application,
-     * the parameter values are always evaluated before they are applied
+     * the argument values are always evaluated before they are applied
      * to the procedure. Therefore, SkeletonLisp has a (mostly) strictly eager
      * evaluation process.
      * <p>
-     * @param params the ArrayList of all the parameters of the application
-     * @return  returns a new ArrayList with all the evaluated values of parameters.
-     * @throws Exception if one (or more) parameters cannot be evaluated, for some reason.
+     * @param args the ArrayList of all the arguments of the application
+     * @return  returns a new ArrayList with all the evaluated values of arguments.
+     * @throws Exception if one (or more) arguments cannot be evaluated, for some reason.
      */
-    public ArrayList<LExp> evalParamVals(ArrayList<LExp> params) throws Exception {
+    public ArrayList<LExp> evalArgs(ArrayList<LExp> args) throws Exception {
         ArrayList<LExp> vals = new ArrayList<LExp>();
         
-        for (int i=0; i<params.size(); i++) {
-            vals.add(eval(params.get(i)));
+        for (int i=0; i<args.size(); i++) {
+            vals.add(eval(args.get(i)));
         }
         
         return vals;
@@ -146,7 +146,7 @@ public class Evaluator {
     /**
      * The method apply is used to evaluate applications.
      * <p>
-     * Lambda procedures are evaluated by first evaluating all the parameter values, and then
+     * Lambda procedures are evaluated by first evaluating all the argument values, and then
      * using the method applyLambda().
      * <p>
      * Cond procedures are applied once again using apply() with the procedure substituted
@@ -160,25 +160,25 @@ public class Evaluator {
      * globalEnvironment.
      * <p>
      * @param procedure the procedure of the application to be evaluated.
-     * @param paramVals the parameter values used with the procedure application.
-     * @return returns the result of applying paramVals to procedure.
-     * @throws Exception an Exception is thrown if either the procedure is not a proper procedure, or either at least one of the paramVals cannot be evaluated, or applying the procedure to the paramVals throws an Exception.
+     * @param argVals the argument values used with the procedure application.
+     * @return returns the result of applying argVals to procedure.
+     * @throws Exception an Exception is thrown if either the procedure is not a proper procedure, or either at least one of the argVals cannot be evaluated, or applying the procedure to the argVals throws an Exception.
      */
-    private LExp apply(LExp procedure, ArrayList<LExp> paramVals) throws Exception {
+    private LExp apply(LExp procedure, ArrayList<LExp> argVals) throws Exception {
         LExpTypes type = procedure.getType();
         
         switch (procedure.getType()) {
-            case LAMBDATYPE :           return applyLambda((Lambda)procedure, evalParamVals(paramVals));
+            case LAMBDATYPE :           return applyLambda((Lambda)procedure, evalArgs(argVals));
                 
-            case LCONDTYPE :            return apply(eval(procedure), paramVals);
+            case LCONDTYPE :            return apply(eval(procedure), argVals);
                 
-            case LAPPLICATIONTYPE :     return apply(eval(procedure), paramVals);
+            case LAPPLICATIONTYPE :     return apply(eval(procedure), argVals);
                 
             case LIDTYPE :              LExp procVal = lookupIdInGlobalEnv((LId) procedure);
                                         if (procVal != null) {
-                                                return apply(procVal, paramVals);
+                                                return apply(procVal, argVals);
                                         } else {
-                                            return applyPrimitive((LId)procedure, paramVals);
+                                            return applyPrimitive((LId)procedure, argVals);
                                         }
                                         
                 
@@ -188,10 +188,10 @@ public class Evaluator {
     /**
      * the method applyLambda() is used to evaluate the result of a Lambda-procedure.
      *<p>
-     * applyLambda expects its parameterValues to be evaluated before applyLambda() is called.
+     * applyLambda expects its argumentValues to be evaluated before applyLambda() is called.
      * In order to be able to evaluate the lambda body, it must be transformed into a new
      * LExp by substituting all the lambda Variables that occur FREE in the lambda body,
-     * by the evaluated parameter values given to applyLambda().
+     * by the evaluated argument values given to applyLambda().
      * <p>
      * Afterwards, the result of evaluating the transformed body is returned.
      * <p>
@@ -206,9 +206,9 @@ public class Evaluator {
      * is therefore free, but the second x is not free; the variable x in "(lambda (x) ..." binds it.
      * <p> 
      * @param procedure the Lambda-procedure that is to be applied.
-     * @param evaledVals the evaluated parameter values of the Lambda application.
-     * @return returns the result of evaluating the lambda body after substituting all the FREE occuring lambda-variables within the body, with the corresponding parameter values.
-     * @throws Exception an Exception is thrown if the application is used with wrong number of parameter values, or if the body cannot be evaluated for some reason.
+     * @param evaledVals the evaluated argument values of the Lambda application.
+     * @return returns the result of evaluating the lambda body after substituting all the FREE occuring lambda-variables within the body, with the corresponding argument values.
+     * @throws Exception an Exception is thrown if the application is used with wrong number of argument values, or if the body cannot be evaluated for some reason.
      */
     private LExp applyLambda(Lambda procedure, ArrayList<LExp> evaledVals) throws Exception {
         LExp lambdaBody = procedure.getLambdaBody();
@@ -232,18 +232,18 @@ public class Evaluator {
     
     /**
      * the method transformLambdaBody is used to substitute all the necessary free variables,
-     * within a lambda body, with their corresponding parameter values. The transformation process
+     * within a lambda body, with their corresponding argument values. The transformation process
      * depends completely on the type of the body:
      * <p>
      * If the body is an ID, it is substituted if and only if it is the same ID as any of the variables
      * that are to be substituted.
      * <p>
      * if the body is a lambda, first all the original variables that match any of the variables
-     * of the body are removed from the list, along with the corresponding parameter values, and only then all
+     * of the body are removed from the list, along with the corresponding argument values, and only then all
      * the variables that are left in the list, are substituted within the body of the new lambda-expression
-     * to their corresponding parameter values
+     * to their corresponding argument values
      * <p>
-     * if the body is an application, both the procedure part and all the application's parameters are
+     * if the body is an application, both the procedure part and all the application's arguments are
      * transformed by the same rules using transformLambdaBody() with each, and afterwards a new application
      * with the necessary substitutions made, is returned as a result.
      * <p>
@@ -285,7 +285,7 @@ public class Evaluator {
             case LAPPLICATIONTYPE:
                             LApplication transformableApp = (LApplication) body;
                             LExp newProcedure = transformLambdaBody(transformableApp.getProcedure(), (ArrayList<LId>)vars.clone(), (ArrayList<LExp>)vals.clone());
-                            ArrayList<LExp> appVals = transformableApp.getVals();
+                            ArrayList<LExp> appVals = transformableApp.getArgs();
                             ArrayList<LExp> newVals = new ArrayList<LExp>();
                             
                             for (int i=0; i<appVals.size(); i++) {
@@ -314,63 +314,63 @@ public class Evaluator {
     
     /**
      * The method applyPrimitive() evaluates the result of a primitive-procedure
-     * application with the given parameters. With all other primitives, but EXIT,
-     * AND and OR, it first evaluates all the parameterValues using the method
-     * evalParamVals(), and then calls the approppriate PrimitiveApplier-method
-     * with the evaluated parameter values. In the case of EXIT, applyPrimitive just
+     * application with the given arguments. With all other primitives, but EXIT,
+     * AND and OR, it first evaluates all the argument values using the method
+     * evalArgs(), and then calls the approppriate PrimitiveApplier-method
+     * with the evaluated argument values. In the case of EXIT, applyPrimitive just
      * calls the Runnable exit's run() method and then returns a farewell LString as
      * it's value.
      * <p>
-     * With AND and OR, the parameter values are given as-is, to the approppriate
+     * With AND and OR, the argument values are given as-is, to the approppriate
      * PrimitiveApplier-methods.
      * <p>
      * @param procedure the procedure of an application.
-     * @param paramVals ArrayList of the parameter values to be applied to procedure.
-     * @return returns a new LExp as a result of applying the given parameter Values to the given procedure.
+     * @param argVals ArrayList of the argument values to be applied to procedure.
+     * @return returns a new LExp as a result of applying the given argument values to the given procedure.
      * @throws Exception Exception is thrown if the application cannot be evaluated, for some reason.
      */
-    private LExp applyPrimitive(LId procedure, ArrayList<LExp> paramVals) throws Exception {
+    private LExp applyPrimitive(LId procedure, ArrayList<LExp> argVals) throws Exception {
         String primitive = procedure.getId();
         
         if (primitive.equals("EXIT")) {
             exit.run();
             return new LString("Farewell:\n\t\"I suppose I should learn Lisp,\n\t but it seems so foreign.\"\n\t(Paul Graham, 1983)");
         } else if (primitive.equals("ADD1")) {
-            return primitiveApplier.add1(evalParamVals(paramVals));
+            return primitiveApplier.add1(evalArgs(argVals));
         } else if (primitive.equals("AND")) {
-            return primitiveApplier.and(paramVals, this);
+            return primitiveApplier.and(argVals, this);
         } else if (primitive.equals("ATOM?")) {
-            return primitiveApplier.atomPredicate(evalParamVals(paramVals));
+            return primitiveApplier.atomPredicate(evalArgs(argVals));
         } else if (primitive.equals("CAR")) {
-            return primitiveApplier.car(evalParamVals(paramVals));
+            return primitiveApplier.car(evalArgs(argVals));
         } else if (primitive.equals("CDR")) {
-            return primitiveApplier.cdr(evalParamVals(paramVals));
+            return primitiveApplier.cdr(evalArgs(argVals));
         } else if (primitive.equals("CONS")) {
-            return primitiveApplier.cons(paramVals, this);
+            return primitiveApplier.cons(argVals, this);
         } else if (primitive.equals("DEFINE")) {
-            return primitiveApplier.defineGlobally(paramVals, globalEnvironment, this);
+            return primitiveApplier.defineGlobally(argVals, globalEnvironment, this);
         } else if (primitive.equals("EQ?")) {
-            return primitiveApplier.eqPredicate(evalParamVals(paramVals));
+            return primitiveApplier.eqPredicate(evalArgs(argVals));
         } else if (primitive.equals("LIST")) {
-            return primitiveApplier.list(paramVals, this);
+            return primitiveApplier.list(argVals, this);
         } else if (primitive.equals("NEGATIVE?")) {
-            return primitiveApplier.negativePredicate(evalParamVals(paramVals));
+            return primitiveApplier.negativePredicate(evalArgs(argVals));
         } else if (primitive.equals("NOT")) {
-            return primitiveApplier.not(evalParamVals(paramVals));
+            return primitiveApplier.not(evalArgs(argVals));
         } else if (primitive.equals("NULL?")) {
-            return primitiveApplier.nullPredicate(evalParamVals(paramVals));
+            return primitiveApplier.nullPredicate(evalArgs(argVals));
         } else if (primitive.equals("NUMBER?")) {
-            return primitiveApplier.numberPredicate(evalParamVals(paramVals));   
+            return primitiveApplier.numberPredicate(evalArgs(argVals));   
         } else if (primitive.equals("OR")) {
-            return primitiveApplier.or(paramVals, this);
+            return primitiveApplier.or(argVals, this);
         } else if (primitive.equals("PAIR?")) {
-            return primitiveApplier.pairPredicate(evalParamVals(paramVals));
+            return primitiveApplier.pairPredicate(evalArgs(argVals));
         } else if (primitive.equals("POSITIVE?")) {
-            return primitiveApplier.positivePredicate(evalParamVals(paramVals));
+            return primitiveApplier.positivePredicate(evalArgs(argVals));
         } else if (primitive.equals("SUB1")) {
-            return primitiveApplier.sub1(evalParamVals(paramVals));
+            return primitiveApplier.sub1(evalArgs(argVals));
         } else if (primitive.equals("ZERO?")) {
-            return primitiveApplier.zeroPredicate(evalParamVals(paramVals));
+            return primitiveApplier.zeroPredicate(evalArgs(argVals));
         }
         
         throw new Exception("ID UNBOUND: " + procedure);        

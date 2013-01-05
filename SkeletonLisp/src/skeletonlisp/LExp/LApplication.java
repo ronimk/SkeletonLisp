@@ -16,25 +16,25 @@ public class LApplication extends LExp {
     private LExp procedure;
     
     /**
-     * this is where the list of all parameter values of an application
+     * this is where the list of all arguments of an application
      * are stored.
      */
-    private ArrayList<LExp> parameterValues;
+    private ArrayList<LExp> arguments;
     
     /**
      * The constructor for SkeletonLisp applications (LApplications).
      * The constructor requires for all LApplications to have a
-     * procedure and a list of parameter values.
+     * procedure and a list of arguments.
      * <p>
      * The type of an application is LAPPLICATIONTYPE
      * <p>
      * @param _procedure            the procedure of an application
-     * @param _parameterValues      the list of parameter values of an application
+     * @param _arguments      the list of arguments of an application
      */
-    public LApplication(LExp _procedure, ArrayList<LExp> _parameterValues) {
+    public LApplication(LExp _procedure, ArrayList<LExp> _arguments) {
         super(LExpTypes.LAPPLICATIONTYPE);
         procedure = _procedure;
-        parameterValues = _parameterValues;
+        arguments = _arguments;
     }
     
     /**
@@ -48,15 +48,15 @@ public class LApplication extends LExp {
     }
     
     /**
-     * The method getVals is used to get the list of all the parameter
-     * values given to the procedure in an application expression.
+     * The method getArgs is used to get the list of all the arguments
+     * given to the procedure in an application expression.
      * <p>
-     * @return returns the ArrayList<LExp> of all the parameter values
+     * @return returns the ArrayList<LExp> of all the arguments
      * given to the procedure in an application expression.
      */
     
-    public ArrayList<LExp> getVals() {
-        return parameterValues;
+    public ArrayList<LExp> getArgs() {
+        return arguments;
     }
     
     /**

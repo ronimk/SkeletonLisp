@@ -12,9 +12,9 @@ import skeletonlisp.LExp.*;
  * PrimitiveApplier consists mostly of the algorithmic methods for
  * each of the SkeletonLisp's primitive keywords.
  * <p>
- * Since all the parameters of an application are given in a list form,
+ * Since all the arguments of an application are given in a list form,
  * even primitives like ADD1 and SUB1, that take only one argument, get
- * their parameter in a list form.
+ * their argument in a list form.
  * <p>
  * @author Roni Kekkonen
  */
@@ -68,34 +68,34 @@ public class PrimitiveApplier {
     }
     
     /**
-     * The method add1() (primitive ADD1) takes one pre-evaluated parameter and increments it by one.
+     * The method add1() (primitive ADD1) takes one pre-evaluated argument and increments it by one.
      * <p>
-     * @param paramVal the list of parameters given to ADD1
-     * @return returns a new LNumber that equals paramVal.get(0) + 1
-     * @throws Exception An exception is thrown if either a wrong number of parameter values is given, or the parameter Value is not a number.
+     * @param argVal the list of arguments given to ADD1
+     * @return returns a new LNumber that equals argVal.get(0) + 1
+     * @throws Exception An exception is thrown if either a wrong number of arguments is given, or the argument Value is not a number.
      */
-    public LExp add1(ArrayList<LExp> paramVal) throws Exception{
-        if (paramVal.size() != 1 ||
-            paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-            throw new Exception("PRIMITIVE ADD1 TAKES EXACTLY ONE NUMBER PARAMETER");
+    public LExp add1(ArrayList<LExp> argVal) throws Exception{
+        if (argVal.size() != 1 ||
+            argVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
+            throw new Exception("PRIMITIVE ADD1 TAKES EXACTLY ONE NUMBER argument");
         }
         
-        return new LNumber(((LNumber)paramVal.get(0)).getNumberVal() + 1);
+        return new LNumber(((LNumber)argVal.get(0)).getNumberVal() + 1);
     }
      
     /**
-     * The method and() (primitive AND) takes any number of non-pre-evaluated parameters.
+     * The method and() (primitive AND) takes any number of non-pre-evaluated arguments.
      * <p>
-     * @param paramVal the list of parameters given to AND
-     * @param evaluator the evaluator used to evaluate the value of the parameters.
-     * @return returns NIL if any of the values of the parameters given is NIL. Otherwise AND returns the value of the last parameter. If no parameters are given to ANd, AND returns '#T.
-     * @throws Exception An exception is thrown if, for some reason, some parameter value cannot be evaluated.
+     * @param argVal the list of arguments given to AND
+     * @param evaluator the evaluator used to evaluate the value of the arguments.
+     * @return returns NIL if any of the values of the arguments given is NIL. Otherwise AND returns the value of the last argument. If no arguments are given to ANd, AND returns '#T.
+     * @throws Exception An exception is thrown if, for some reason, some argument value cannot be evaluated.
      */
-    public LExp and(ArrayList<LExp> params, Evaluator evaluator) throws Exception {
+    public LExp and(ArrayList<LExp> args, Evaluator evaluator) throws Exception {
         LExp returnVal = new LAtom("#T");
          
-        for(int i=0; i<params.size(); i++) {
-            returnVal = evaluator.eval(params.get(i));
+        for(int i=0; i<args.size(); i++) {
+            returnVal = evaluator.eval(args.get(i));
             if (returnVal.getSubType() == LExpTypes.NILTYPE) {
                 return new NIL();
             }
@@ -105,18 +105,18 @@ public class PrimitiveApplier {
      }
      
     /**
-     * The method atomPredicate() (primitive ATOM?) takes one pre-evaluated parameter.
+     * The method atomPredicate() (primitive ATOM?) takes one pre-evaluated argument.
      * <p>
-     * @param paramVal the list of parameters given to ATOM?
-     * @return returns NIL if the value of the parameter is not an atom (LATOMTYPE or LNUMBERTYPE), '#T otherwise.
-     * @throws Exception An exception is thrown if a wrong amount of parameters are given.
+     * @param argVal the list of arguments given to ATOM?
+     * @return returns NIL if the value of the argument is not an atom (LATOMTYPE or LNUMBERTYPE), '#T otherwise.
+     * @throws Exception An exception is thrown if a wrong amount of arguments are given.
      */
-     public LExp atomPredicate(ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1) {
-             throw new Exception("PRIMITIVE ATOM? TAKES EXACTLY ONE PARAMETER");
+     public LExp atomPredicate(ArrayList<LExp> argVal) throws Exception {
+         if (argVal.size() != 1) {
+             throw new Exception("PRIMITIVE ATOM? TAKES EXACTLY ONE argument");
          }
          
-         LExp val = paramVal.get(0);
+         LExp val = argVal.get(0);
          
          if (val.getSubType() == LExpTypes.LATOMTYPE ||
              val.getSubType() == LExpTypes.LNUMBERTYPE) {
@@ -127,79 +127,79 @@ public class PrimitiveApplier {
      }
      
      /**
-     * The method car() (primitive CAR) takes one pre-evaluated parameter.
+     * The method car() (primitive CAR) takes one pre-evaluated argument.
      * <p>
-     * @param paramVal the list of parameters given to CAR
+     * @param argVal the list of arguments given to CAR
      * @return returns the first cell of an LPair.
-     * @throws Exception An exception is thrown if either a wrong amount of parameters are given, or the given parameter is not an LPair (LPAIRTYPE).
+     * @throws Exception An exception is thrown if either a wrong amount of arguments are given, or the given argument is not an LPair (LPAIRTYPE).
      */
-     public LExp car(ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1 ||
-             paramVal.get(0).getSubType() != LExpTypes.LPAIRTYPE) {
-             throw new Exception("PRIMITIVE CAR TAKES ONE NON-EMPTY PAIR AS A PARAMETER");
+     public LExp car(ArrayList<LExp> argVal) throws Exception {
+         if (argVal.size() != 1 ||
+             argVal.get(0).getSubType() != LExpTypes.LPAIRTYPE) {
+             throw new Exception("PRIMITIVE CAR TAKES ONE NON-EMPTY PAIR AS A argument");
          }
          
-         return ((LPair) paramVal.get(0)).getCar();      
+         return ((LPair) argVal.get(0)).getCar();      
      }
      
      /**
-     * The method cdr() (primitive CDR) takes one pre-evaluated parameter.
+     * The method cdr() (primitive CDR) takes one pre-evaluated argument.
      * <p>
-     * @param paramVal the list of parameters given to CDR
+     * @param argVal the list of arguments given to CDR
      * @return returns the second cell of an LPair (the 'REST' of the pair).
-     * @throws Exception An exception is thrown if either a wrong amount of parameters are given, or the given parameter is not an LPair (LPAIRTYPE).
+     * @throws Exception An exception is thrown if either a wrong amount of arguments are given, or the given argument is not an LPair (LPAIRTYPE).
      */
-     public LExp cdr(ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1 ||
-             paramVal.get(0).getSubType() != LExpTypes.LPAIRTYPE) {
-             throw new Exception("PRIMITIVE CDR TAKES ONE NON-EMPTY PAIR AS A PARAMETER");
+     public LExp cdr(ArrayList<LExp> argVal) throws Exception {
+         if (argVal.size() != 1 ||
+             argVal.get(0).getSubType() != LExpTypes.LPAIRTYPE) {
+             throw new Exception("PRIMITIVE CDR TAKES ONE NON-EMPTY PAIR AS A argument");
          }
          
-         return ((LPair) paramVal.get(0)).getCdr();      
+         return ((LPair) argVal.get(0)).getCdr();      
      }
      
      /**
-     * The method cons() (primitive CONS) takes two non-pre-evaluated parameters.
+     * The method cons() (primitive CONS) takes two non-pre-evaluated arguments.
      * and CONSes them into a new LPair.
      * <p>
-     * @param paramVal the list of parameters given to CONS
-     * @param evaluator the evaluator used to evaluate the value of the parameters
-     * @return returns a new LPair where the first cell equals the first parameter value evaluated, and the second cell equals the second parameter value evaluated.
-     * @throws Exception An exception is thrown if either a wrong amount of parameters are given or, for some reason, some of the given parameters cannot be evaluated.
+     * @param argVal the list of arguments given to CONS
+     * @param evaluator the evaluator used to evaluate the value of the arguments
+     * @return returns a new LPair where the first cell equals the first argument value evaluated, and the second cell equals the second argument value evaluated.
+     * @throws Exception An exception is thrown if either a wrong amount of arguments are given or, for some reason, some of the given arguments cannot be evaluated.
      */
-     public LExp cons(ArrayList<LExp> params, Evaluator evaluator) throws Exception {
-         if (params.size() != 2) {
-             throw new Exception("PRIMITIVE CONS TAKES EXACTLY TWO PARAMETERS");
+     public LExp cons(ArrayList<LExp> args, Evaluator evaluator) throws Exception {
+         if (args.size() != 2) {
+             throw new Exception("PRIMITIVE CONS TAKES EXACTLY TWO arguments");
          }
          
-         LExp val0 = evaluator.eval(params.get(0));
-         LExp val1 = evaluator.eval(params.get(1));
+         LExp val0 = evaluator.eval(args.get(0));
+         LExp val1 = evaluator.eval(args.get(1));
          
          return new LPair(val0, val1);
      }
      
      /**
       * The method defineGlobally() (primitive DEFINE) takes exactly one LId and one non-pre-evaluated
-      * parameter. It binds the LId into the value of the parameter in the globalEnv given to it.
+      * argument. It binds the LId into the value of the argument in the globalEnv given to it.
       * <p>
-      * @param params       the list of parameters given to DEFINE
+      * @param args       the list of arguments given to DEFINE
       * @param globalEnv    the environment in which the binding applies.
-      * @param evaluator    the evaluator used to evaluate the value of the parameters. 
-      * @return             returns the evaluated value of the second parameter given to it.
-      * @throws Exception   An exception is thrown if either a wrong amount of parameters are given or the first parameter is not an LId, or if the second parameter cannot be evaluated, for some reason.
+      * @param evaluator    the evaluator used to evaluate the value of the arguments. 
+      * @return             returns the evaluated value of the second argument given to it.
+      * @throws Exception   An exception is thrown if either a wrong amount of arguments are given or the first argument is not an LId, or if the second argument cannot be evaluated, for some reason.
       */
-     public LExp defineGlobally(ArrayList<LExp> params, Environment globalEnv, Evaluator evaluator) throws Exception {
-         if (params.size() != 2) {
-             throw new Exception("PRIMITIVE DEFINE TAKES EXACTLY TWO PARAMETERS");
+     public LExp defineGlobally(ArrayList<LExp> args, Environment globalEnv, Evaluator evaluator) throws Exception {
+         if (args.size() != 2) {
+             throw new Exception("PRIMITIVE DEFINE TAKES EXACTLY TWO arguments");
          }
          
-         LExp var = params.get(0);
+         LExp var = args.get(0);
          
          if (var.getType() != LExpTypes.LIDTYPE) {
              throw new Exception("ONLY IDENTIFIERS CAN BE DEFINED");
          }
          
-         LExp val = evaluator.eval(params.get(1));
+         LExp val = evaluator.eval(args.get(1));
 
          globalEnv.extendEnvironment((LId)var, val);
          
@@ -207,24 +207,24 @@ public class PrimitiveApplier {
      }
      
      /**
-      * The method eqPredicate (primitive EQ?) takes exactly two pre-evaluated parameters and
+      * The method eqPredicate (primitive EQ?) takes exactly two pre-evaluated arguments and
       * checks whether they are the same non-numeric atom.
       * <p>
-      * @param paramVals        the list of parameters given to EQ?
+      * @param argVals        the list of arguments given to EQ?
       * @return                 returns '#T if they are the same non-numeric atom, otherwise NIL is returned.
-      * @throws Exception       An Exception is thrown if either a wrong amount of parameters is given, or not all of the parameters are LAtoms.
+      * @throws Exception       An Exception is thrown if either a wrong amount of arguments is given, or not all of the arguments are LAtoms.
       */
-     public LExp eqPredicate(ArrayList<LExp> paramVals) throws Exception {
-         if (paramVals.size() != 2) {
-             throw new Exception("PRIMITIVE EQ? TAKES EXACTLY TWO PARAMETERS");   
+     public LExp eqPredicate(ArrayList<LExp> argVals) throws Exception {
+         if (argVals.size() != 2) {
+             throw new Exception("PRIMITIVE EQ? TAKES EXACTLY TWO arguments");   
          }
          
-         LExp val1 = paramVals.get(0);
-         LExp val2 = paramVals.get(1);
+         LExp val1 = argVals.get(0);
+         LExp val2 = argVals.get(1);
          
          if (val1.getSubType() != LExpTypes.LATOMTYPE ||
              val2.getSubType() != LExpTypes.LATOMTYPE) {
-             throw new Exception("BOTH PARAMETERS TO PRIMITIVE EQ? MUST BE NON-NUMERIC ATOMS");
+             throw new Exception("BOTH arguments TO PRIMITIVE EQ? MUST BE NON-NUMERIC ATOMS");
          }
          
          if (!val1.equals(val2)) {
@@ -235,17 +235,17 @@ public class PrimitiveApplier {
      }
      
      /**
-      * The method list() (primitive LIST) takes any number on non-pre-evaluated parameters.
-      * It returns a new list with all the parameters evaluated in the same order that the original parameters were
+      * The method list() (primitive LIST) takes any number on non-pre-evaluated arguments.
+      * It returns a new list with all the arguments evaluated in the same order that the original arguments were
       * given to LIST.
       * <p>
-      * @param params           the list of parameters given to LIST
-      * @param evaluator        the evaluator used to evaluate the value of the parameters.
-      * @return                 returns a new list (a pair whose cdrs are also pairs but the last cdr being NIL) of the evaluated values of the parameters.
-      * @throws Exception       An exception is thrown if, for some reason, any of the parameters cannot be evaluated.
+      * @param args           the list of arguments given to LIST
+      * @param evaluator        the evaluator used to evaluate the value of the arguments.
+      * @return                 returns a new list (a pair whose cdrs are also pairs but the last cdr being NIL) of the evaluated values of the arguments.
+      * @throws Exception       An exception is thrown if, for some reason, any of the arguments cannot be evaluated.
       */
-     public LExp list(ArrayList<LExp> params, Evaluator evaluator) throws Exception {
-         if (params.isEmpty()) {
+     public LExp list(ArrayList<LExp> args, Evaluator evaluator) throws Exception {
+         if (args.isEmpty()) {
              return new NIL();
          }
          
@@ -254,11 +254,11 @@ public class PrimitiveApplier {
          LPair currPair = resultPair;
          LPair nextPair = resultPair;
          
-         for (int i=0; i<params.size(); i++) { 
+         for (int i=0; i<args.size(); i++) { 
              currPair = nextPair;
              LExp currCar;
              
-             currCar = evaluator.eval(params.get(i));
+             currCar = evaluator.eval(args.get(i));
 
              
              currPair.setCar(currCar);
@@ -272,19 +272,19 @@ public class PrimitiveApplier {
      }
      
      /**
-      * The method negativePredicate() (primitive NEGATIVE?) takes exactly one pre-evaluated parameter.
+      * The method negativePredicate() (primitive NEGATIVE?) takes exactly one pre-evaluated argument.
       *<p>
-      * @param paramVal         the list of all the parameters given to NEGATIVE?
-      * @return                 returns '#T if the parameter is a negative number, otherwise NIL.
-      * @throws Exception       An exception is thrown if either a wrong amount of parameters is given, or the parameter given is not an LNumber.
+      * @param argVal         the list of all the arguments given to NEGATIVE?
+      * @return                 returns '#T if the argument is a negative number, otherwise NIL.
+      * @throws Exception       An exception is thrown if either a wrong amount of arguments is given, or the argument given is not an LNumber.
       */
-     public LExp negativePredicate (ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1 ||
-             paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-             throw new Exception("PRIMITIVE NEGATIVE? TAKES EXACTLY ONE NUMBER PARAMETER");
+     public LExp negativePredicate (ArrayList<LExp> argVal) throws Exception {
+         if (argVal.size() != 1 ||
+             argVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
+             throw new Exception("PRIMITIVE NEGATIVE? TAKES EXACTLY ONE NUMBER argument");
          }
          
-         if (((LNumber) paramVal.get(0)).getNumberVal() < 0) {
+         if (((LNumber) argVal.get(0)).getNumberVal() < 0) {
              return new LAtom("#T");
          } else {
              return new NIL();
@@ -292,29 +292,29 @@ public class PrimitiveApplier {
      }
      
      /**
-      * The method not() (primitive NOT) takes one pre-evaluated parameter.
+      * The method not() (primitive NOT) takes one pre-evaluated argument.
       * <p>
-      * @param paramVal         the list of parameters given to NOT
-      * @return                 returns '#T if the parameter is NIL, otherwise returns NIL.
-      * @throws Exception       an exception is thrown if a wrong amount of parameters is given.
+      * @param argVal         the list of arguments given to NOT
+      * @return                 returns '#T if the argument is NIL, otherwise returns NIL.
+      * @throws Exception       an exception is thrown if a wrong amount of arguments is given.
       */
-     public LExp not (ArrayList<LExp> paramVal) throws Exception {
-         return nullPredicate(paramVal);
+     public LExp not (ArrayList<LExp> argVal) throws Exception {
+         return nullPredicate(argVal);
      }
      
      /**
-      * the method nullPredicate() (primitive NULL?) takes one pre-evaluated parameter.
+      * the method nullPredicate() (primitive NULL?) takes one pre-evaluated argument.
       * <p>
-      * @param params           the list of parameters given to NULL?
-      * @return                 returns true if the parameter given is NIL, otherwise returns NIL
-      * @throws Exception       an Exception is thrown if a wrong amount of parameters is given.
+      * @param args           the list of arguments given to NULL?
+      * @return                 returns true if the argument given is NIL, otherwise returns NIL
+      * @throws Exception       an Exception is thrown if a wrong amount of arguments is given.
       */
-     public LExp nullPredicate(ArrayList<LExp> params) throws Exception {
-         if (params.size() != 1) {
-             throw new Exception("PRIMITIVE NULL TAKES? EXACTLY ONE PARAMETER");   
+     public LExp nullPredicate(ArrayList<LExp> args) throws Exception {
+         if (args.size() != 1) {
+             throw new Exception("PRIMITIVE NULL TAKES? EXACTLY ONE argument");   
          }
          
-         if (params.get(0).getSubType() == LExpTypes.NILTYPE) {
+         if (args.get(0).getSubType() == LExpTypes.NILTYPE) {
              return new LAtom("#T");
          } else {
              return new NIL();
@@ -322,18 +322,18 @@ public class PrimitiveApplier {
      }
      
      /**
-      * The method numberPredicate() (primitive NUMBER?) takes one pre-evaluated parameter.
+      * The method numberPredicate() (primitive NUMBER?) takes one pre-evaluated argument.
       * <p>
-      * @param paramVal         the list of parameters given to NUMBER?
-      * @return                 returns '#T if the parameter given is an LNumber, otherwise NIL
-      * @throws Exception       An Exception is thrown if a wrong number of parameters is given.
+      * @param argVal         the list of arguments given to NUMBER?
+      * @return                 returns '#T if the argument given is an LNumber, otherwise NIL
+      * @throws Exception       An Exception is thrown if a wrong number of arguments is given.
       */
-     public LExp numberPredicate(ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1) {
-             throw new Exception("PRIMITIVE NUMBER? TAKES EXACTLY ONE PARAMETER");
+     public LExp numberPredicate(ArrayList<LExp> argVal) throws Exception {
+         if (argVal.size() != 1) {
+             throw new Exception("PRIMITIVE NUMBER? TAKES EXACTLY ONE argument");
          }
          
-         if (paramVal.get(0).getSubType() == LExpTypes.LNUMBERTYPE) {
+         if (argVal.get(0).getSubType() == LExpTypes.LNUMBERTYPE) {
              return new LAtom("#T");
          } else {
              return new NIL();
@@ -341,17 +341,17 @@ public class PrimitiveApplier {
      }
      
      /**
-      * The method or() (primitive OR) takes any number of non-pre-evaluated parameters
+      * The method or() (primitive OR) takes any number of non-pre-evaluated arguments
       * <p>
-      * @param params           the list of parameters given to OR
-      * @param evaluator        the evaluator with which the parameters are evaluated
-      * @return                 true if any of the parameters' values differs from NIL, NIL otherwise
-      * @throws Exception       An Exception is thrown if, for some reason, any of the parameters cannot be evaluated.
+      * @param args           the list of arguments given to OR
+      * @param evaluator        the evaluator with which the arguments are evaluated
+      * @return                 true if any of the arguments' values differs from NIL, NIL otherwise
+      * @throws Exception       An Exception is thrown if, for some reason, any of the arguments cannot be evaluated.
       */
-     public LExp or(ArrayList<LExp> params, Evaluator evaluator) throws Exception {
+     public LExp or(ArrayList<LExp> args, Evaluator evaluator) throws Exception {
          
-         for(int i=0; i<params.size(); i++) {
-             LExp returnVal = evaluator.eval(params.get(i));
+         for(int i=0; i<args.size(); i++) {
+             LExp returnVal = evaluator.eval(args.get(i));
              if (returnVal.getSubType() != LExpTypes.NILTYPE) {
                  return returnVal;
              }
@@ -361,18 +361,18 @@ public class PrimitiveApplier {
      }
      
      /**
-      * The method pairPredicate (primitive PAIR?) takes exactly one pre-evaluated parameter
+      * The method pairPredicate (primitive PAIR?) takes exactly one pre-evaluated argument
       * <p>
-      * @param paramVal         the list of all the parameters given to PAIR?
-      * @return                 returns true if the parameter's value is an LPair, otherwise NIL 
-      * @throws Exception       An Excpetion is thrown, if a wrong amount of parameters is given.
+      * @param argVal         the list of all the arguments given to PAIR?
+      * @return                 returns true if the argument's value is an LPair, otherwise NIL 
+      * @throws Exception       An Excpetion is thrown, if a wrong amount of arguments is given.
       */
-     public LExp pairPredicate(ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1) {
-             throw new Exception("PRIMITIVE PAIR? TAKES EXACTLY ONE PARAMETER");
+     public LExp pairPredicate(ArrayList<LExp> argVal) throws Exception {
+         if (argVal.size() != 1) {
+             throw new Exception("PRIMITIVE PAIR? TAKES EXACTLY ONE argument");
          }
          
-         if (paramVal.get(0).getSubType() == LExpTypes.LPAIRTYPE) {
+         if (argVal.get(0).getSubType() == LExpTypes.LPAIRTYPE) {
              return new LAtom("#T");
          } else {
              return new NIL();
@@ -380,19 +380,19 @@ public class PrimitiveApplier {
      }
      
      /**
-      * The method positivePredicate() (primitive POSITIVE?) takes exactly one pre-evaluated parameter
+      * The method positivePredicate() (primitive POSITIVE?) takes exactly one pre-evaluated argument
       * <p>
-      * @param paramVal         the list of all the parameters given to POSITIVE?
-      * @return                 returns '#T if the parameter's value is a non-zero positive number, NIL otherwise.
-      * @throws Exception       An Exception is returned if either a wrong amount of parameters is given or the parameter given is not an LNumber.
+      * @param argVal         the list of all the arguments given to POSITIVE?
+      * @return                 returns '#T if the argument's value is a non-zero positive number, NIL otherwise.
+      * @throws Exception       An Exception is returned if either a wrong amount of arguments is given or the argument given is not an LNumber.
       */
-     public LExp positivePredicate (ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1 ||
-             paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-             throw new Exception("PRIMITIVE POSITIVE? TAKES EXACTLY ONE NUMBER PARAMETER");
+     public LExp positivePredicate (ArrayList<LExp> argVal) throws Exception {
+         if (argVal.size() != 1 ||
+             argVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
+             throw new Exception("PRIMITIVE POSITIVE? TAKES EXACTLY ONE NUMBER argument");
          }
          
-         if (((LNumber) paramVal.get(0)).getNumberVal() > 0) {
+         if (((LNumber) argVal.get(0)).getNumberVal() > 0) {
              return new LAtom("#T");
          } else {
              return new NIL();
@@ -402,36 +402,36 @@ public class PrimitiveApplier {
      /**
       * The method sub1 (primitive SUB1) takes exactly one pre-evaluated LNumber.
       * <p>
-      * @param paramVal         the list of all the parameters given to SUB1
-      * @return                 returns a new LNumber that equals paramVal.get(0) - 1.
-      * @throws Exception       An Exception is thrown if either a wrong number of parameters is given, or the parameter given is not an LNumber.
+      * @param argVal         the list of all the arguments given to SUB1
+      * @return                 returns a new LNumber that equals argVal.get(0) - 1.
+      * @throws Exception       An Exception is thrown if either a wrong number of arguments is given, or the argument given is not an LNumber.
       */
-     public LExp sub1(ArrayList<LExp> paramVal) throws Exception{
-        if (paramVal.size() != 1 ||
-            paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-            throw new Exception("PRIMITIVE SUB1 TAKES EXACTLY ONE NUMBER PARAMETER");
+     public LExp sub1(ArrayList<LExp> argVal) throws Exception{
+        if (argVal.size() != 1 ||
+            argVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
+            throw new Exception("PRIMITIVE SUB1 TAKES EXACTLY ONE NUMBER argument");
         }
         
-        return new LNumber(((LNumber)paramVal.get(0)).getNumberVal() - 1);
+        return new LNumber(((LNumber)argVal.get(0)).getNumberVal() - 1);
     }
     
      /**
       * The method zeroPredicate() (primitive ZERO?) takes exactly one pre-evaluated LNumber
       * <p>
-      * @param paramVal         the list of all the parameters given to ZERO?
-      * @return                 returns '#T if the parameter's value is 0, otherwise NIL
-      * @throws Exception       an Exception is thrown if either a wrong number of parameters is given, or the given parameter is not an LNumber.
+      * @param argVal         the list of all the arguments given to ZERO?
+      * @return                 returns '#T if the argument's value is 0, otherwise NIL
+      * @throws Exception       an Exception is thrown if either a wrong number of arguments is given, or the given argument is not an LNumber.
       */
-    public LExp zeroPredicate(ArrayList<LExp> paramVal) throws Exception {
-         if (paramVal.size() != 1){
+    public LExp zeroPredicate(ArrayList<LExp> argVal) throws Exception {
+         if (argVal.size() != 1){
              
-             throw new Exception("PRIMITIVE ZERO? TAKES EXACTLY ONE PARAMETER");
+             throw new Exception("PRIMITIVE ZERO? TAKES EXACTLY ONE argument");
          }
-         if (paramVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
+         if (argVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
             throw new Exception("PRIMITIVE ZERO? TAKES ONLY NUMBERS");
          }
          
-         if (((LNumber)paramVal.get(0)).getNumberVal() == 0) {
+         if (((LNumber)argVal.get(0)).getNumberVal() == 0) {
              return new LAtom("#T");
          } else {
              return new NIL();
