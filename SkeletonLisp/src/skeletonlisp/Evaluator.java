@@ -222,7 +222,7 @@ public class Evaluator {
         Lambda transformedLambda;
         
         if (!vars.isEmpty()) {
-            transformedLambda = new Lambda(vars, transformLambdaBody(lambdaBody, vars, evaledVals));
+            transformedLambda = new Lambda(vars, transformLambdaBody(lambdaBody, (ArrayList<LId>) vars.clone(), (ArrayList<LExp>) evaledVals.clone()));
         } else {
             transformedLambda = procedure;
         }
@@ -241,7 +241,7 @@ public class Evaluator {
      * if the body is a lambda, first all the original variables that match any of the variables
      * of the body are removed from the list, along with the corresponding argument values, and only then all
      * the variables that are left in the list, are substituted within the body of the new lambda-expression
-     * to their corresponding argument values
+     * to their corresponding argument values.
      * <p>
      * if the body is an application, both the procedure part and all the application's arguments are
      * transformed by the same rules using transformLambdaBody() with each, and afterwards a new application
@@ -252,10 +252,14 @@ public class Evaluator {
      * <p>
      * in any other case, the original body is returned as-is.
      * <p>
-     * @param body
-     * @param vars
-     * @param vals
-     * @return 
+     * To transform a lambda's body, transformLambdaBody requires the variables and values
+     * to be clones of the original variables and values. If the var and val lists are not
+     * cloned, transformLambdaBody, could mutate the originals and thus produce garbage.
+     * <p>
+     * @param body      the lambda-body to be transformed
+     * @param vars      the clones of the lambda-variables to be substitutes with their vals
+     * @param vals      the clones of the vals to be substituted
+     * @return          returns the transformed lambda body, where all the necessary variables have been substituted with their values.
      */
     private LExp transformLambdaBody(LExp body, ArrayList<LId> vars, ArrayList<LExp> vals) {
         
@@ -269,15 +273,20 @@ public class Evaluator {
             
             case LAMBDATYPE:    Lambda transformableLambda = (Lambda) body;
                                 ArrayList<LId> lambdaVars = transformableLambda.getVars();
-                                for (int i=0; i<vars.size(); i++) {
-                                    if (lambdaVars.contains(vars.get(i))) {
-                                        vars.remove(i);
-                                        vals.remove(i);
+                                
+                                for (int i=0; i<lambdaVars.size(); i++) {
+                                    
+                                    LId currVar = lambdaVars.get(i);
+                                    
+                                    if (vars.contains(currVar)) {
+                                        int varIndex = vars.indexOf(currVar);
+                                        vars.remove(varIndex);
+                                        vals.remove(varIndex);
                                     }
                                 }
                                 
                                 if (!vars.isEmpty()) {
-                                    return new Lambda(lambdaVars, transformLambdaBody(transformableLambda.getLambdaBody(), vars, vals));
+                                    return new Lambda(lambdaVars, transformLambdaBody(transformableLambda.getLambdaBody(), (ArrayList<LId>)vars.clone(), (ArrayList<LExp>)vals.clone()));
                                 } else {
                                     return body;
                                 }

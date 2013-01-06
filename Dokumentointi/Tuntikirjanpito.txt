@@ -583,6 +583,27 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			  enemmän kuin yksi per ID.
 			* Itse koodin ulkoasuun en ole vieläkään ollenkaan tyytyväinen,
 			  ensi viikolla alkaa viimeinen refaktorointivaihe...
+			  
+6.1 Sunnuntai
+-------------
+~ 30 min.	* Koodikatselmoinnin osalta, koodikatselmoijani löysi koodistani
+			  ongelman, jonka olin itse täysin missannut:
+			  TransformLambdaBodyssa olin kloonannut muuttujien ja niiden
+			  arvojen listat vain osassa tapauksia, ja olin unohtanut täysin
+			  kloonata nämä Lambda-lauseiden kohdalla. Mutta vielä suurempi
+			  ongelma, jonka olin aidosti missannut oli ajatteluvirheeni
+			  ArrayListien suhteen: jos käyn alkeellisella
+			  for(i = 0; i < list.size(); i++) iteraatiolla ArrayListaa läpi,
+			  ja poistan samalla listasta alkioita, iteraatio menee sekaisin.
+			  Ajattelin ensin hoitaa asian Käyttämällä Iterator:in-hasNext() ja
+			  remove():a, mutta koska metodin pitää poistaa kahdesta listasta
+			  tavaraa, ei homma taida oikein järkevästi toimia Iterator:illa.
+			  Siispä päädyin vähän erilaiseen ratkaisuun, mutta nyt homma toimii.
+			  
+			  Kiitos tästä koodikatselmoijalleni.
+			  
+			  Ensi viikolla yritän vielä, saada koodia siistittyä ja
+			  paranneltua.
 
  TODO
  ----
