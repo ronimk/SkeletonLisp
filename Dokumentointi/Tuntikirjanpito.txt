@@ -604,6 +604,11 @@ n. 20 min:	* Testit toimivat taas, Deadline II:hta varten: nyt pitäisi olla
 			  
 			  Ensi viikolla yritän vielä, saada koodia siistittyä ja
 			  paranneltua.
+			  
+8.1 Tiistai
+-----------
+
+n. 4h		* Manuaali valmis ja muutamia vähäisiä parannuksia ohjelman toimintaan.
 
  TODO
  ----

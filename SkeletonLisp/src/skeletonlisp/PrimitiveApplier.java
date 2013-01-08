@@ -77,7 +77,7 @@ public class PrimitiveApplier {
     public LExp add1(ArrayList<LExp> argVal) throws Exception{
         if (argVal.size() != 1 ||
             argVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-            throw new Exception("PRIMITIVE ADD1 TAKES EXACTLY ONE NUMBER argument");
+            throw new Exception("PRIMITIVE ADD1 TAKES EXACTLY ONE NUMBER ARGUMENT");
         }
         
         return new LNumber(((LNumber)argVal.get(0)).getNumberVal() + 1);
@@ -108,17 +108,17 @@ public class PrimitiveApplier {
      * The method atomPredicate() (primitive ATOM?) takes one pre-evaluated argument.
      * <p>
      * @param argVal the list of arguments given to ATOM?
-     * @return returns NIL if the value of the argument is not an atom (LATOMTYPE or LNUMBERTYPE), '#T otherwise.
+     * @return returns NIL if the value of the argument is not an atom (LSYMBOLTYPE or LNUMBERTYPE), '#T otherwise.
      * @throws Exception An exception is thrown if a wrong amount of arguments are given.
      */
      public LExp atomPredicate(ArrayList<LExp> argVal) throws Exception {
          if (argVal.size() != 1) {
-             throw new Exception("PRIMITIVE ATOM? TAKES EXACTLY ONE argument");
+             throw new Exception("PRIMITIVE ATOM? TAKES EXACTLY ONE ARGUMENT");
          }
          
          LExp val = argVal.get(0);
          
-         if (val.getSubType() == LExpTypes.LATOMTYPE ||
+         if (val.getSubType() == LExpTypes.LSYMBOLTYPE ||
              val.getSubType() == LExpTypes.LNUMBERTYPE) {
              return new LAtom("#T");
          }
@@ -136,7 +136,7 @@ public class PrimitiveApplier {
      public LExp car(ArrayList<LExp> argVal) throws Exception {
          if (argVal.size() != 1 ||
              argVal.get(0).getSubType() != LExpTypes.LPAIRTYPE) {
-             throw new Exception("PRIMITIVE CAR TAKES ONE NON-EMPTY PAIR AS A argument");
+             throw new Exception("PRIMITIVE CAR TAKES ONE NON-EMPTY PAIR AS AN ARGUMENT");
          }
          
          return ((LPair) argVal.get(0)).getCar();      
@@ -152,7 +152,7 @@ public class PrimitiveApplier {
      public LExp cdr(ArrayList<LExp> argVal) throws Exception {
          if (argVal.size() != 1 ||
              argVal.get(0).getSubType() != LExpTypes.LPAIRTYPE) {
-             throw new Exception("PRIMITIVE CDR TAKES ONE NON-EMPTY PAIR AS A argument");
+             throw new Exception("PRIMITIVE CDR TAKES ONE NON-EMPTY PAIR AS AN ARGUMENT");
          }
          
          return ((LPair) argVal.get(0)).getCdr();      
@@ -169,7 +169,7 @@ public class PrimitiveApplier {
      */
      public LExp cons(ArrayList<LExp> args, Evaluator evaluator) throws Exception {
          if (args.size() != 2) {
-             throw new Exception("PRIMITIVE CONS TAKES EXACTLY TWO arguments");
+             throw new Exception("PRIMITIVE CONS TAKES EXACTLY TWO ARGUMENTS");
          }
          
          LExp val0 = evaluator.eval(args.get(0));
@@ -190,7 +190,7 @@ public class PrimitiveApplier {
       */
      public LExp defineGlobally(ArrayList<LExp> args, Environment globalEnv, Evaluator evaluator) throws Exception {
          if (args.size() != 2) {
-             throw new Exception("PRIMITIVE DEFINE TAKES EXACTLY TWO arguments");
+             throw new Exception("PRIMITIVE DEFINE TAKES EXACTLY TWO ARGUMENTS");
          }
          
          LExp var = args.get(0);
@@ -216,15 +216,15 @@ public class PrimitiveApplier {
       */
      public LExp eqPredicate(ArrayList<LExp> argVals) throws Exception {
          if (argVals.size() != 2) {
-             throw new Exception("PRIMITIVE EQ? TAKES EXACTLY TWO arguments");   
+             throw new Exception("PRIMITIVE EQ? TAKES EXACTLY TWO ARGUMENTS");   
          }
          
          LExp val1 = argVals.get(0);
          LExp val2 = argVals.get(1);
          
-         if (val1.getSubType() != LExpTypes.LATOMTYPE ||
-             val2.getSubType() != LExpTypes.LATOMTYPE) {
-             throw new Exception("BOTH arguments TO PRIMITIVE EQ? MUST BE NON-NUMERIC ATOMS");
+         if (val1.getSubType() != LExpTypes.LSYMBOLTYPE ||
+             val2.getSubType() != LExpTypes.LSYMBOLTYPE) {
+             throw new Exception("BOTH ARGUMENTS TO PRIMITIVE EQ? MUST BE NON-NUMERIC ATOMS");
          }
          
          if (!val1.equals(val2)) {
@@ -281,7 +281,7 @@ public class PrimitiveApplier {
      public LExp negativePredicate (ArrayList<LExp> argVal) throws Exception {
          if (argVal.size() != 1 ||
              argVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-             throw new Exception("PRIMITIVE NEGATIVE? TAKES EXACTLY ONE NUMBER argument");
+             throw new Exception("PRIMITIVE NEGATIVE? TAKES EXACTLY ONE NUMBER ARGUMENT");
          }
          
          if (((LNumber) argVal.get(0)).getNumberVal() < 0) {
@@ -311,7 +311,7 @@ public class PrimitiveApplier {
       */
      public LExp nullPredicate(ArrayList<LExp> args) throws Exception {
          if (args.size() != 1) {
-             throw new Exception("PRIMITIVE NULL TAKES? EXACTLY ONE argument");   
+             throw new Exception("PRIMITIVE NULL TAKES? EXACTLY ONE ARGUMENT");   
          }
          
          if (args.get(0).getSubType() == LExpTypes.NILTYPE) {
@@ -330,7 +330,7 @@ public class PrimitiveApplier {
       */
      public LExp numberPredicate(ArrayList<LExp> argVal) throws Exception {
          if (argVal.size() != 1) {
-             throw new Exception("PRIMITIVE NUMBER? TAKES EXACTLY ONE argument");
+             throw new Exception("PRIMITIVE NUMBER? TAKES EXACTLY ONE ARGUMENT");
          }
          
          if (argVal.get(0).getSubType() == LExpTypes.LNUMBERTYPE) {
@@ -369,7 +369,7 @@ public class PrimitiveApplier {
       */
      public LExp pairPredicate(ArrayList<LExp> argVal) throws Exception {
          if (argVal.size() != 1) {
-             throw new Exception("PRIMITIVE PAIR? TAKES EXACTLY ONE argument");
+             throw new Exception("PRIMITIVE PAIR? TAKES EXACTLY ONE ARGUMENT");
          }
          
          if (argVal.get(0).getSubType() == LExpTypes.LPAIRTYPE) {
@@ -389,7 +389,7 @@ public class PrimitiveApplier {
      public LExp positivePredicate (ArrayList<LExp> argVal) throws Exception {
          if (argVal.size() != 1 ||
              argVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-             throw new Exception("PRIMITIVE POSITIVE? TAKES EXACTLY ONE NUMBER argument");
+             throw new Exception("PRIMITIVE POSITIVE? TAKES EXACTLY ONE NUMBER ARGUMENT");
          }
          
          if (((LNumber) argVal.get(0)).getNumberVal() > 0) {
@@ -409,7 +409,7 @@ public class PrimitiveApplier {
      public LExp sub1(ArrayList<LExp> argVal) throws Exception{
         if (argVal.size() != 1 ||
             argVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
-            throw new Exception("PRIMITIVE SUB1 TAKES EXACTLY ONE NUMBER argument");
+            throw new Exception("PRIMITIVE SUB1 TAKES EXACTLY ONE NUMBER ARGUMENT");
         }
         
         return new LNumber(((LNumber)argVal.get(0)).getNumberVal() - 1);
@@ -425,7 +425,7 @@ public class PrimitiveApplier {
     public LExp zeroPredicate(ArrayList<LExp> argVal) throws Exception {
          if (argVal.size() != 1){
              
-             throw new Exception("PRIMITIVE ZERO? TAKES EXACTLY ONE argument");
+             throw new Exception("PRIMITIVE ZERO? TAKES EXACTLY ONE ARGUMENT");
          }
          if (argVal.get(0).getSubType() != LExpTypes.LNUMBERTYPE) {
             throw new Exception("PRIMITIVE ZERO? TAKES ONLY NUMBERS");

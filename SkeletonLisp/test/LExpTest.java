@@ -239,7 +239,7 @@ public class LExpTest {
    
     @Test
     public void uudenLAtominSubTyyppiOnOikea() {
-        assertEquals(LExpTypes.LATOMTYPE, atomi.getSubType());
+        assertEquals(LExpTypes.LSYMBOLTYPE, atomi.getSubType());
     }
     
     
