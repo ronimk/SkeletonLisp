@@ -77,7 +77,7 @@ public class LambdaParser {
             
             if (var.getSubType() != LExpTypes.LIDTYPE ||
                 varList.contains(var)) {
-                throw new Exception("ILLEGAL LAMBDA VARIABLE DECLARATION " + nextVar);
+                throw new Exception("ILLEGAL LAMBDA VARIABLE DECLARATION: " + nextVar);
             }
             
             varList.add((LId)var);                

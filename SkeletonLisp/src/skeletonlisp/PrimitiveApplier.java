@@ -235,7 +235,7 @@ public class PrimitiveApplier {
      }
      
      /**
-      * The method list() (primitive LIST) takes any number on non-pre-evaluated arguments.
+      * The method list() (primitive LIST) takes any number of non-pre-evaluated arguments.
       * It returns a new list with all the arguments evaluated in the same order that the original arguments were
       * given to LIST.
       * <p>

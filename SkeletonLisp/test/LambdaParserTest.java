@@ -69,7 +69,7 @@ public class LambdaParserTest {
         try {
             assertEquals("FALSE", LambdaParser.makeANewLambda("(lambda (x y z (cons 6 'a)) x)"));
         } catch (Exception e) {
-            assertEquals("ILLEGAL LAMBDA VARIABLE DECLARATION (cons 6 'a)", e.getMessage());
+            assertEquals("ILLEGAL LAMBDA VARIABLE DECLARATION: (cons 6 'a)", e.getMessage());
         }
     }
 }

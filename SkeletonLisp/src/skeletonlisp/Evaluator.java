@@ -44,7 +44,7 @@ public class Evaluator {
     }
     
     /**
-     * The method Eval() is used to evaluate all L-expressions
+     * The method eval() is used to evaluate all L-expressions
      * (SkeletonLisp-expressions).
      * <p>
      * LValues are returned as they are: they need not be evaluated
@@ -182,7 +182,7 @@ public class Evaluator {
                                         }
                                         
                 
-            default:                     throw new Exception("NOT A PROPER APPLICATION: " + procedure);
+            default:                     throw new Exception("NOT A PROPER PROCEDURE: " + procedure);
         }
     }
     /**

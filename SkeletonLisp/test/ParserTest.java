@@ -133,7 +133,7 @@ public class ParserTest {
         try {
             assertEquals("FALSE", Parser.parseExpression("(lambda (x 2) (add1 x))").toString());
         } catch (Exception e) {
-            assertEquals("ILLEGAL LAMBDA VARIABLE DECLARATION 2", e.getMessage());
+            assertEquals("ILLEGAL LAMBDA VARIABLE DECLARATION: 2", e.getMessage());
         }
     }
     
